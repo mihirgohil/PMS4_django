@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # File directory
 
 # Static File directory
-STATIC_DIRS = os.path.join(BASE_DIR, 'static')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATIC_PMS_DIR = os.path.join(BASE_DIR, 'placement_management/static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -125,7 +126,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [STATIC_DIRS, ]
+STATICFILES_DIRS = [STATIC_DIR, STATIC_PMS_DIR]
 
 # custom user model
 AUTH_USER_MODEL = "placement_management.CustomUser"
