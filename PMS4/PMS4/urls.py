@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from placement_management import views
+
 urlpatterns = [
+    path('demo/', views.showDemoPage),
     path('admin/', admin.site.urls),
 ]
