@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
 
 
 # placment Coordinator
-class Admin_pms(models.Model):
+class AdminPms(models.Model):
     id = models.AutoField(primary_key=True)
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -63,16 +63,17 @@ class Students(models.Model):
     placementDrive_id = models.ForeignKey(PlacementDrives, on_delete=models.DO_NOTHING)
     is_placed = models.BooleanField(default=False)
     is_optout = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
 
-
-# technologies
-class Technologies(models.Model):
-    id = models.AutoField(primary_key=True)
-    technologies_name = models.TextField()
+# # technologies
+# class Technologies(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     technologies_name = models.TextField()
+#     objects = models.Manager()
 
 
 # job post
@@ -88,31 +89,41 @@ class InternshipDetails(models.Model):
     internship_duration = models.TextField()
     recruitment_process = models.TextField()
     mode_of_interview = models.TextField()
+    technologies = models.JSONField()
     working_hours = models.TextField()
     stipend_per_month = models.TextField()
     ctc = models.TextField()
     bond_details = models.TextField()
+    objects = models.Manager()
 
 
-# job wise technologies
-class JobwiseTechnologies(models.Model):
-    id = models.AutoField(primary_key=True)
-    internship_id = models.ForeignKey(InternshipDetails,on_delete=models.DO_NOTHING)
-    technology_id = models.ForeignKey(Technologies,on_delete=models.DO_NOTHING)
+#
+# # job wise technologies
+# class JobwiseTechnologies(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     internship_id = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
+#     technology_id = models.ForeignKey(Technologies, on_delete=models.DO_NOTHING)
+#     objects = models.Manager()
+
 
 # student Applied for internship
 class StudentAppliedForInternships(models.Model):
     id = models.AutoField(primary_key=True)
-    internship_id = models.ForeignKey(InternshipDetails,on_delete=models.DO_NOTHING)
-    student_id = models.ForeignKey(Students,on_delete=models.DO_NOTHING)
-    technology_selected_id = models.ForeignKey(Technologies,on_delete=models.DO_NOTHING)
+    internship_id = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
+    student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
+    technology_selected_id = models.TextField()
+    applied_datetime = models.DateTimeField()
+    objects = models.Manager()
 
-#student placed for internship
+
+# student placed for internship
 class StudentSelectedForInternship(models.Model):
     id = models.AutoField(primary_key=True)
-    sap_id = models.ForeignKey(StudentAppliedForInternships,on_delete=models.DO_NOTHING)
+    sap_id = models.ForeignKey(StudentAppliedForInternships, on_delete=models.DO_NOTHING)
     selected_date = models.DateTimeField()
     stipend = models.FloatField()
+    objects = models.Manager()
+
 
 # stream posts
 class StreamPosts(models.Model):
@@ -133,12 +144,23 @@ class StreamAttachments(models.Model):
     objects = models.Manager()
 
 
+# internship posted to stream
+class Internship_postDetails(models.Model):
+    id = models.AutoField(primary_key=True)
+    registrastion_start = models.DateTimeField()
+    registrastion_end = models.DateTimeField()
+    is_Active = models.BooleanField(default=True)
+    internship_id = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
+    stream_post_id = models.ForeignKey(StreamPosts, on_delete=models.DO_NOTHING)
+    objects = models.Manager()
+
+
 # create user profile
 @receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         if instance.user_type == 1:
-            Admin_pms.objects.create(admin=instance)
+            AdminPms.objects.create(admin=instance)
         if instance.user_type == 2:
             Companys.objects.create(admin=instance, address="")
         if instance.user_type == 3:
@@ -151,8 +173,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 1:
-        instance.adminhod.save()
+        instance.admin_pms.save()
     if instance.user_type == 2:
-        instance.staffs.save()
+        instance.compays.save()
     if instance.user_type == 3:
         instance.students.save()
