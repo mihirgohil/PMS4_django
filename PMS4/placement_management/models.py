@@ -8,7 +8,7 @@ from django.dispatch import receiver
 
 # Custom user class
 class CustomUser(AbstractUser):
-    user_type_data = ((1, "Admin_pms"), (2, "Company"), (3, "Student"))
+    user_type_data = ((1, "AdminPms"), (2, "Company"), (3, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
 
 
