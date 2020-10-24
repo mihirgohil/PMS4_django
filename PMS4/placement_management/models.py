@@ -162,11 +162,9 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 1:
             AdminPms.objects.create(admin=instance)
         if instance.user_type == 2:
-            Companys.objects.create(admin=instance, address="")
+            Companys.objects.create(admin=instance)
         if instance.user_type == 3:
-            Students.objects.create(admin=instance, course_id=Students.objects.get(id=1),
-                                    session_start_year="2020-01-01", session_end_year="2021-01-01", address="",
-                                    profile_pic="", gender="")
+            Students.objects.create(admin=instance)
 
 
 # save user profile
