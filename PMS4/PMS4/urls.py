@@ -14,11 +14,36 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
 
-from placement_management import views
+from placement_management import views, Collegeviews, Studentviews, Companyview
+
 
 urlpatterns = [
-    path('demo/', views.showDemoPage),
+    path('demo', views.showDemoPage),
     path('admin/', admin.site.urls),
+    # College Paths
+    path('', Collegeviews.college_home),
+    path('add_company', Collegeviews.add_company),
+    path('add_student', Collegeviews.add_student),
+    path('manage_student', Collegeviews.manage_student),
+    path('manage_company', Collegeviews.manage_company),
+    path('placement_drive', Collegeviews.placement_drive),
+    path('student_feedback', Collegeviews.student_feedback),
+    path('company_feedback', Collegeviews.company_feedback),
+    # Student Paths
+    path('student/', Studentviews.student_home),
+    path('streams', Studentviews.streams),
+    path('stu_profile', Studentviews.stu_profile),
+    path('apply_internship', Studentviews.apply_internship),
+    path('opt_out', Studentviews.opt_out),
+    path('stu_logout', Studentviews.stu_logout),
+    # Company paths
+    path('company/', Companyview.company_home),
+    path('company_profile', Companyview.company_profile),
+    path('post_internship', Companyview.post_internship),
+    path('working_internship', Companyview.working_internship),
+    path('history', Companyview.history),
+    path('company_logout', Companyview.company_logout),
 ]
