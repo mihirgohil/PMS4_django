@@ -5,7 +5,7 @@ from django.utils.deprecation import MiddlewareMixin
 
 class LoginCheckMiddleWare(MiddlewareMixin):
 
-    # process function called when view is showen
+    # process function called when view is shown
     def process_view(self,request,view_func,view_args,view_kwargs):
         # it will get the module name means where the view is defined
         modulename=view_func.__module__
