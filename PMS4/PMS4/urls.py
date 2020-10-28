@@ -17,15 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-from placement_management import views, Collegeviews, Studentviews, Companyview
+from placement_management import views, Collegeviews, Studentviews, Companyviews
 
 urlpatterns = [
     path('demo', views.showDemoPage),
     path('admin/', admin.site.urls),
     # login
-    path('', views.showLoginPage),
+    path('', views.showLoginPage,name="show_login"),
     path('login', views.showLoginPage, name="login"),
-    path('doLogin', views.doLogin),
+    path('doLogin', views.doLogin,name="do_login"),
     # get user details
     path('get_user_details', views.GetUserDetails),
     # logout
@@ -41,19 +41,18 @@ urlpatterns = [
     path('college/placement_drive', Collegeviews.placement_drive, name="clg_pmc_drive"),
     path('college/student_feedback', Collegeviews.student_feedback, name="clg_student_feedback"),
     path('college/company_feedback', Collegeviews.company_feedback, name="clg_company_feedback"),
-    path('college/college_logout', Collegeviews.college_logout, name="clg_logout"),
     # Student Paths
     path('student/', Studentviews.student_home, name="student"),
-    path('student/streams', Studentviews.streams, name="stu_streams"),
-    path('student/stu_profile', Studentviews.stu_profile, name="stu_profile"),
-    path('student/apply_internship', Studentviews.apply_internship, name="stu_apply_internship"),
-    path('student/opt_out', Studentviews.opt_out, name="stu_opt_out"),
-    path('student/stu_logout', Studentviews.stu_logout, name="stu_logout"),
+    path('streams', Studentviews.streams),
+    path('stu_profile', Studentviews.stu_profile),
+    path('apply_internship', Studentviews.apply_internship),
+    path('opt_out', Studentviews.opt_out),
+    path('stu_logout', Studentviews.stu_logout),
     # Company paths
-    path('company/', Companyview.company_home, name="company"),
-    path('company/company_profile', Companyview.company_profile, name="company_profile"),
-    path('company/post_internship', Companyview.post_internship, name="company_post_job"),
-    path('company/working_internship', Companyview.working_internship, name="company_working_job"),
-    path('company/history', Companyview.history, name="company_history"),
-    path('company/company_logout', Companyview.company_logout, name="company_logout"),
+    path('company/', Companyviews.company_home, name="company"),
+    path('company_profile', Companyviews.company_profile),
+    path('post_internship', Companyviews.post_internship),
+    path('working_internship', Companyviews.working_internship),
+    path('history', Companyviews.history),
+    path('company_logout', Companyviews.company_logout),
 ]
