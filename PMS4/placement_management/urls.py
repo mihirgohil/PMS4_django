@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
-from placement_management import Collegeviews, Studentviews, Companyview
 
 # app name for url name space
 app_name = 'pms'

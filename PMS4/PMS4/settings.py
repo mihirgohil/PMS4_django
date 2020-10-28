@@ -23,6 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATIC_PMS_DIR = os.path.join(BASE_DIR, 'placement_management/static')
 
+# Template directory
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'placement_management/templates')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -63,7 +66,7 @@ ROOT_URLCONF = 'PMS4.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

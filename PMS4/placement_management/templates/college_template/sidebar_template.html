@@ -1,7 +1,7 @@
 {% load static %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <img src="{% static "logo/cpi_logo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">CPPGICA</span>
@@ -24,7 +24,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="/add_company" class="nav-link">
+            <a href="{% url 'clg_add_company' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Add Company
@@ -32,7 +32,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/manage_company" class="nav-link">
+            <a href="{% url 'clg_manage_company' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Manage Company
@@ -40,7 +40,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/add_student" class="nav-link">
+            <a href="{% url 'clg_add_student' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Add Student
@@ -48,7 +48,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/manage_student" class="nav-link">
+            <a href="{% url 'clg_manage_student' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Manage Student
@@ -56,7 +56,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/placement_drive" class="nav-link">
+            <a href="{% url 'clg_pmc_drive' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Placement Drive
@@ -64,7 +64,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/student_feedback" class="nav-link">
+            <a href="{% url 'clg_student_feedback' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Student Feedback
@@ -72,7 +72,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/company_feedback" class="nav-link">
+            <a href="{% url 'clg_company_feedback' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Company Feedback
