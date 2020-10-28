@@ -19,12 +19,21 @@ from django.views.generic import TemplateView
 
 from placement_management import views, Collegeviews, Studentviews, Companyview
 
-
 urlpatterns = [
     path('demo', views.showDemoPage),
     path('admin/', admin.site.urls),
+    # login
+    path('', views.showLoginPage),
+    path('login', views.showLoginPage, name="login"),
+    path('doLogin', views.doLogin),
+    # get user details
+    path('get_user_details', views.GetUserDetails),
+    # logout
+    path('logout', views.logout_user, name='logout'),
+    # pms links
+    path('pms/', include('placement_management.urls', namespace="pms")),
     # College Paths
-    path('', Collegeviews.college_home),
+    path('college/', Collegeviews.college_home, name="college"),
     path('add_company', Collegeviews.add_company),
     path('add_student', Collegeviews.add_student),
     path('manage_student', Collegeviews.manage_student),
@@ -33,14 +42,14 @@ urlpatterns = [
     path('student_feedback', Collegeviews.student_feedback),
     path('company_feedback', Collegeviews.company_feedback),
     # Student Paths
-    path('student/', Studentviews.student_home),
+    path('student/', Studentviews.student_home, name="student"),
     path('streams', Studentviews.streams),
     path('stu_profile', Studentviews.stu_profile),
     path('apply_internship', Studentviews.apply_internship),
     path('opt_out', Studentviews.opt_out),
     path('stu_logout', Studentviews.stu_logout),
     # Company paths
-    path('company/', Companyview.company_home),
+    path('company/', Companyview.company_home, name="company"),
     path('company_profile', Companyview.company_profile),
     path('post_internship', Companyview.post_internship),
     path('working_internship', Companyview.working_internship),

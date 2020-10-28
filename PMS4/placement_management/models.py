@@ -171,7 +171,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 1:
-        instance.admin_pms.save()
+        instance.adminpms.save()
     if instance.user_type == 2:
         instance.compays.save()
     if instance.user_type == 3:

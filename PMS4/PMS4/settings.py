@@ -130,3 +130,6 @@ STATICFILES_DIRS = [STATIC_DIR, STATIC_PMS_DIR]
 
 # custom user model
 AUTH_USER_MODEL = "placement_management.CustomUser"
+
+# Authentication backend
+AUTHENTICATION_BACKEND = ['placement_management.EmailBackEnd.EmailBackEnd']
