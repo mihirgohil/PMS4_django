@@ -1,7 +1,7 @@
 {% load static %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <img src="{% static "dist/img/AdminLTELogo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">Company</span>
@@ -24,7 +24,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="/company_profile" class="nav-link">
+            <a href="{% url 'company_profile' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Profile
@@ -32,7 +32,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/post_internship" class="nav-link">
+            <a href="{% url 'company_post_job' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Post Internships
@@ -40,7 +40,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/working_internship" class="nav-link">
+            <a href="{% url 'company_working_job' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Working internships
@@ -48,7 +48,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/history" class="nav-link">
+            <a href="{% url 'stu_history' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Complete internships
@@ -56,7 +56,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/company_logout" class="nav-link">
+            <a href="{% url 'company_logout' %}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Logout

@@ -31,3 +31,7 @@ def student_feedback(request):
 
 def company_feedback(request):
     return render(request, "college_template/company_feedback.html")
+
+
+def college_logout(request):
+    return render(request, "college_template/clg_logout.html")

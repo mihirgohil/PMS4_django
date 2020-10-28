@@ -24,59 +24,77 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{% url 'clg_add_company' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Add Company
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'clg_manage_company' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Manage Company
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'clg_add_student' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Add Student
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'clg_manage_student' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Manage Student
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
             <a href="{% url 'clg_pmc_drive' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-copy"></i>
               <p>
                 Placement Drive
-              </p>
+               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{% url 'clg_student_feedback' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
               <p>
-                Student Feedback
+                Company
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'clg_add_company' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Company</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'clg_manage_company' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Manage Company</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'clg_company_feedback' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Company Feedack</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Student
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'clg_add_student' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Student</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'clg_manage_student' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Manage Student</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'clg_student_feedback' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Student Feedack</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
-            <a href="{% url 'clg_company_feedback' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Company Feedback
-              </p>
+            <a href="{% url 'clg_logout' %}" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>Logout</p>
             </a>
           </li>
         </ul>
