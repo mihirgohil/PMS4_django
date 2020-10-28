@@ -17,15 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-from placement_management import views, Collegeviews, Studentviews, Companyview
+from placement_management import views, Collegeviews, Studentviews, Companyviews
 
 urlpatterns = [
     path('demo', views.showDemoPage),
     path('admin/', admin.site.urls),
     # login
-    path('', views.showLoginPage),
+    path('', views.showLoginPage,name="show_login"),
     path('login', views.showLoginPage, name="login"),
-    path('doLogin', views.doLogin),
+    path('doLogin', views.doLogin,name="do_login"),
     # get user details
     path('get_user_details', views.GetUserDetails),
     # logout
@@ -49,10 +49,10 @@ urlpatterns = [
     path('opt_out', Studentviews.opt_out),
     path('stu_logout', Studentviews.stu_logout),
     # Company paths
-    path('company/', Companyview.company_home, name="company"),
-    path('company_profile', Companyview.company_profile),
-    path('post_internship', Companyview.post_internship),
-    path('working_internship', Companyview.working_internship),
-    path('history', Companyview.history),
-    path('company_logout', Companyview.company_logout),
+    path('company/', Companyviews.company_home, name="company"),
+    path('company_profile', Companyviews.company_profile),
+    path('post_internship', Companyviews.post_internship),
+    path('working_internship', Companyviews.working_internship),
+    path('history', Companyviews.history),
+    path('company_logout', Companyviews.company_logout),
 ]
