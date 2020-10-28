@@ -34,7 +34,7 @@ urlpatterns = [
     path('pms/', include('placement_management.urls', namespace="pms")),
     # College Paths
     path('college/', Collegeviews.college_home, name="college"),
-    path('add_company', Collegeviews.add_company),
+    path('college/add_company', Collegeviews.add_company, name="clg_add_company"),
     path('add_student', Collegeviews.add_student),
     path('manage_student', Collegeviews.manage_student),
     path('manage_company', Collegeviews.manage_company),

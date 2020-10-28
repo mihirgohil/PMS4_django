@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-
+# login required
 def college_home(request):
     return render(request, "college_template/home_content.html")
 
