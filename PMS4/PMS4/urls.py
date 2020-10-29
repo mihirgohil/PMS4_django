@@ -33,14 +33,20 @@ urlpatterns = [
     # pms links
     path('pms/', include('placement_management.urls', namespace="pms")),
     # College Paths
-    path('college/', Collegeviews.college_home, name="college"),
+    path('college', Collegeviews.college_home, name="college"),
+    # ##       placement drive related pages
+    path('college/placement_drive', Collegeviews.placement_drive, name="clg_pmc_drive"),
+    path('college/add_new_placement_drive', Collegeviews.add_new_placement_drive, name="add_new_pms_drive"),
+    path('college/add_new_placement_drive_save', Collegeviews.add_new_placement_drive_save, name="add_new_pms_save"),
+    # ##
     path('college/add_company', Collegeviews.add_company, name="clg_add_company"),
     path('college/add_student', Collegeviews.add_student, name="clg_add_student"),
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
     path('college/manage_company', Collegeviews.manage_company, name="clg_manage_company"),
-    path('college/placement_drive', Collegeviews.placement_drive, name="clg_pmc_drive"),
+
     path('college/student_feedback', Collegeviews.student_feedback, name="clg_student_feedback"),
     path('college/company_feedback', Collegeviews.company_feedback, name="clg_company_feedback"),
+    path('college/company_logout', Collegeviews.college_logout, name="clg_logout"),
     # Student Paths
     path('student/', Studentviews.student_home, name="student"),
     path('streams', Studentviews.streams),
