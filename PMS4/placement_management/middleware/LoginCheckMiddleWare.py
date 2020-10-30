@@ -47,5 +47,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
             print("user not authenticated")
             if request.path == reverse("show_login") or request.path == reverse("do_login"):
                 pass
+            elif request.path == reverse("show_student_signup") or request.path == reverse("do_student_signup"):
+                pass
             else:
                 return HttpResponseRedirect(reverse("show_login"))

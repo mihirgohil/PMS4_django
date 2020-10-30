@@ -17,11 +17,15 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# File directory
+# Media File directory
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_PMS_DIR = os.path.join(BASE_DIR, 'placement_management/media')
+
 
 # Static File directory
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATIC_PMS_DIR = os.path.join(BASE_DIR, 'placement_management/static')
+
 
 # Template directory
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'placement_management/templates')
@@ -129,8 +133,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [STATIC_DIR, STATIC_PMS_DIR, MEDIA_DIR, MEDIA_PMS_DIR]
 
-STATICFILES_DIRS = [STATIC_DIR, STATIC_PMS_DIR]
+MEDIA_URL = '/media/'
 
 # custom user model
 AUTH_USER_MODEL = "placement_management.CustomUser"

@@ -52,7 +52,7 @@ class Students(models.Model):
     enrolment_no = models.IntegerField(unique=True)
     gender = models.CharField(max_length=255)
     profile_pic = models.ImageField()
-    dob = models.DateTimeField()
+    dob = models.DateField()
     phone_no = models.IntegerField()
     ssc_percentage = models.FloatField()
     hsc_percentage = models.FloatField()
@@ -163,7 +163,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 2:
             Companys.objects.create(admin=instance)
         if instance.user_type == 3:
-            Students.objects.create(admin=instance)
+            Students.objects.create(admin=instance,enrolment_no = 0, gender = "", profile_pic = "",dob = "1999-01-01", phone_no = 0, ssc_percentage = 0,hsc_percentage = 0,ug_stream = "",ug_percentage = 0,pg_cgpa = 0,placementDrive_id = PlacementDrives.objects.get(id=1))
 
 
 # save user profile
