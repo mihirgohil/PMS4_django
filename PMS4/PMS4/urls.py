@@ -45,7 +45,6 @@ urlpatterns = [
     path('college/add_student', Collegeviews.add_student, name="clg_add_student"),
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
     path('college/manage_company', Collegeviews.manage_company, name="clg_manage_company"),
-
     path('college/student_feedback', Collegeviews.student_feedback, name="clg_student_feedback"),
     path('college/company_feedback', Collegeviews.company_feedback, name="clg_company_feedback"),
 

@@ -57,7 +57,14 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Student Name" name="stu_name">
+          <input type="text" class="form-control" placeholder="First Name" name="stu_first_name">
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Last Name" name="stu_last_name">
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
@@ -84,17 +91,20 @@
             </div>
           </div>
         </div>
+
         <div class="input-group mb-3">
           <select class="form-control" name="sex">
               <option value="Select Gender">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              {% for gdr in gender %}
+                <option value="{{ gdr }}">{{ gdr }}</option>
+            {% endfor %}
           </select>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
           </div>
         </div>
+
         <div class="input-group mb-3">
          <input type="text" name="phone_no" class="form-control" placeholder="Phone number" onkeypress="return onlyNumberKey(event)" maxlength="10" minlength="10">
           <div class="input-group-append">
@@ -102,6 +112,7 @@
             </div>
           </div>
         </div>
+
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="S.S.C (%)" name="ssc_percentage">
           <div class="input-group-append">
@@ -109,6 +120,7 @@
             </div>
           </div>
         </div>
+
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="H.S.C (%)" name="hsc_percentage">
           <div class="input-group-append">
@@ -116,17 +128,21 @@
             </div>
           </div>
         </div>
+
         <div class="input-group mb-3">
           <select class="form-control" name="ug_stream">
-              <option value="Select ug stream">Select U.G Stream</option>
-              <option value="Male">BCA</option>
-              <option value="Female">BscIT</option>
+            <option value="Select ug stream">Select U.G Stream</option>
+            {% for ug_dept in ug_dept_type %}
+
+                <option value="{{ ug_dept }}">{{ ug_dept }}</option>
+            {% endfor %}
           </select>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
           </div>
         </div>
+
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="U.G (%)" name="ug_percentage">
           <div class="input-group-append">

@@ -27,7 +27,7 @@ class Companys(models.Model):
     id = models.AutoField(primary_key=True)
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     address = models.TextField()
-    phone_no = models.IntegerField()
+    phone_no = models.TextField(unique=True)
     website = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -49,11 +49,11 @@ class PlacementDrives(models.Model):
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    enrolment_no = models.IntegerField(unique=True)
+    enrolment_no = models.TextField(unique=True)
     gender = models.CharField(max_length=255)
     profile_pic = models.ImageField()
     dob = models.DateField()
-    phone_no = models.IntegerField()
+    phone_no = models.TextField()
     ssc_percentage = models.FloatField()
     hsc_percentage = models.FloatField()
     ug_stream = models.TextField()
@@ -69,10 +69,10 @@ class Students(models.Model):
 
 
 # # technologies
-# class Technologies(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     technologies_name = models.TextField()
-#     objects = models.Manager()
+class Technologies(models.Model):
+    id = models.AutoField(primary_key=True)
+    technologies_name = models.TextField()
+    objects = models.Manager()
 
 
 # job post
@@ -88,7 +88,6 @@ class InternshipDetails(models.Model):
     internship_duration = models.TextField()
     recruitment_process = models.TextField()
     mode_of_interview = models.TextField()
-    technologies = models.JSONField()
     working_hours = models.TextField()
     stipend_per_month = models.TextField()
     ctc = models.TextField()
@@ -98,11 +97,11 @@ class InternshipDetails(models.Model):
 
 #
 # # job wise technologies
-# class JobwiseTechnologies(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     internship_id = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
-#     technology_id = models.ForeignKey(Technologies, on_delete=models.DO_NOTHING)
-#     objects = models.Manager()
+class IntershipWiseTechnologies(models.Model):
+    id = models.AutoField(primary_key=True)
+    internship_id = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
+    technology_id = models.ForeignKey(Technologies, on_delete=models.DO_NOTHING)
+    objects = models.Manager()
 
 
 # student Applied for internship
@@ -163,7 +162,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 2:
             Companys.objects.create(admin=instance)
         if instance.user_type == 3:
-            Students.objects.create(admin=instance,enrolment_no = 0, gender = "", profile_pic = "", dob = "1999-01-01", phone_no = 0, ssc_percentage = 0, hsc_percentage = 0, ug_stream = "", ug_percentage = 0, pg_cgpa = 0, placementDrive_id = PlacementDrives.objects.get(id=1))
+            Students.objects.create(admin=instance,enrolment_no = "not given", gender = "not given", profile_pic = "", dob = "1999-01-01", phone_no = "not given", ssc_percentage = 0, hsc_percentage = 0, ug_stream = "", ug_percentage = 0, pg_cgpa = 0, placementDrive_id_id = 2147483647 )
 
 
 # save user profile

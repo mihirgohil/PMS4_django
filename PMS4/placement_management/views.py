@@ -7,10 +7,10 @@ from django.urls import reverse
 from django.utils.datastructures import MultiValueDictKeyError
 from placement_management.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.decorators import login_required
-from placement_management.models import CustomUser
-
-
+from placement_management.models import CustomUser, Students
+from placement_management.utilty.choices import GENDER_CHOICES,UG_DEPARTMENTS_TYPE_SIGNUP
 # Create your views here.
+
 
 
 def showDemoPage(request):
@@ -64,12 +64,17 @@ def GetUserDetails(request):
 
 
 def show_student_signup(request):
-    return render(request, "student_signup.html")
+    context = {
+        "gender":GENDER_CHOICES,
+        "ug_dept_type":UG_DEPARTMENTS_TYPE_SIGNUP,
+    }
+    return render(request, "student_signup.html", context)
 
 
 def do_student_signup(request):
     enrolment_no = request.POST.get("enrolment_no")
-    stu_name = request.POST.get("stu_name")
+    stu_first_name = request.POST.get("stu_first_name")
+    stu_last_name = request.POST.get("stu_last_name")
     username = request.POST.get("enrolment_no")
     email = request.POST.get("email")
     password = request.POST.get("password")
@@ -82,34 +87,44 @@ def do_student_signup(request):
     ug_percentage = request.POST.get("ug_percentage")
     pg_cgpa = request.POST.get("pg_cgpa")
     print(enrolment_no)
-    # try:
-    #     profile_pic = request.FILES['profile_pic']
-    #     fs = FileSystemStorage()
-    #     filename = fs.save(profile_pic.name, profile_pic)
-    #     profile_pic_url = fs.url(filename)
-    # except MultiValueDictKeyError:
-    #     is_private = False
+    filename = ""
+    try:
+        profile_pic = request.FILES['profile_pic']
+        fs = FileSystemStorage()
+        filename = fs.save(profile_pic.name, profile_pic)
+        profile_pic_url = fs.url(filename)
+    except MultiValueDictKeyError:
+        is_private = False
 
     # try:
-    user = CustomUser.objects.create_user(username=username, email=email, password=password, user_type=3)
-    user.students.enrolment_no = enrolment_no
-    user.students.stu_name = stu_name
-    user.students.phone_no = phone_no
-    user.students.gender = sex
-    user.students.ssc_percentage = ssc_percentage
-    user.students.hsc_percentage = hsc_percentage
-    user.students.ug_stream = ug_stream
-    user.students.ug_percentage = ug_percentage
-    user.students.dob = dob
-    user.students.pg_cgpa = pg_cgpa
-    user.students.profile_pic = 'blank'
-    user.save()
-    messages.success(request, "Successfully Added Student")
-    return HttpResponseRedirect(reverse("show_login"))
+        usermailcheck =  CustomUser.objects.filter(email=email).first()
+        usernamecheck = CustomUser.objects.filter(email=email).first()
+        if usermailcheck != None:
+            messages.error(request, "With this email Account is already Created Kindly login or use different mail id.")
+            return HttpResponseRedirect(reverse("show_student_signup"))
+        elif usernamecheck != None:
+            messages.error(request, "With this enrollment Account is already Created")
+            return HttpResponseRedirect(reverse("show_student_signup"))
+        else:
+            user = CustomUser.objects.create_user(username=username, first_name=stu_first_name, last_name= stu_last_name, email=email, password=password, user_type=3)
+            user.students.phone_no = phone_no
+            user.students.enrolment_no = enrolment_no
+            user.students.gender = sex
+            user.students.ssc_percentage = ssc_percentage
+            user.students.hsc_percentage = hsc_percentage
+            user.students.ug_stream = ug_stream
+            user.students.ug_percentage = ug_percentage
+            user.students.dob = dob
+            user.students.pg_cgpa = pg_cgpa
+            user.students.placementDrive_id_id = 8
+            user.students.profile_pic = filename
+            user.save()
+            messages.success(request, "Student Account Created Login")
+            return HttpResponseRedirect(reverse("login"))
     # except:
-    #      messages.error(request, "Failed to Add Student")
-    #      return HttpResponseRedirect(reverse("show_student_signup"))
-
+    #     print("in except")
+    #     messages.error(request, "Failed to Add Student")
+    #     return HttpResponseRedirect(reverse("show_student_signup"))
 
 def logout_user(request):
     logout(request)
