@@ -1,16 +1,17 @@
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.utils.datastructures import MultiValueDictKeyError
 from placement_management.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.decorators import login_required
 from placement_management.models import CustomUser, Students
-from placement_management.utilty.choices import GENDER_CHOICES,UG_DEPARTMENTS_TYPE_SIGNUP
-# Create your views here.
+from placement_management.utilty.choices import GENDER_CHOICES, UG_DEPARTMENTS_TYPE_SIGNUP
 
+
+# Create your views here.
 
 
 def showDemoPage(request):
@@ -45,7 +46,9 @@ def doLogin(request):
                 return HttpResponseRedirect('login')
         else:
             messages.error(request, "Invalid Login Details")
-            return HttpResponseRedirect('login')
+            email = request.POST.get("email")
+            request.data = email
+            return HttpResponseRedirect(reverse('login'))
 
 
 # showing base
@@ -58,15 +61,15 @@ def showBase(request):
 def GetUserDetails(request):
     # return HttpResponse(request.is)
     if request.user is not None:
-        return HttpResponse("User 1Email : " + request.user.email + " usertype :" + request.user.user_type)
+        return HttpResponse("User Email : " + request.user.email + " usertype :" + request.user.user_type)
     else:
         return HttpResponse("Please Login First")
 
 
 def show_student_signup(request):
     context = {
-        "gender":GENDER_CHOICES,
-        "ug_dept_type":UG_DEPARTMENTS_TYPE_SIGNUP,
+        "gender": GENDER_CHOICES,
+        "ug_dept_type": UG_DEPARTMENTS_TYPE_SIGNUP,
     }
     return render(request, "student_signup.html", context)
 
@@ -87,17 +90,15 @@ def do_student_signup(request):
     ug_percentage = request.POST.get("ug_percentage")
     pg_cgpa = request.POST.get("pg_cgpa")
     print(enrolment_no)
-    filename = ""
-    try:
-        profile_pic = request.FILES['profile_pic']
-        fs = FileSystemStorage()
-        filename = fs.save(profile_pic.name, profile_pic)
-        profile_pic_url = fs.url(filename)
-    except MultiValueDictKeyError:
-        is_private = False
+    profile_pic_url = ""
 
-    # try:
-        usermailcheck =  CustomUser.objects.filter(email=email).first()
+    profile_pic = request.FILES['profile_pic']
+    fs = FileSystemStorage()
+    filename = fs.save(profile_pic.name, profile_pic)
+    profile_pic_url = fs.url(filename)
+
+    try:
+        usermailcheck = CustomUser.objects.filter(email=email).first()
         usernamecheck = CustomUser.objects.filter(email=email).first()
         if usermailcheck != None:
             messages.error(request, "With this email Account is already Created Kindly login or use different mail id.")
@@ -106,7 +107,8 @@ def do_student_signup(request):
             messages.error(request, "With this enrollment Account is already Created")
             return HttpResponseRedirect(reverse("show_student_signup"))
         else:
-            user = CustomUser.objects.create_user(username=username, first_name=stu_first_name, last_name= stu_last_name, email=email, password=password, user_type=3)
+            user = CustomUser.objects.create_user(username=username, first_name=stu_first_name, last_name=stu_last_name,
+                                                  email=email, password=password, user_type=3)
             user.students.phone_no = phone_no
             user.students.enrolment_no = enrolment_no
             user.students.gender = sex
@@ -117,14 +119,14 @@ def do_student_signup(request):
             user.students.dob = dob
             user.students.pg_cgpa = pg_cgpa
             user.students.placementDrive_id_id = 8
-            user.students.profile_pic = filename
+            user.students.profile_pic = profile_pic_url
             user.save()
             messages.success(request, "Student Account Created Login")
             return HttpResponseRedirect(reverse("login"))
-    # except:
-    #     print("in except")
-    #     messages.error(request, "Failed to Add Student")
-    #     return HttpResponseRedirect(reverse("show_student_signup"))
+    except:
+        messages.error(request, "Failed to Add Student")
+        return HttpResponseRedirect(reverse("show_student_signup"))
+
 
 def logout_user(request):
     logout(request)

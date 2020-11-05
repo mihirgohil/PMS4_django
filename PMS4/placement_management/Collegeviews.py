@@ -34,7 +34,7 @@ def add_new_placement_drive_save(request):
 
 
 def placement_drive(request):
-    placement_drives_list = PlacementDrives.objects.all().order_by('-id')
+    placement_drives_list = PlacementDrives.objects.all().order_by('-created_at')
     page = request.GET.get('page', 1)
 
     paginator = Paginator(placement_drives_list, 8)

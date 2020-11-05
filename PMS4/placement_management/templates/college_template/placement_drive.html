@@ -30,13 +30,15 @@
 
                   {% for drive in placement_drives %}
                     <tr>
-                      <th scope="row">{{ forloop.counter }} </th>
-                      <td>{{ drive.drive_name }}</td>
-                      <td>{{ drive.created_at|timezone:"Asia/Calcutta" }}</td>
-                      {% if not drive.is_active %}
-                        <td><a href="#" class="btn btn-secondary">Not Active</a></td>
-                      {% elif drive.is_active %}
-                        <td><a href="#" class="btn btn-success">Active</a></td>
+                      {%  if drive.id != 2147483647   %}
+                          <th scope="row">{{ forloop.counter }} </th>
+                          <td>{{ drive.drive_name }}</td>
+                          <td>{{ drive.created_at|timezone:"Asia/Calcutta" }}</td>
+                          {% if not drive.is_active %}
+                            <td><a href="#" class="btn btn-secondary">Not Active</a></td>
+                          {% elif drive.is_active %}
+                            <td><a href="#" class="btn btn-success">Active</a></td>
+                          {% endif %}
                       {% endif %}
                     </tr>
                   {% endfor %}

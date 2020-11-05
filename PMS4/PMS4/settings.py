@@ -21,11 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 MEDIA_PMS_DIR = os.path.join(BASE_DIR, 'placement_management/media')
 
-
 # Static File directory
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATIC_PMS_DIR = os.path.join(BASE_DIR, 'placement_management/static')
-
 
 # Template directory
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'placement_management/templates')
@@ -50,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 
     #     custom apps
     'placement_management.apps.PlacementManagementConfig',
@@ -136,9 +135,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR, STATIC_PMS_DIR, MEDIA_DIR, MEDIA_PMS_DIR]
 
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
 # custom user model
 AUTH_USER_MODEL = "placement_management.CustomUser"
 
 # Authentication backend
 AUTHENTICATION_BACKEND = ['placement_management.EmailBackEnd.EmailBackEnd']
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

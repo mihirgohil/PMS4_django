@@ -34,7 +34,7 @@
       <form action="/doLogin" method="post">
           {% csrf_token %}
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" name="email">
+          <input type="email" class="form-control" placeholder="Email" name="email" value={{ email }}>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -58,6 +58,15 @@
             <a href="{% url 'show_student_signup' %}"> Signup for Student</a>
           </div><!-- /.col -->
         </div>
+<!--         <div class="row">-->
+
+<!--         <div class="col-12">-->
+
+<!--              <div class="alert alert-danger" style="margin-top:10px">{{ mail }}</div>-->
+
+<!--          </div>-->
+
+<!--        </div>-->
         <div class="row">
           {% if messages %}
          <div class="col-12">

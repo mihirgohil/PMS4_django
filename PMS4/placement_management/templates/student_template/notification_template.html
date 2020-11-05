@@ -85,9 +85,15 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+       <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#" style="background-color:red;border-radius: 10px;">
+          <i class="fas fa-sign-out-alt" style="color:white;"></i>
         </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <div class="dropdown-divider"></div>
+          <a href="{% url 'logout' %}" class="dropdown-item">
+            <i class="nav-icon fas fa-sign-out-alt" style="color:white"></i> Log out
+          </a>
+        </div>
       </li>
     </ul>
