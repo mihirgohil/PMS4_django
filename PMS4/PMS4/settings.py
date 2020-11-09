@@ -78,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -135,7 +136,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR, STATIC_PMS_DIR, MEDIA_DIR, MEDIA_PMS_DIR]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,"media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # custom user model
 AUTH_USER_MODEL = "placement_management.CustomUser"

@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
 # placment Coordinator
 class AdminPms(models.Model):
     id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     profile_pic = models.ImageField()
@@ -25,7 +25,7 @@ class AdminPms(models.Model):
 # company side
 class Companys(models.Model):
     id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     address = models.TextField()
     phone_no = models.TextField(unique=True)
     website = models.TextField()
@@ -49,10 +49,10 @@ class PlacementDrives(models.Model):
 # student side
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     enrolment_no = models.TextField(unique=True)
     gender = models.CharField(max_length=255)
-    profile_pic = models.ImageField()
+    profile_pic = models.ImageField(upload_to='student_media/'+enrolment_no.__str__()+'/profile_pic')
     dob = models.DateField()
     phone_no = models.TextField()
     ssc_percentage = models.FloatField()
@@ -159,11 +159,11 @@ class Internship_postDetails(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         if instance.user_type == 1:
-            AdminPms.objects.create(admin=instance)
+            AdminPms.objects.create(user_type=instance)
         if instance.user_type == 2:
-            Companys.objects.create(admin=instance)
+            Companys.objects.create(user_type=instance)
         if instance.user_type == 3:
-            Students.objects.create(admin=instance,enrolment_no = "not given", gender = "not given", profile_pic = "", dob = "1999-01-01", phone_no = "not given", ssc_percentage = 0, hsc_percentage = 0, ug_stream = "", ug_percentage = 0, pg_cgpa = 0, placementDrive_id_id = 2147483647 )
+            Students.objects.create(user_type=instance,enrolment_no = "not given", gender = "not given", profile_pic = "", dob = "1999-01-01", phone_no = "not given", ssc_percentage = 0, hsc_percentage = 0, ug_stream = "", ug_percentage = 0, pg_cgpa = 0, placementDrive_id_id = 2147483647 )
 
 
 # save user profile

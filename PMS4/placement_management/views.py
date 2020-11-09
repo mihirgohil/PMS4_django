@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
+import os
 from django.utils.datastructures import MultiValueDictKeyError
 from placement_management.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.decorators import login_required
@@ -90,12 +91,14 @@ def do_student_signup(request):
     ug_percentage = request.POST.get("ug_percentage")
     pg_cgpa = request.POST.get("pg_cgpa")
     print(enrolment_no)
-    profile_pic_url = ""
 
+    # try:
     profile_pic = request.FILES['profile_pic']
     fs = FileSystemStorage()
     filename = fs.save(profile_pic.name, profile_pic)
+    print(filename)
     profile_pic_url = fs.url(filename)
+    # except MultiValueDictKeyError:
 
     try:
         usermailcheck = CustomUser.objects.filter(email=email).first()
@@ -123,8 +126,8 @@ def do_student_signup(request):
             user.save()
             messages.success(request, "Student Account Created Login")
             return HttpResponseRedirect(reverse("login"))
-    except:
-        messages.error(request, "Failed to Add Student")
+    except  Exception as e:
+        messages.error(request, "Failed to Add Student"+e)
         return HttpResponseRedirect(reverse("show_student_signup"))
 
 
