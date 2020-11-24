@@ -62,8 +62,14 @@ urlpatterns = [
     # ## Manage Student
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
     path('college/show_student_list/<drive_id>', Collegeviews.show_Studentlist, name="clg_show_student"),
+    path('college/edit_student/<id>', Collegeviews.edit_student, name="clg_edit_student"),
+    path('college/edit_student_save', Collegeviews.edit_student_save, name="clg_edit_student_save"),
 
+    # ## Manage Company
     path('college/manage_company', Collegeviews.manage_company, name="clg_manage_company"),
+    path('college/edit_company/<id>', Collegeviews.edit_company, name="clg_edit_company"),
+    path('college/edit_company_save', Collegeviews.edit_company_save, name="clg_edit_company_save"),
+
     path('college/student_feedback', Collegeviews.student_feedback, name="clg_student_feedback"),
     path('college/company_feedback', Collegeviews.company_feedback, name="clg_company_feedback"),
 

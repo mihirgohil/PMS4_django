@@ -41,7 +41,7 @@ Select Placement Drive to Manage Register Company
                         <td>{{ company.website }}</td>
                         <td>{{ company.user_type.email }}</td>
                         <td>{{ company.phone_no }}</td>
-                        <td><a href="#" class="btn btn-primary">Edit</a></td>
+                        <td><a href="{% url 'clg_edit_company' company.id %}" class="btn btn-primary">Edit</a></td>
 
                         {% endif %}
                     </tr>

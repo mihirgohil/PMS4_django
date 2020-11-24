@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # login required
 from django.urls import reverse
@@ -13,6 +13,8 @@ from django.core.files.storage import FileSystemStorage
 from placement_management.models import CustomUser, Students, PlacementDrives, Companys
 
 from placement_management.CollegeForms import PlacementcoordinatorForm
+from placement_management.forms import StudentForm
+from placement_management.forms import CompanyForm
 from placement_management.utilty.utility_function import *
 
 
@@ -201,6 +203,50 @@ def manage_company(request):
         companys = paginator.page(paginator.num_pages)
     return render(request, "college_template/manage_company.html", {"companys": companys})
 
+def edit_company(request,id):
+    edit_company = Companys.objects.get(id = id)
+    context = {
+        'edit_company': edit_company,
+    }
+    return render(request, "college_template/edit_company.html", context=context)
+
+def edit_company_save(request):
+    id = request.POST.get("company_id")
+    print(id)
+    name = request.POST.get("name")
+    address = request.POST.get("address")
+    website = request.POST.get("website")
+    phone = request.POST.get("phone")
+    context = {
+        'name': name,
+        'address': address,
+        'website': website,
+        'phone': phone}
+    if name == "" or address == "" or website == "" or phone == "":
+        messages.error(request, "fill all the details")
+        response = edit_company(request,id)
+        return response
+
+    user = Companys.objects.get(id=id)
+    if request.FILES.get('profile_pic'):
+        profile_pic = request.FILES.get('profile_pic')
+        # dir_storage = '/media/student_media/profile_picture/' + enrolment_no
+        fs = FileSystemStorage()
+        filename = fs.save(profile_pic.name, profile_pic)
+        print(filename)
+        profile_pic_url = fs.url(filename)
+        user.company_logo = profile_pic_url
+
+    usertable = CustomUser.objects.get(id = user.user_type_id)
+    usertable.first_name = name
+    usertable.save()
+    user.address = address
+    user.website = website
+    user.phone_no = phone
+    user.save()
+    messages.success(request, "Company Account Updated")
+    return HttpResponseRedirect(reverse("clg_edit_company",kwargs={'id':id}))
+
 
 def add_student(request,newContext={}):
     drive = PlacementDrives.objects.filter(is_completed=0)
@@ -340,6 +386,78 @@ def show_Studentlist(request,drive_id):
     except EmptyPage:
         students = paginator.page(paginator.num_pages)
     return render(request, "college_template/show_Studentlist.html",  {"students": students,"drive_info":drive_info})
+
+def edit_student(request,id):
+    edit_student = Students.objects.get(id=id)
+    context = {
+        'edit_student': edit_student,
+    }
+    return render(request, "college_template/edit_student.html", context=context)
+
+
+def edit_student_save(request):
+    id = request.POST.get("student_id")
+    print(id)
+    enrolment_no = request.POST.get("enrolment_no")
+    stu_first_name = request.POST.get("stu_first_name")
+    stu_last_name = request.POST.get("stu_last_name")
+    sex = request.POST.get("sex")
+    phone_no = request.POST.get("phone_no")
+    ssc_percentage = request.POST.get("ssc_percentage")
+    hsc_percentage = request.POST.get("hsc_percentage")
+    ug_stream = request.POST.get("ug_stream")
+    ug_percentage = request.POST.get("ug_percentage")
+    pg_cgpa = request.POST.get("pg_cgpa")
+
+
+    context = {
+        "eno": enrolment_no,
+        "fname": stu_first_name,
+        "lname": stu_last_name,
+        "phone_no": phone_no,
+        "ssc": ssc_percentage,
+        "hsc": hsc_percentage,
+        "ug": ug_percentage,
+        "pg": pg_cgpa,
+    }
+
+    if enrolment_no == "" or stu_first_name == "" or stu_last_name == "" or phone_no == "" or ssc_percentage == "" or hsc_percentage == "" or ug_stream == "" or ug_percentage == "" or pg_cgpa == "":
+        messages.error(request, "fill all the details")
+        response = edit_student(request, context)
+        return response
+
+    user = Students.objects.get(id=id)
+    if request.FILES.get('profile_pic'):
+        profile_pic = request.FILES.get('profile_pic')
+        # dir_storage = '/media/student_media/profile_picture/' + enrolment_no
+        fs = FileSystemStorage()
+        filename = fs.save(profile_pic.name, profile_pic)
+        print(filename)
+        profile_pic_url = fs.url(filename)
+        user.profile_pic = profile_pic_url
+
+    # usernamecheck = CustomUser.objects.filter(username=enrolment_no).first()
+    #
+    # if usernamecheck != None:
+    #     messages.error(request, "With this enrollment Account is already Created")
+    #     response = edit_student(request, context)
+    #     return response
+
+    usertable = CustomUser.objects.get(id=user.user_type_id)
+    usertable.first_name = stu_first_name
+    usertable.last_name = stu_last_name
+    usertable.save()
+    user.enrolment_no = enrolment_no
+    user.gender = sex
+    user.phone_no = phone_no
+    user.ssc_percentage = ssc_percentage
+    user.hsc_percentage = hsc_percentage
+    user.ug_percentage = ug_percentage
+    user.pg_cgpa = pg_cgpa
+    user.save()
+
+    messages.success(request, "Student Account Updated")
+    return HttpResponseRedirect(reverse("clg_edit_student", kwargs={'id': id}))
 
 
 def student_feedback(request):

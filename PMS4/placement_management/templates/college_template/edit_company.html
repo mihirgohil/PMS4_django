@@ -1,0 +1,124 @@
+{% extends 'college_template/base_template.html' %}
+{% block page_title %}
+Edit Company
+{% endblock page_title  %}
+{% block main_content %}
+{% load crispy_forms_tags %}
+{% load static %}
+ <link rel="stylesheet" href="{% static "dist/css/profile.css" %}">
+<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+           <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+        </div>
+             <form method="POST" action="{% url 'clg_edit_company_save' %}"  enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <div class="picture-container">
+                                        <div class="picture">
+                                             <img src="{{ edit_company.company_logo }}" class="picture-src" id="wizardPicturePreview">
+                <input type="file" id="wizard-picture" class="" name="profile_pic" accept="image/*">
+                                        </div>
+                                        <h6>Choose Company Logo</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <input name="company_id" type="hidden" value="{{ edit_company.id }}">
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Company Name</label>
+
+                                <div class="col-md-6">
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ edit_company.user_type.first_name }}">
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="address" class="col-md-4 col-form-label text-md-right">Company Address</label>
+
+                                <div class="col-md-6">
+                                    <input id="address" type="text" class="form-control" name="address" value="{{ edit_company.address }}">
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="website" class="col-md-4 col-form-label text-md-right">Company Website</label>
+                                <div class="col-md-6">
+                                    <input id="website" type="url" pattern="https?://.+" class="form-control" name="website" value="{{ edit_company.website }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <label for="phone" class="col-md-4 col-form-label text-md-right">Company Phone No</label>
+
+                              <div class="col-md-6">
+                                  <input id="phone" type="text" onkeypress="return onlyNumberKey(event)" maxlength="10" minlength="10" class="form-control" name="phone" value="{{ edit_company.phone_no }}">
+                              </div>
+                          </div>
+                    <div class="form-group row mb-0">
+
+                                <div class="col-md-6 offset-md-4">
+                             <button type="submit" class="btn btn-primary">
+                                        Update
+                             </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+        <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+    <script>
+
+        function onlyNumberKey(evt) {
+
+            // Only ASCII charactar in that range allowed
+
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            {
+                return false;
+            return true;
+            }
+        }
+    </script>
+    <script>
+  $(document).ready(function(){
+// Prepare the preview for profile picture
+    $("#wizard-picture").change(function(){
+        readURL(this);
+    });
+});
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+
+    </section>
+
+    <!-- /.content -->
+{% endblock main_content %}

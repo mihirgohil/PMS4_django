@@ -41,7 +41,27 @@ Select Placement Drive to Manage Internship
                   {% endfor %}
                   </tbody>
                 </table>
-
+                {% if placement_drives.has_other_pages %}
+              <ul class="pagination">
+                {% if placement_drives.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{ placement_drives.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                  <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+                {% for i in placement_drives.paginator.page_range %}
+                  {% if students.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li class="page-item"><a class="page-link"  href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if placement_drives.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ placement_drives.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                  <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+              </ul>
+            {% endif %}
 
       </div>
     </section>

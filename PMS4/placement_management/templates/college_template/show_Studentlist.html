@@ -44,7 +44,7 @@ All Student of Placement Drive : {{ drive_info.drive_name }}
                         <td>{{ student.ug_stream }}</td>
                         <td>{{ student.ug_percentage }}</td>
                         <td>{{ student.pg_cgpa }}</td>
-                        <td><a href="#" class="btn btn-primary">Edit</a></td>
+                        <td><a href="{% url 'clg_edit_student' student.id %}" class="btn btn-primary">Edit</a></td>
 
                         {% endif %}
                     </tr>

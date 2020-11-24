@@ -11,10 +11,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ company_obj.company_logo }}" alt="User Image" %}">
+          <img src="{{ company_obj.company_logo }}" alt="User Image">
         </div>
         <div class="info">
-          <a href="" class="d-block">{{ user.first_name }}</a>
+          <a href="#" class="d-block">{{ user.first_name }}</a>
         </div>
       </div>
 
@@ -24,8 +24,16 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
+            <a href="{% url 'company' %}" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Home
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{% url 'company_profile' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-user"></i>
               <p>
                 Profile
               </p>
@@ -33,15 +41,15 @@
           </li>
           <li class="nav-item">
             <a href="{% url 'company_post_job' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-briefcase"></i>
               <p>
-                Post Internships
+                New Internships Post
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{% url 'company_working_job' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-clipboard"></i>
               <p>
                 Working internships
               </p>
@@ -49,9 +57,9 @@
           </li>
           <li class="nav-item">
             <a href="{% url 'company_history' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-history"></i>
               <p>
-                Complete internships
+                  Closed internships
               </p>
             </a>
           </li>
