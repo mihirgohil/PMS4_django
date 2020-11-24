@@ -137,14 +137,55 @@ def add_company_save(request):
      website = request.POST.get("website")
      email = request.POST.get("email")
      phone = request.POST.get("phone")
+     password = str(get_random_alphanumeric_string(8))
+     username = name + '-' + str(get_random_alphanumeric_string(3))
+     context = {
+         'name': name,
+         'address': address,
+         'website': website,
+         'email': email,
+         'phone': phone}
      if name == "" or address == "" or website == "" or email == "" or phone == "":
-         context = {
-             'name': name,
-             'address': address,
-             'website': website,
-             'email': email,
-             'phone': phone}
          messages.error(request, "fill all the details")
+         response = add_company(request, context)
+         return response
+     usermailcheck = CustomUser.objects.filter(email=email).first()
+     if usermailcheck != None:
+         messages.error(request, "With this email Account is already Created Kindly login or use different mail id.")
+         response = add_company(request, context)
+         return response
+
+     if request.FILES.get('profile_pic'):
+         profile_pic = request.FILES.get('profile_pic')
+         # dir_storage = '/media/student_media/profile_picture/' + enrolment_no
+         fs = FileSystemStorage()
+         filename = fs.save(profile_pic.name, profile_pic)
+         print(filename)
+         profile_pic_url = fs.url(filename)
+     else:
+         profile_pic_url = '/media/default_avtar/user.jpg'
+
+     user = CustomUser.objects.create_user(username=username, first_name=name, last_name="",
+                                      email=email, password=password, user_type=2)
+
+     user.companys.address = address
+     user.companys.website = website
+     user.companys.email = email
+     user.companys.phone_no = phone
+     user.companys.company_logo = profile_pic_url
+     user.save()
+     subject = 'Your Account Created CPI Placement'
+     message = 'Your Company Account Created on CPI Placement System By Admin.\nFor This Email Account.\nPassword : ' + password + '. \nYou can change the password from Profile.'
+     from_email = 'placement@cpi.com'
+     send_mail(
+         subject,
+         message,
+         from_email,
+         [email],
+         fail_silently=False,
+     )
+     messages.success(request, "Company Account Created")
+     return HttpResponseRedirect(reverse("clg_add_company"))
 
 def manage_company(request):
     manage_company_list = Companys.objects.all().order_by('-created_at')

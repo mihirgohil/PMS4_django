@@ -1,8 +1,13 @@
 from django.shortcuts import render
 
+from placement_management.models import Companys
 
 def company_home(request):
-    return render(request, "company_template/home_content.html")
+    student_obj = Companys.objects.get(user_type=request.user.id)
+    context = {
+        "company_obj": student_obj
+    }
+    return render(request, "company_template/home_content.html", context)
 
 
 def company_profile(request):

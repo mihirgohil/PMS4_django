@@ -3,8 +3,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-
-
 # Create your models here.
 
 # Custom user class
@@ -13,7 +11,7 @@ from PMS4 import settings
 
 
 class CustomUser(AbstractUser):
-    user_type_data = ((1, "AdminPms"), (2, "Company"), (3, "Student"))
+    user_type_data = ((1, "AdminPms"), (2, "Companys"), (3, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
 
     # email_active_field = models.BooleanField(default=True)
@@ -108,7 +106,6 @@ class InternshipDetails(models.Model):
     objects = models.Manager()
 
 
-
 #
 # # job wise technologies
 class IntershipWiseTechnologies(models.Model):
@@ -138,9 +135,13 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 1:
             AdminPms.objects.create(user_type=instance)
         if instance.user_type == 2:
-            Companys.objects.create(user_type=instance)
+            Companys.objects.create(user_type=instance, address="not given", phone_no=0, website="not given",
+                                    company_logo="media/default_avtar/user.jpg")
         if instance.user_type == 3:
-            Students.objects.create(user_type=instance,enrolment_no = "not given", gender = "not given", profile_pic = "media/default_avtar/user.jpg", dob = "1999-01-01", phone_no = "not given", ssc_percentage = 0, hsc_percentage = 0, ug_stream = "", ug_percentage = 0, pg_cgpa = 0, placementDrive_id = 2147483647 )
+            Students.objects.create(user_type=instance, enrolment_no="not given", gender="not given",
+                                    profile_pic="media/default_avtar/user.jpg", dob="1999-01-01", phone_no="not given",
+                                    ssc_percentage=0, hsc_percentage=0, ug_stream="", ug_percentage=0, pg_cgpa=0,
+                                    placementDrive_id=2147483647)
 
 
 # save user profile
@@ -149,6 +150,6 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 1:
         instance.adminpms.save()
     if instance.user_type == 2:
-        instance.compays.save()
+        instance.companys.save()
     if instance.user_type == 3:
         instance.students.save()
