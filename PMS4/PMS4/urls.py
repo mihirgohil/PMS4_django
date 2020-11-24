@@ -13,16 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from django.views.generic import TemplateView
 
 from placement_management import views, Collegeviews, Studentviews, Companyviews
 
+
+from PMS4 import settings
+
 urlpatterns = [
     path('demo', views.showDemoPage),
     path('student_signup', views.show_student_signup, name="show_student_signup"),
     path('admin/', admin.site.urls),
+    path('accounts/',include('django.contrib.auth.urls')),
     # login
     path('', views.showLoginPage,name="show_login"),
     path('login', views.showLoginPage, name="login"),
@@ -42,7 +48,10 @@ urlpatterns = [
     path('college/add_new_placement_drive_save', Collegeviews.add_new_placement_drive_save, name="add_new_pms_save"),
     # ##
     path('college/add_company', Collegeviews.add_company, name="clg_add_company"),
+
     path('college/add_student', Collegeviews.add_student, name="clg_add_student"),
+    path('college/add_student_save', Collegeviews.add_student_save, name="clg_add_student_save"),
+
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
     path('college/manage_company', Collegeviews.manage_company, name="clg_manage_company"),
     path('college/student_feedback', Collegeviews.student_feedback, name="clg_student_feedback"),
@@ -50,7 +59,7 @@ urlpatterns = [
 
     # Student Paths
     path('student/', Studentviews.student_home, name="student"),
-    path('student/streams', Studentviews.streams, name="stu_streams"),
+    path('student/feeds', Studentviews.feeds, name="stu_feeds"),
     path('student/stu_profile', Studentviews.stu_profile, name="stu_profile"),
     path('student/apply_internship', Studentviews.apply_internship, name="stu_apply_internship"),
     path('student/opt_out', Studentviews.opt_out, name="stu_opt_out"),
@@ -63,3 +72,6 @@ urlpatterns = [
     path('company/history', Companyviews.history, name="company_history"),
     path('company/company_logout', Companyviews.company_logout, name="company_logout"),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

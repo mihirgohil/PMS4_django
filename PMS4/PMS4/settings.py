@@ -18,8 +18,8 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Media File directory
-MEDIA_DIR = os.path.join(BASE_DIR, 'media')
-MEDIA_PMS_DIR = os.path.join(BASE_DIR, 'placement_management/media')
+# MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+# MEDIA_PMS_DIR = os.path.join(BASE_DIR, 'placement_management/media')
 
 # Static File directory
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-
+    'django_email_verification',
     #     custom apps
     'placement_management.apps.PlacementManagementConfig',
 ]
@@ -133,7 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [STATIC_DIR, STATIC_PMS_DIR, MEDIA_DIR, MEDIA_PMS_DIR]
+STATICFILES_DIRS = [STATIC_DIR, STATIC_PMS_DIR,]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -145,3 +145,12 @@ AUTH_USER_MODEL = "placement_management.CustomUser"
 AUTHENTICATION_BACKEND = ['placement_management.EmailBackEnd.EmailBackEnd']
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Email SetUp
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'b0fd977546c6fa'
+EMAIL_HOST_PASSWORD = '7aeedde58b3a7e'
+EMAIL_PORT = '2525'
+EMAIL_SERVER = 'smtp.mailtrap.io'
+
+

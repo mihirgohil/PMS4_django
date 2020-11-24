@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +34,7 @@
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Signup Student in Placement Management System</p>
-      <form action="/do_student_signup"  enctype="multipart/form-data" method="post">
+      <form action="/do_student_signup"  enctype="multipart/form-data" method="post" id="frm">
           {% csrf_token %}
 
         <div class="input-group mb-3">
@@ -50,42 +51,35 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Enrollment no." name="enrolment_no" onkeypress="return onlyNumberKey(event)" maxlength="12" minlength="12">
+          <input type="text" class="form-control" placeholder="Enrollment no." name="enrolment_no" onkeypress="return onlyNumberKey(event)" maxlength="12" minlength="12" value="{{ eno }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="First Name" name="stu_first_name">
+          <input type="text" class="form-control" placeholder="First Name" name="stu_first_name" value="{{ fname }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Last Name" name="stu_last_name">
+          <input type="text" class="form-control" placeholder="Last Name" name="stu_last_name" value="{{ lname }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"  placeholder="Email" name="email">
+          <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"  placeholder="Email" name="email" value="{{ email }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Password" name="password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-            </div>
-          </div>
-        </div>
-         <div class="input-group mb-3">
-          <input type="date" class="form-control" name="dob" min="1900-01-01" max="2015-09-18">
+          <input type="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Password" name="password" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
@@ -93,8 +87,29 @@
         </div>
 
         <div class="input-group mb-3">
-          <select class="form-control" name="sex">
-              <option value="Select Gender">Select Gender</option>
+          <select class="form-control" name="drive" id="drive">
+              <option value="default_drive">Select Placement Drive</option>
+              {% for dr in drive %}
+                <option value="{{ dr.id }}">{{ dr.drive_name }}</option>
+            {% endfor %}
+          </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+         <div class="input-group mb-3">
+          <input type="date" class="form-control" name="dob" min="1900-01-01" max="2015-09-18" value="{{ dob }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <select class="form-control" name="sex" id="sex">
+              <option value="Select_Gender">Select Gender</option>
               {% for gdr in gender %}
                 <option value="{{ gdr }}">{{ gdr }}</option>
             {% endfor %}
@@ -106,7 +121,7 @@
         </div>
 
         <div class="input-group mb-3">
-         <input type="text" name="phone_no" class="form-control" placeholder="Phone number" onkeypress="return onlyNumberKey(event)" maxlength="10" minlength="10">
+         <input type="text" name="phone_no" class="form-control" placeholder="Phone number" onkeypress="return onlyNumberKey(event)" maxlength="10" minlength="10" value="{{ phone_no }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
@@ -114,7 +129,7 @@
         </div>
 
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="S.S.C (%)" name="ssc_percentage">
+          <input type="text" class="form-control" placeholder="S.S.C (%)"  onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="ssc_percentage" value="{{ ssc }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
@@ -122,7 +137,7 @@
         </div>
 
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="H.S.C (%)" name="hsc_percentage">
+          <input type="text" class="form-control" placeholder="H.S.C (%)" onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="hsc_percentage" value="{{ hsc }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
@@ -130,10 +145,9 @@
         </div>
 
         <div class="input-group mb-3">
-          <select class="form-control" name="ug_stream">
-            <option value="Select ug stream">Select U.G Stream</option>
+          <select class="form-control" name="ug_stream" id="ug_stream">
+            <option value="Select_ug_stream">Select U.G Stream</option>
             {% for ug_dept in ug_dept_type %}
-
                 <option value="{{ ug_dept }}">{{ ug_dept }}</option>
             {% endfor %}
           </select>
@@ -144,25 +158,34 @@
         </div>
 
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="U.G (%)" name="ug_percentage">
+          <input type="text" class="form-control" placeholder="U.G (%)" onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="ug_percentage" value="{{ ug }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="P.G (CGPA or CPI)" name="pg_cgpa">
+          <input type="text" class="form-control" placeholder="P.G (CGPA or CPI)" onkeypress="return isNumberDeimalKey(event)" maxlength="4" name="pg_cgpa" value="{{ pg }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="input-group mb-3">
           <!-- /.col -->
           <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+            <button type="submit" value="submit" class="btn btn-primary btn-block">Sign up</button>
           </div><!-- /.col -->
         </div>
+
+
+<!--          <div class="row">-->
+<!--         <div class="col-12">-->
+<!--            <div class="alert alert-danger" style="margin-top:10px">{{ eno }}</div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+
         <div class="row">
           {% if messages %}
          <div class="col-12">
@@ -175,7 +198,12 @@
           {% endif %}
         </div>
       </form>
-
+      <div class="input-group mb-3">
+          <!-- /.col -->
+          <div class="col-12">
+            <a type="cancel" href="{% url 'show_login' %}" class="btn btn-danger btn-block">Cancel</a>
+          </div><!-- /.col -->
+        </div>
       <!-- /.social-auth-links -->
 
     </div>
@@ -198,6 +226,15 @@
         return true;
         }
     }
+     function isNumberDeimalKey(evt)
+       {
+          var charCode = (evt.which) ? evt.which : evt.keyCode;
+          if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+             return false;
+
+          return true;
+       }
 </script>
 <script>
   $(document).ready(function(){
@@ -217,6 +254,30 @@ function readURL(input) {
     }
 }
 </script>
+<script>
+ $("#frm").submit(function(event){
+ // var valDDL = $(this).val();
+        //event.preventDefault();
+         var valDDL = $("#ug_stream").val();
+         if(valDDL=="Select_ug_stream")
+         {
+             event.preventDefault();
+             alert("select stream in dropdown option");
+         }
+         var gender = $("#sex").val();
+         if(gender=="Select_Gender")
+         {
+             event.preventDefault();
+             alert("select gender");
+         }
+         var drive = $("#drive").val();
+         if(drive=="default_drive")
+         {
+              event.preventDefault();
+              alert("select Placement Drive");
+         }
+ });
+ </script>
 <!-- Bootstrap 4 -->
 <script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 <!-- AdminLTE App -->

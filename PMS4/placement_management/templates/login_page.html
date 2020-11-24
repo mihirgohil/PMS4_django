@@ -34,7 +34,7 @@
       <form action="/doLogin" method="post">
           {% csrf_token %}
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" name="email" value={{ email }}>
+            <input type="email" class="form-control" placeholder="Email" name="email" value="{{ email }}" title="Fill Email" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -42,20 +42,29 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="password">
+          <input type="password" class="form-control" placeholder="Password" name="password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="input-group mb-3">
           <!-- /.col -->
           <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block">Log In</button>
           </div><!-- /.col -->
+        </div>
+
+         <div class="input-group mb-3">
           <div class="col-12 text-center">
-            <a href="{% url 'show_student_signup' %}"> Signup for Student</a>
+            Forget Password? <a href="{% url 'password_reset' %}">,Click here!</a>
+          </div><!-- /.col -->
+        </div>
+
+        <div class="input-group mb-3">
+          <div class="col-12 text-center">
+            <a href="{% url 'show_student_signup' %}" class="btn btn-warning"> Signup for Student</a>
           </div><!-- /.col -->
         </div>
 <!--         <div class="row">-->

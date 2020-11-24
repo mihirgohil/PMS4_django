@@ -21,7 +21,7 @@
                       <th scope="col">#</th>
                       <th scope="col">Drive Name</th>
                       <th scope="col">Created At</th>
-                      <th scope="col">Active</th>
+                      <th scope="col">Status</th>
                       <th scope="col">Action</th>
 <!--                      <th></th>-->
                     </tr>
@@ -30,16 +30,21 @@
 
                   {% for drive in placement_drives %}
                     <tr>
-                      {%  if drive.id != 2147483647   %}
+                        {% if not drive.id == 2147483647 %}
                           <th scope="row">{{ forloop.counter }} </th>
                           <td>{{ drive.drive_name }}</td>
                           <td>{{ drive.created_at|timezone:"Asia/Calcutta" }}</td>
-                          {% if not drive.is_active %}
-                            <td><a href="#" class="btn btn-secondary">Not Active</a></td>
-                          {% elif drive.is_active %}
-                            <td><a href="#" class="btn btn-success">Active</a></td>
+                         {% if not drive.is_completed %}
+                            <td>Active</td>
+                          {% elif drive.is_completed %}
+                            <td>Completed</td>
                           {% endif %}
-                      {% endif %}
+                          {% if not drive.is_completed %}
+                            <td><a href="#" class="btn btn-danger">Close Drive</a></td>
+                          {% elif drive.is_completed %}
+                            <td><a href="#" class="btn btn-success">View Reports</a></td>
+                          {% endif %}
+                        {% endif %}
                     </tr>
                   {% endfor %}
                   </tbody>

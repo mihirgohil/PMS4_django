@@ -3,12 +3,274 @@
 Add Student
 {% endblock page_title  %}
 {% block main_content %}
-
+{% load static %}
+<!--Profile style -->
+   <link rel="stylesheet" href="{% static "dist/css/profile.css" %}">
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        Add Student
-      </div>
+        <div class="login-logo">
+<!--    <a href="../../index2.html"><b>Placement</b> Management System</a>-->
+    <b>Placement</b> Management System ADD New Student
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+         <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+        </div>
+      <p class="login-box-msg">ADD New Student</p>
+      <form action="{% url 'clg_add_student_save' %}"  enctype="multipart/form-data" method="post" id="frm">
+          {% csrf_token %}
+
+        <div class="input-group mb-3">
+          <div class="container">
+            <div class="picture-container">
+              <div class="picture">
+                <img src="{% static "dist/img/user2-160x160.png" %}" class="picture-src" id="wizardPicturePreview">
+                <input type="file" id="wizard-picture" class="" name="profile_pic" accept="image/*">
+              </div>
+              <h6 class="">Choose Profile</h6>
+            </div>
+          </div>
+          <div class="input-group-append">
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Enrollment no." name="enrolment_no" onkeypress="return onlyNumberKey(event)" maxlength="12" minlength="12" value="{{ eno }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="First Name" name="stu_first_name" value="{{ fname }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Last Name" name="stu_last_name" value="{{ lname }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"  placeholder="Email" name="email" value="{{ email }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="input-group mb-3">
+          <select class="form-control" name="drive" id="drive">
+              <option value="default_drive">Select Placement Drive</option>
+              {% for dr in drive %}
+                <option value="{{ dr.id }}">{{ dr.drive_name }}</option>
+            {% endfor %}
+          </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+         <div class="input-group mb-3">
+          <input type="date" class="form-control" name="dob" min="1900-01-01" max="2015-09-18" value="{{ dob }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <select class="form-control" name="sex" id="sex">
+              <option value="Select_Gender">Select Gender</option>
+              {% for gdr in gender %}
+                <option value="{{ gdr }}">{{ gdr }}</option>
+            {% endfor %}
+          </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+         <input type="text" name="phone_no" class="form-control" placeholder="Phone number" onkeypress="return onlyNumberKey(event)" maxlength="10" minlength="10" value="{{ phone_no }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="S.S.C (%)"  onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="ssc_percentage" value="{{ ssc }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="H.S.C (%)" onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="hsc_percentage" value="{{ hsc }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <select class="form-control" name="ug_stream" id="ug_stream">
+            <option value="Select_ug_stream">Select U.G Stream</option>
+            {% for ug_dept in ug_dept_type %}
+                <option value="{{ ug_dept }}">{{ ug_dept }}</option>
+            {% endfor %}
+          </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="U.G (%)" onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="ug_percentage" value="{{ ug }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="P.G (CGPA or CPI)" onkeypress="return isNumberDeimalKey(event)" maxlength="4" name="pg_cgpa" value="{{ pg }}" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <!-- /.col -->
+          <div class="col-12">
+            <button type="submit" value="submit" class="btn btn-primary btn-block">ADD Student</button>
+          </div><!-- /.col -->
+        </div>
+
+
+<!--          <div class="row">-->
+<!--         <div class="col-12">-->
+<!--            <div class="alert alert-danger" style="margin-top:10px">{{ eno }}</div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+
+        <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </form>
+      <div class="input-group mb-3">
+          <!-- /.col -->
+          <div class="col-12">
+            <a type="cancel" href="{% url 'college' %}" class="btn btn-danger btn-block">Cancel</a>
+          </div><!-- /.col -->
+        </div>
+      <!-- /.social-auth-links -->
+
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+<script>
+    function onlyNumberKey(evt) {
+
+        // Only ASCII charactar in that range allowed
+
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+        {
+            return false;
+        return true;
+        }
+    }
+     function isNumberDeimalKey(evt)
+       {
+          var charCode = (evt.which) ? evt.which : evt.keyCode;
+          if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+             return false;
+
+          return true;
+       }
+</script>
+<script>
+  $(document).ready(function(){
+// Prepare the preview for profile picture
+    $("#wizard-picture").change(function(){
+        readURL(this);
+    });
+});
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+<script>
+ $("#frm").submit(function(event){
+ // var valDDL = $(this).val();
+        //event.preventDefault();
+         var valDDL = $("#ug_stream").val();
+         if(valDDL=="Select_ug_stream")
+         {
+             event.preventDefault();
+             alert("select stream in dropdown option");
+         }
+         var gender = $("#sex").val();
+         if(gender=="Select_Gender")
+         {
+             event.preventDefault();
+             alert("select gender");
+         }
+         var drive = $("#drive").val();
+         if(drive=="default_drive")
+         {
+              event.preventDefault();
+              alert("select Placement Drive");
+         }
+ });
+ </script>
+
     </section>
     <!-- /.content -->
 {% endblock main_content %}

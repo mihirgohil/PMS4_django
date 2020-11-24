@@ -6,12 +6,12 @@ from django.utils.deprecation import MiddlewareMixin
 class LoginCheckMiddleWare(MiddlewareMixin):
 
     # process function called when view is shown
-    def process_view(self,request,view_func,view_args,view_kwargs):
+    def process_view(self, request, view_func, view_args, view_kwargs):
         # it will get the module name means where the view is defined
-        modulename=view_func.__module__
+        modulename = view_func.__module__
         # get user details
-        user=request.user
-        print(modulename)
+        user = request.user
+        print("Module Name : " + modulename)
         print(user)
         # check authentication
         if user.is_authenticated:
@@ -23,6 +23,8 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                     pass
                 elif modulename == "placement_management.views":
                     pass
+                elif modulename == "django.views.static":
+                    pass
                 else:
                     return HttpResponseRedirect(reverse("college"))
             elif user.user_type == "2":
@@ -30,12 +32,16 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                     pass
                 elif modulename == "placement_management.views":
                     pass
+                elif modulename == "django.views.static":
+                    pass
                 else:
                     return HttpResponseRedirect(reverse("company"))
             elif user.user_type == "3":
                 if modulename == "placement_management.Studentviews":
                     pass
                 elif modulename == "placement_management.views":
+                    pass
+                elif modulename == "django.views.static":
                     pass
                 else:
                     return HttpResponseRedirect(reverse("student"))
@@ -45,7 +51,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 return HttpResponseRedirect(reverse("show_login"))
         else:
             print("user not authenticated")
-            if request.path == reverse("show_login") or request.path == reverse("do_login"):
+            if request.path == reverse("show_login") or request.path == reverse("do_login") or modulename == "django.contrib.auth.views":
                 pass
             elif request.path == reverse("show_student_signup") or request.path == reverse("do_student_signup"):
                 pass

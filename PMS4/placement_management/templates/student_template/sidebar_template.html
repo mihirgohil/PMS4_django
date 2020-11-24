@@ -1,8 +1,7 @@
 {% load static %}
-
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="{% url 'student' %}" class="brand-link">
       <img src="{% static "logo/cpi_logo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">Student Panel</span>
@@ -12,10 +11,11 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{% static "dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" %}">
+<!--          <img src="/media/default_avtar/user.jpg">-->
+          <img src="{{ student_obj.profile_pic }}" class="img-circle elevation-2">
         </div>
         <div class="info">
-          <a href="/profile" class="d-block"> {{ user.first_name }} </a>
+          <a href="{% url 'stu_profile' %}" class="d-block"> {{ user.first_name }} </a>
         </div>
       </div>
 
@@ -25,26 +25,17 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{% url 'stu_profile' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{% url 'stu_feeds' %}" class="nav-link">
+              <i class="nav-icon fas fa-comment-alt"></i>
               <p>
-                Profile
-<!--                <span class="right badge badge-danger">New</span>-->
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'stu_streams' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Streams
+                Feeds
 <!--                <span class="right badge badge-danger">New</span>-->
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{% url 'stu_apply_internship' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-pen-square"></i>
               <p>
                 Applied for Internship
 <!--                <span class="right badge badge-danger">New</span>-->
@@ -53,14 +44,13 @@
           </li>
           <li class="nav-item">
             <a href="{% url 'stu_opt_out' %}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-unlink"></i>
               <p>
                 Opt-Out
 <!--                <span class="right badge badge-danger">New</span>-->
               </p>
             </a>
           </li>
-
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

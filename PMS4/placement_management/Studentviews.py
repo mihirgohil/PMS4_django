@@ -1,24 +1,48 @@
 from django.shortcuts import render
 
+from placement_management.models import Students
+
 
 def student_home(request):
-    return render(request, "student_template/home_content.html")
+    print("kko")
+    print(request.user.id)
+    student_obj = Students.objects.get(user_type=request.user.id)
+    context = {
+        "student_obj": student_obj
+    }
+    return render(request, "student_template/home_content.html", context)
 
 
-def streams(request):
-    return render(request, "student_template/streams.html")
+def feeds(request):
+    student_obj = Students.objects.get(user_type=request.user.id)
+    context = {
+        "student_obj": student_obj
+    }
+    return render(request, "student_template/feeds.html",context)
 
 
 def stu_profile(request):
-    return render(request, "student_template/stu_profile.html")
+    student_obj = Students.objects.get(user_type=request.user.id)
+    context = {
+        "student_obj": student_obj
+    }
+    return render(request, "student_template/stu_profile.html",context)
 
 
 def apply_internship(request):
-    return render(request, "student_template/apply_internship.html")
+    student_obj = Students.objects.get(user_type=request.user.id)
+    context = {
+        "student_obj": student_obj
+    }
+    return render(request, "student_template/apply_internship.html",context)
 
 
 def opt_out(request):
-    return render(request, "student_template/opt_out.html")
+    student_obj = Students.objects.get(user_type=request.user.id)
+    context = {
+        "student_obj": student_obj
+    }
+    return render(request, "student_template/opt_out.html",context)
 
 
 def stu_logout(request):

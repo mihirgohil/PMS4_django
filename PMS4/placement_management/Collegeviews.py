@@ -4,8 +4,22 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # login required
 from django.urls import reverse
-from placement_management.models import PlacementDrives
 
+from placement_management.utilty.choices import GENDER_CHOICES, UG_DEPARTMENTS_TYPE_SIGNUP
+from django.core.files.storage import FileSystemStorage
+
+from placement_management.models import CustomUser, Students, PlacementDrives
+
+import random
+import string
+
+#mail send
+from django.core.mail import send_mail
+
+def get_random_alphanumeric_string(length):
+    letters_and_digits = string.ascii_letters + string.digits
+    result_str = ''.join((random.choice(letters_and_digits) for i in range(length)))
+    return result_str
 
 def college_home(request):
     return render(request, "college_template/home_content.html")
@@ -24,7 +38,7 @@ def add_new_placement_drive_save(request):
             drive_model.save()
         except:
             messages.error(request, "Failed to Add Drive")
-            return HttpResponseRedirect("{% url 'add_new_pms_drive' %}")
+            return HttpResponseRedirect(reverse('add_new_pms_drive'))
         else:
             messages.success(request, "Drive Added : " + drive_name)
             return HttpResponseRedirect(reverse('clg_pmc_drive'))
@@ -36,7 +50,6 @@ def add_new_placement_drive_save(request):
 def placement_drive(request):
     placement_drives_list = PlacementDrives.objects.all().order_by('-created_at')
     page = request.GET.get('page', 1)
-
     paginator = Paginator(placement_drives_list, 8)
     try:
         placement_drives = paginator.page(page)
@@ -57,12 +70,132 @@ def manage_company(request):
     return render(request, "college_template/manage_company.html")
 
 
-def add_student(request):
-    return render(request, "college_template/add_student.html")
+def add_student(request,newContext={}):
+    drive = PlacementDrives.objects.filter(is_completed=0)
+    context = {
+        "gender": GENDER_CHOICES,
+        "ug_dept_type": UG_DEPARTMENTS_TYPE_SIGNUP,
+        "drive": drive,
+    }
+    context.update(newContext)
+    return render(request, "college_template/add_student.html",context)
+
+def add_student_save(request):
+    enrolment_no = request.POST.get("enrolment_no")
+    stu_first_name = request.POST.get("stu_first_name")
+    stu_last_name = request.POST.get("stu_last_name")
+    username = request.POST.get("enrolment_no")
+    email = request.POST.get("email")
+    dob = request.POST.get("dob")
+    sex = request.POST.get("sex")
+    phone_no = request.POST.get("phone_no")
+    ssc_percentage = request.POST.get("ssc_percentage")
+    hsc_percentage = request.POST.get("hsc_percentage")
+    ug_stream = request.POST.get("ug_stream")
+    ug_percentage = request.POST.get("ug_percentage")
+    pg_cgpa = request.POST.get("pg_cgpa")
+    drive = request.POST.get("drive")
+
+    password = str(get_random_alphanumeric_string(8))
+
+    context = {
+        "eno": enrolment_no,
+        "fname": stu_first_name,
+        "lname": stu_last_name,
+        "email": email,
+        "dob": dob,
+        "phone_no": phone_no,
+        "ssc": ssc_percentage,
+        "hsc": hsc_percentage,
+        "ug": ug_percentage,
+        "pg": pg_cgpa,
+    }
+
+    if enrolment_no == "" or stu_first_name == "" or stu_last_name == "" or email == "" or password == "" or dob == "" or phone_no == "" or ssc_percentage == "" or hsc_percentage == "" or ug_stream == "" or ug_percentage == "" or pg_cgpa == "":
+        messages.error(request, "fill all the details")
+        response = add_student(request, context)
+        return response
+
+    if drive == "default_drive":
+        messages.error(request, "invalid drive")
+        response = add_student(request, context)
+        return response
+
+    if sex == "Select_Gender":
+        messages.error(request, "invalid gender")
+        response = add_student(request, context)
+        return response
+
+    if ug_stream == "Select_ug_stream":
+        messages.error(request, "invalid ug stream")
+        response = add_student(request, context)
+        return response
+
+    if request.FILES.get('profile_pic'):
+        profile_pic = request.FILES.get('profile_pic')
+        dir_storage = '/media/student_media/profile_picture/' + enrolment_no
+        fs = FileSystemStorage(location=dir_storage , base_url = dir_storage)
+        filename = fs.save(profile_pic.name, profile_pic)
+        print(filename)
+        profile_pic_url = fs.url(filename)
+    else:
+        profile_pic_url = '/media/default_avtar/user.jpg'
+
+    # try:
+    usermailcheck = CustomUser.objects.filter(email=email).first()
+    usernamecheck = CustomUser.objects.filter(username=enrolment_no).first()
+    if usermailcheck != None:
+        messages.error(request, "With this email Account is already Created Kindly login or use different mail id.")
+        # return HttpResponseRedirect(reverse("show_student_signup"))
+
+        response = add_student(request, context)
+        return response
+    if usernamecheck != None:
+        messages.error(request, "With this enrollment Account is already Created")
+        response = add_student(request, context)
+        return response
+
+    user = CustomUser.objects.create_user(username=username, first_name=stu_first_name, last_name=stu_last_name,
+                                          email=email, password=password, user_type=3)
+    user.students.phone_no = phone_no
+    user.students.enrolment_no = enrolment_no
+    user.students.gender = sex
+    user.students.ssc_percentage = ssc_percentage
+    user.students.hsc_percentage = hsc_percentage
+    user.students.ug_stream = ug_stream
+    user.students.ug_percentage = ug_percentage
+    user.students.dob = dob
+    user.students.pg_cgpa = pg_cgpa
+    user.students.placementDrive_id = drive
+    user.students.profile_pic = profile_pic_url
+    user.save()
+    subject = 'Account Created CPI Placement'
+    message = 'Your Student Account Created on CPI Placement System By Admin.\nFor This Email Account.\nPassword : '+ password +'. \nYou can change the password from Profile.'
+    from_email = 'placement@cpi.com'
+    send_mail(
+        subject,
+        message,
+        from_email,
+        [email],
+        fail_silently=False,
+    )
+    messages.success(request, "Student Account Created")
+    return HttpResponseRedirect(reverse("clg_add_student"))
 
 
 def manage_student(request):
-    return render(request, "college_template/manage_student.html")
+    drive = PlacementDrives.objects.exclude(id=2147483647).order_by('-id')
+    drive_get_id = request.POST.get('drive')
+    print("id : "+str(drive_get_id))
+    students_list = ""
+    if not drive_get_id == None or not drive_get_id == "default_drive":
+        students_list = Students.objects.filter(placementDrive_id = drive_get_id)
+    context = {
+        "drive": drive,
+        "student": students_list,
+        "drive_get_id" : drive_get_id,
+    }
+    return render(request, "college_template/manage_student.html", context)
 
 
 def student_feedback(request):
@@ -75,3 +208,4 @@ def company_feedback(request):
 
 def college_logout(request):
     return render(request, "college_template/clg_logout.html")
+
