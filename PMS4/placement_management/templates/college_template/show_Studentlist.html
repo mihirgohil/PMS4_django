@@ -1,0 +1,64 @@
+{% extends 'college_template/base_template.html' %}
+{% block page_title %}
+Select Placement Drive to Manage Register Student
+{% endblock page_title  %}
+{% block main_content %}
+{% load tz %}
+
+<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+                <table class="table">
+                  <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"></th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Enrollment No</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">S.S.C(%)</th>
+                    <th scope="col">H.S.C(%)</th>
+                    <th scope="col">Ug Stream</th>
+                    <th scope="col">U.G(%)</th>
+                    <th scope="col">CPI</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                  <tbody>
+
+                  {% for student in students %}
+                    <tr>
+                        {% if not student.id == 2147483647 %}
+                          <th scope="row">{{ forloop.counter }} </th>
+                        <td><img src="{{ student.profile_pic }}" class="img-circle elevation-2" width="82" height="82"></td>
+                        <td>{{ student.user_type.first_name }}</td>
+                        <td>{{ student.user_type.last_name }}</td>
+                        <td>{{ student.enrolment_no }}</td>
+                        <td>{{ student.phone_no }}</td>
+                        <td>{{ student.user_type.email }}</td>
+                        <td>{{ student.ssc_percentage }}</td>
+                        <td>{{ student.hsc_percentage }}</td>
+                        <td>{{ student.ug_stream }}</td>
+                        <td>{{ student.ug_percentage }}</td>
+                        <td>{{ student.pg_cgpa }}</td>
+                        <td><a href="#" class="btn btn-primary">Edit</a></td>
+
+                        {% endif %}
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+
+
+      </div>
+    </section>
+<script>
+    function submitForm(selectedValue) {
+                document.getElementById("from_Drive").submit();
+    }
+</script>
+    <!-- /.content -->
+{% endblock main_content %}

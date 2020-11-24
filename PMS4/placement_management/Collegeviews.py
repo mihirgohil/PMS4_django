@@ -10,7 +10,7 @@ from placement_management.utilty.choices import GENDER_CHOICES, UG_DEPARTMENTS_T
 
 from django.core.files.storage import FileSystemStorage
 
-from placement_management.models import CustomUser, Students, PlacementDrives
+from placement_management.models import CustomUser, Students, PlacementDrives, Companys
 
 from placement_management.CollegeForms import PlacementcoordinatorForm
 from placement_management.utilty.utility_function import *
@@ -21,6 +21,9 @@ import string
 
 #mail send
 from django.core.mail import send_mail
+
+
+
 
 def get_random_alphanumeric_string(length):
     letters_and_digits = string.ascii_letters + string.digits
@@ -108,6 +111,20 @@ def placement_drive(request):
     return render(request, "college_template/placement_drive.html", {"placement_drives": placement_drives})
 
 
+def manage_internship(request):
+    placement_drives_list = PlacementDrives.objects.all().order_by('-created_at')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(placement_drives_list, 8)
+    try:
+        placement_drives = paginator.page(page)
+    except PageNotAnInteger:
+        placement_drives = paginator.page(1)
+    except EmptyPage:
+        placement_drives = paginator.page(paginator.num_pages)
+
+    return render(request, "college_template/manageInternship.html", {"placement_drives": placement_drives})
+
+
 # company pages
 def add_company(request,newContext={}):
     context = {}
@@ -130,7 +147,16 @@ def add_company_save(request):
          messages.error(request, "fill all the details")
 
 def manage_company(request):
-    return render(request, "college_template/manage_company.html")
+    manage_company_list = Companys.objects.all().order_by('-created_at')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(manage_company_list, 8)
+    try:
+        companys = paginator.page(page)
+    except PageNotAnInteger:
+        companys = paginator.page(1)
+    except EmptyPage:
+        companys = paginator.page(paginator.num_pages)
+    return render(request, "college_template/manage_company.html", {"companys": companys})
 
 
 def add_student(request,newContext={}):
@@ -257,6 +283,18 @@ def manage_student(request):
     except EmptyPage:
         placement_drives = paginator.page(paginator.num_pages)
     return render(request, "college_template/manage_student.html",  {"placement_drives": placement_drives})
+
+def show_Studentlist(request):
+    show_student_list = Students.objects.all().order_by('-created_at')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(show_student_list, 8)
+    try:
+        students = paginator.page(page)
+    except PageNotAnInteger:
+        students = paginator.page(1)
+    except EmptyPage:
+        students = paginator.page(paginator.num_pages)
+    return render(request, "college_template/show_Studentlist.html",  {"students": students})
 
 
 def student_feedback(request):

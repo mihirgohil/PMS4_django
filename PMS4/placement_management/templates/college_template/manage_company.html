@@ -1,14 +1,63 @@
 {% extends 'college_template/base_template.html' %}
 {% block page_title %}
-Manage Company
+Select Placement Drive to Manage Register Company
 {% endblock page_title  %}
 {% block main_content %}
+{% load tz %}
 
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-         Manage Page
+          <div class="row" style="margin:50px;">
+            <div class="col-md-12">
+            <!-- general form elements -->
+                <div class="card card-primary">
+              <!-- /.card-header -->
+              <!-- form start -->
+                <div class="card-body">
+
+                <table class="table">
+                  <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"></th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Website</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                  <tbody>
+
+                  {% for company in companys %}
+                    <tr>
+                        {% if not company.id == 2147483647 %}
+                          <th scope="row">{{ forloop.counter }} </th>
+                        <td><img src="{{ company.company_logo }}" class="img-circle elevation-2" width="82" height="82"></td>
+                        <td>{{ company.user_type.first_name }}</td>
+                        <td>{{ company.address }}</td>
+                        <td>{{ company.website }}</td>
+                        <td>{{ company.user_type.email }}</td>
+                        <td>{{ company.phone_no }}</td>
+                        <td><a href="#" class="btn btn-primary">Edit</a></td>
+
+                        {% endif %}
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                </div>
+                </div>
+            </div>
+          </div>
       </div>
     </section>
+<script>
+    function submitForm(selectedValue) {
+                document.getElementById("from_Drive").submit();
+    }
+</script>
     <!-- /.content -->
 {% endblock main_content %}
