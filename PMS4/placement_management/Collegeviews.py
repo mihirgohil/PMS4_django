@@ -110,7 +110,7 @@ def placement_drive(request):
     
     return render(request, "college_template/placement_drive.html", {"placement_drives": placement_drives})
 
-def placement_invite_companies(request,drive_id):
+# def placement_invite_companies(request,drive_id):
 
 
 def manage_internship(request):
