@@ -110,6 +110,8 @@ def placement_drive(request):
     
     return render(request, "college_template/placement_drive.html", {"placement_drives": placement_drives})
 
+def placement_invite_companies(request,drive_id):
+
 
 def manage_internship(request):
     placement_drives_list = PlacementDrives.objects.all().order_by('-created_at')
@@ -325,8 +327,10 @@ def manage_student(request):
         placement_drives = paginator.page(paginator.num_pages)
     return render(request, "college_template/manage_student.html",  {"placement_drives": placement_drives})
 
-def show_Studentlist(request):
-    show_student_list = Students.objects.all().order_by('-created_at')
+def show_Studentlist(request,drive_id):
+    show_student_list = Students.objects.filter(placementDrive_id = drive_id).order_by('-created_at')
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    print(drive_info)
     page = request.GET.get('page', 1)
     paginator = Paginator(show_student_list, 8)
     try:
@@ -335,7 +339,7 @@ def show_Studentlist(request):
         students = paginator.page(1)
     except EmptyPage:
         students = paginator.page(paginator.num_pages)
-    return render(request, "college_template/show_Studentlist.html",  {"students": students})
+    return render(request, "college_template/show_Studentlist.html",  {"students": students,"drive_info":drive_info})
 
 
 def student_feedback(request):

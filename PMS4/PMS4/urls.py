@@ -48,6 +48,7 @@ urlpatterns = [
     path('college/placement_drive', Collegeviews.placement_drive, name="clg_pmc_drive"),
     path('college/add_new_placement_drive', Collegeviews.add_new_placement_drive, name="add_new_pms_drive"),
     path('college/add_new_placement_drive_save', Collegeviews.add_new_placement_drive_save, name="add_new_pms_save"),
+    path('college/add_new_placement_drive_invite_companies/<drive_id>',Collegeviews.placement_invite_companies, name="pms_invite"),
     # ##
     path('college/add_company', Collegeviews.add_company, name="clg_add_company"),
     path('college/add_company/save', Collegeviews.add_company_save, name="clg_add_company_save"),
@@ -60,7 +61,7 @@ urlpatterns = [
 
     # ## Manage Student
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
-    path('college/show_student_list', Collegeviews.show_Studentlist, name="clg_show_student"),
+    path('college/show_student_list/<drive_id>', Collegeviews.show_Studentlist, name="clg_show_student"),
 
     path('college/manage_company', Collegeviews.manage_company, name="clg_manage_company"),
     path('college/student_feedback', Collegeviews.student_feedback, name="clg_student_feedback"),

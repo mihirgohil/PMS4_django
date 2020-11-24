@@ -34,7 +34,7 @@ Select Placement Drive to Manage Registered Student
                             <td>Completed</td>
                           {% endif %}
 
-                            <td><a href="{% url 'clg_show_student' %}" class="btn btn-primary">View And Manage Students</a></td>
+                            <td><a href="{% url 'clg_show_student' drive.id %}" class="btn btn-primary">View And Manage Students</a></td>
 
                         {% endif %}
                     </tr>
