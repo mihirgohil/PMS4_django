@@ -50,6 +50,7 @@ urlpatterns = [
     path('college/add_new_placement_drive_save', Collegeviews.add_new_placement_drive_save, name="add_new_pms_save"),
     # ##
     path('college/add_company', Collegeviews.add_company, name="clg_add_company"),
+    path('college/add_company/save', Collegeviews.add_company_save, name="clg_add_company_save"),
 
     path('college/add_student', Collegeviews.add_student, name="clg_add_student"),
     path('college/add_student_save', Collegeviews.add_student_save, name="clg_add_student_save"),
