@@ -81,9 +81,13 @@ urlpatterns = [
     path('student/apply_internship', Studentviews.apply_internship, name="stu_apply_internship"),
     path('student/opt_out', Studentviews.opt_out, name="stu_opt_out"),
     path('student/stu_logout', Studentviews.stu_logout, name="stu_logout"),
+
     # Company paths
     path('company/', Companyviews.company_home, name="company"),
+
+    # MAnage Profile
     path('company/company_profile', Companyviews.company_profile, name="company_profile"),
+
     path('company/post_internship', Companyviews.post_internship, name="company_post_job"),
     path('company/working_internship', Companyviews.working_internship, name="company_working_job"),
     path('company/history', Companyviews.history, name="company_history"),

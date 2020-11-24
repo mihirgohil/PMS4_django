@@ -11,7 +11,11 @@ def company_home(request):
 
 
 def company_profile(request):
-    return render(request, "company_template/company_profile.html")
+    company_obj = Companys.objects.all()
+    context = {
+        "company": company_obj
+    }
+    return render(request, "company_template/company_profile.html", context=context)
 
 
 def post_internship(request):
