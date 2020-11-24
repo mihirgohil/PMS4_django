@@ -146,8 +146,8 @@ def do_student_signup(request):
 
     if request.FILES.get('profile_pic'):
         profile_pic = request.FILES.get('profile_pic')
-        dir_storage = '/media/student_media/profile_picture/' + enrolment_no
-        fs = FileSystemStorage(location=dir_storage , base_url = dir_storage)
+        # dir_storage = '/media/student_media/profile_picture/' + enrolment_no
+        fs = FileSystemStorage()
         filename = fs.save(profile_pic.name, profile_pic)
         print(filename)
         profile_pic_url = fs.url(filename)

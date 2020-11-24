@@ -1,7 +1,6 @@
 from django.forms import ModelForm
-from placement_management.models import CustomUser
+from django import forms
 
-class CreatePlacementcoordinator(ModelForm):
-    class Meta:
-       model = CustomUser
-       fields = ['first_name']
+from placement_management.models import CustomUser,Companys
+
+

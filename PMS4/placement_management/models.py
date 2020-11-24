@@ -15,7 +15,7 @@ from PMS4 import settings
 class CustomUser(AbstractUser):
     user_type_data = ((1, "AdminPms"), (2, "Company"), (3, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
-    email = models.EmailField(unique=True)
+
     # email_active_field = models.BooleanField(default=True)
 
 

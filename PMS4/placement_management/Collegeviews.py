@@ -6,11 +6,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 
 from placement_management.utilty.choices import GENDER_CHOICES, UG_DEPARTMENTS_TYPE_SIGNUP
+
+
 from django.core.files.storage import FileSystemStorage
 
 from placement_management.models import CustomUser, Students, PlacementDrives
 
 from placement_management.CollegeForms import PlacementcoordinatorForm
+from placement_management.utilty.utility_function import *
+
 
 import random
 import string
@@ -30,24 +34,41 @@ def add_new_placement_coordinator(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = PlacementcoordinatorForm(request.POST)
+        context = {'form': form}
         # check whether it's valid:
         if form.is_valid():
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
-            # print('f='+first_name)
-            # print('l=' + last_name)
-            # print('mail='+email)
+
+            # obj = form.save(commit = False)
             password = str(get_random_alphanumeric_string(8))
             username = first_name+'-'+str(get_random_alphanumeric_string(3))
+            # obj.password = password
+            # obj.username = username
+            # obj.user_type = 1
+            # obj.save()
             CustomUser.objects.create_user(username=username, first_name=first_name, last_name=last_name,
                                            email=email, password=password, user_type=1)
 
+            subject = 'Account Created CPI Placement'
+            message = 'Your Placement Coordinator Account Created on CPI Placement System By Admin.\nFor This Email Account.\nPassword : ' + password + '. \nYou can change the password from Profile.'
+            from_email = 'placement@cpi.com'
+            send_mail(
+                subject,
+                message,
+                from_email,
+                [email],
+                fail_silently=False,
+            )
             messages.success(request,"Added New Placement Coordinator "+first_name)
             return HttpResponseRedirect(reverse('add_new_placement_coordinator'))
 
+        else:
+            messages.error(request, "With this email Account Already exists")
+            return render(request, "college_template/add_new_placement_coordinator.html", {'form': form})
     else:
-        form = CreatePlacementcoordinator()
+        form = PlacementcoordinatorForm()
         context = { 'form': form }
     return render(request, "college_template/add_new_placement_coordinator.html",context=context)
 
@@ -88,9 +109,25 @@ def placement_drive(request):
 
 
 # company pages
-def add_company(request):
-    return render(request, "college_template/add_company.html")
+def add_company(request,newContext={}):
+    context = {}
+    context.update(newContext)
+    return render(request, "college_template/add_company.html",context=context)
 
+def add_company_save(request):
+     name = request.POST.get("name")
+     address = request.POST.get("address")
+     website = request.POST.get("website")
+     email = request.POST.get("email")
+     phone = request.POST.get("phone")
+     if name == "" or address == "" or website == "" or email == "" or phone == "":
+         context = {
+             'name': name,
+             'address': address,
+             'website': website,
+             'email': email,
+             'phone': phone}
+         messages.error(request, "fill all the details")
 
 def manage_company(request):
     return render(request, "college_template/manage_company.html")
@@ -159,8 +196,8 @@ def add_student_save(request):
 
     if request.FILES.get('profile_pic'):
         profile_pic = request.FILES.get('profile_pic')
-        dir_storage = '/media/student_media/profile_picture/' + enrolment_no
-        fs = FileSystemStorage(location=dir_storage , base_url = dir_storage)
+        # dir_storage = '/media/student_media/profile_picture/' + enrolment_no
+        fs = FileSystemStorage()
         filename = fs.save(profile_pic.name, profile_pic)
         print(filename)
         profile_pic_url = fs.url(filename)
