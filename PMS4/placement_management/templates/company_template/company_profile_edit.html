@@ -1,6 +1,6 @@
 {% extends 'company_template/base_template.html' %}
 {% block page_title %}
-Company Profile
+Edit Profile
 {% endblock page_title  %}
 {% block main_content %}
 {% load crispy_forms_tags %}
@@ -24,24 +24,25 @@ Company Profile
           </div>
           {% endif %}
         </div>
-
-          <div class="form-group row">
-              <div class="col-md-12">
-                  <div class="picture-container">
-                      <div class="picture">
-                          <img src="{{ company_obj.company_logo }}" class="picture-src" id="wizardPicturePreview">
-                            <input type="file" id="wizard-picture" class="" name="profile_pic" accept="image/*" readonly>
-                      </div>
-                      <h6>Choose Company Logo</h6>
-                  </div>
-              </div>
-          </div>
-
+                <form method="POST" action="{% url 'company_profile_edit_save' %}"  enctype="multipart/form-data">
+                    {% csrf_token %}
+                          <div class="form-group row">
+                              <div class="col-md-12">
+                                  <div class="picture-container">
+                                      <div class="picture">
+                                          <img src="{{ company_obj.company_logo }}" class="picture-src" id="wizardPicturePreview">
+                                            <input type="file" id="wizard-picture" class="" name="profile_pic" accept="image/*" >
+                                      </div>
+                                      <h6>Choose Company Logo</h6>
+                                  </div>
+                              </div>
+                          </div>
+                    <input name="company_id" type="hidden" value="{{ company_obj.id }}">
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Company Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control" name="name" value="{{ company_obj.user_type.first_name }}"readonly>
+                                    <input id="name" type="text" class="form-control" name="name" value="{{ company_obj.user_type.first_name }}">
 
 
                                 </div>
@@ -51,7 +52,7 @@ Company Profile
                                 <label for="address" class="col-md-4 col-form-label text-md-right">Company Address</label>
 
                                 <div class="col-md-6">
-                                    <input id="address" type="text" class="form-control" name="address" value="{{ company_obj.address }}"readonly>
+                                    <input id="address" type="text" class="form-control" name="address" value="{{ company_obj.address }}">
 
 
                                 </div>
@@ -60,7 +61,7 @@ Company Profile
                             <div class="form-group row">
                                 <label for="website" class="col-md-4 col-form-label text-md-right">Company Website</label>
                                 <div class="col-md-6">
-                                    <input id="website" type="url" pattern="https?://.+" class="form-control" name="website" value="{{ company_obj.website }}"readonly>
+                                    <input id="website" type="url" pattern="https?://.+" class="form-control" name="website" value="{{ company_obj.website }}">
                                 </div>
                             </div>
 
@@ -68,17 +69,19 @@ Company Profile
                               <label for="phone" class="col-md-4 col-form-label text-md-right">Company Phone No</label>
 
                               <div class="col-md-6">
-                                  <input id="phone" type="text" onkeypress="return onlyNumberKey(event)" maxlength="10" minlength="10" class="form-control" name="phone" value="{{ company_obj.phone_no }}"readonly>
+                                  <input id="phone" type="text" onkeypress="return onlyNumberKey(event)" maxlength="10" minlength="10" class="form-control" name="phone" value="{{ company_obj.phone_no }}">
                               </div>
                           </div>
                     <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                            <a class="btn btn-primary float-right" href="{% url 'company_profile_edit' company_obj.id %}">
-                                  Edit Profile
-                            </a>
+
+                                <div class="col-md-6 offset-md-4">
+                             <button type="submit" class="btn btn-primary">
+                                        Update Profile
+                             </button>
+                               <a href="{% url 'company_profile' %}" class="btn btn-danger float-right">Back</a>
+                                </div>
                             </div>
-                        </div>
-                        </form>
+                </form>
                     </div>
         <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
     <script>

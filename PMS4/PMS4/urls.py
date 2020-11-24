@@ -77,7 +77,12 @@ urlpatterns = [
     # Student Paths
     path('student/', Studentviews.student_home, name="student"),
     path('student/feeds', Studentviews.feeds, name="stu_feeds"),
+
+    #Manage Student Profile
     path('student/stu_profile', Studentviews.stu_profile, name="stu_profile"),
+    path('student/stu_profile/edit/<id>', Studentviews.stu_profile_edit, name="stu_profile_edit"),
+    path('student/stu_profile_editsave', Studentviews.stu_profile_edit_save, name="stu_profile_edit_save"),
+
     path('student/apply_internship', Studentviews.apply_internship, name="stu_apply_internship"),
     path('student/opt_out', Studentviews.opt_out, name="stu_opt_out"),
     path('student/stu_logout', Studentviews.stu_logout, name="stu_logout"),
@@ -85,8 +90,10 @@ urlpatterns = [
     # Company paths
     path('company/', Companyviews.company_home, name="company"),
 
-    # MAnage Profile
+    # Manage Company Profile
     path('company/company_profile', Companyviews.company_profile, name="company_profile"),
+    path('company/company_profile/edit/<id>', Companyviews.company_profile_edit, name="company_profile_edit"),
+    path('company/company_profile_editSave', Companyviews.company_profile_editSave, name="company_profile_edit_save"),
 
     path('company/post_internship', Companyviews.post_internship, name="company_post_job"),
     path('company/working_internship', Companyviews.working_internship, name="company_working_job"),
