@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # login required
 from django.urls import reverse
 
-from placement_management.utilty.choices import GENDER_CHOICES, UG_DEPARTMENTS_TYPE_SIGNUP
+from placement_management.utilty.choices import GENDER_CHOICES, UG_DEPARTMENTS_TYPE_SIGNUP,INVITE_MAIL_BODY
 
 
 from django.core.files.storage import FileSystemStorage
@@ -18,7 +18,7 @@ from placement_management.utilty.utility_function import *
 
 import random
 import string
-
+import json
 #mail send
 from django.core.mail import send_mail
 
@@ -110,8 +110,23 @@ def placement_drive(request):
     
     return render(request, "college_template/placement_drive.html", {"placement_drives": placement_drives})
 
-# def placement_invite_companies(request,drive_id):
+def placement_invite_companies(request,drive_id):
+    manage_company_list = Companys.objects.all().order_by('-created_at')
+    drive_info = PlacementDrives.objects.get(id=drive_id)
 
+    return render(request, "college_template/invite_companies_for_drive.html", {"companys": manage_company_list,"drive_info":drive_info})
+def do_placement_invite_companies(request):
+    drive_id = request.POST.get('drive_id')
+    selected_companies = request.POST.get('input_hidden_field')
+    selected_companies_list = json.loads(selected_companies)
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+
+    subject = request.POST.get('subject')
+    message = request.POST.get('mail_body')
+    from_email = "mca@cpi.edu.in"
+    send_mail(subject, message, from_email, selected_companies_list)
+    messages.success(request, "Invite Send")
+    return HttpResponseRedirect(reverse("pms_invite",kwargs={'drive_id':drive_id}))
 
 def manage_internship(request):
     placement_drives_list = PlacementDrives.objects.all().order_by('-created_at')

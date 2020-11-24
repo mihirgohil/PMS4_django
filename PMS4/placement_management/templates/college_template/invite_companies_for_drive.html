@@ -1,0 +1,154 @@
+{% extends 'college_template/base_template.html' %}
+{% block page_title %}
+Select Companies To invite For Placement Drive : {{ drive_info.drive_name }}
+{% endblock page_title  %}
+{% block main_content %}
+{% load tz %}
+
+<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+                   <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+
+
+          <div class="row" style="margin:50px;">
+            <div class="col-md-12">
+            <!-- general form elements -->
+                   <div class="card card-primary">
+              <!-- /.card-header -->
+              <!-- form start -->
+
+
+                <div class="card-body">
+                      <form action="{% url 'do_pms_invite' %}"  enctype="multipart/form-data" method="post" id="frm">
+                        {% csrf_token %}
+                        <input type="hidden" name="drive_id" value="{{ drive_info.id }}">
+                        <input type="hidden" id="input_hidden_field" name="input_hidden_field"/>
+
+
+                     <h5>Subject of the Mail</h5>
+                     <p class="card-text">
+
+                        <input name="subject" class="col-md-12" type="text" placeholder="Subject of the Mail" required/>
+                     </p>
+                    <h5>Enter Message You Want To Sent To Companies</h5>
+                  <textarea rows="10" cols="150" name="mail_body" required></textarea>
+                      </form>
+                </div>
+            </div>
+                <div class="card card-primary">
+              <!-- /.card-header -->
+              <!-- form start -->
+
+
+                <div class="card-body">
+                     <table class="table">
+                     <tr>
+                         <th scope="col">  <button type="button" class="btn btn-primary" onclick = "SelectAll()">Select All</button>
+                             <button type="button" class="btn btn-success" onclick = "GetSelected()">Invite</button></th>
+                     </tr>
+                     </table>
+
+                <table class="table" id="tblFruits" ma>
+                  <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"></th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Website</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                  <tbody>
+
+                  {% for company in companys %}
+                    <tr>
+                        {% if not company.id == 2147483647 %}
+                          <th scope="row">{{ forloop.counter }} </th>
+                        <td><img src="{{ company.company_logo }}" class="img-circle elevation-2" width="82" height="82"></td>
+                        <td>{{ company.user_type.first_name }}</td>
+                        <td>{{ company.address }}</td>
+                        <td>{{ company.website }}</td>
+                        <td>{{ company.user_type.email }}</td>
+                        <td>{{ company.phone_no }}</td>
+                        <td><input type="checkbox" id="chk" value="{{ company.user_type.email }}"/></td>
+                        {% endif %}
+                    </tr>
+                  {% endfor %}
+
+                  </tbody>
+                </table>
+
+                </div>
+                      <tr>
+
+                        <button type="button" class="btn btn-primary" onclick = "GetSelected()">Invite</button>
+                    </tr>
+
+
+                </div>
+            </div>
+
+          </div>
+      </div>
+<br/>
+    </section>
+<script type="text/javascript">
+    function SelectAll() {
+
+        //Reference the Table.
+        var tblFruits = document.getElementById("tblFruits");
+
+        //Reference all the CheckBoxes in Table.
+        var chks = tblFruits.getElementsByTagName("INPUT");
+
+        // Loop and push the checked CheckBox value in Array.
+        for (var i = 0; i < chks.length; i++) {
+
+                chks[i].checked = true;
+        }
+    };
+    function GetSelected() {
+        //Create an Array.
+        var selected = new Array();
+
+        //Reference the Table.
+        var tblFruits = document.getElementById("tblFruits");
+
+        //Reference all the CheckBoxes in Table.
+        var chks = tblFruits.getElementsByTagName("INPUT");
+
+        var displayvalues = document.getElementById("displayvalues");
+
+        // Loop and push the checked CheckBox value in Array.
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked) {
+                selected.push(chks[i].value);
+            }
+        }
+
+        //Display the selected CheckBox values.
+        if (selected.length > 0) {
+           $('#input_hidden_field').val(JSON.stringify(selected));
+           document.getElementById('frm').submit();
+        }
+    };
+</script>
+    <!-- /.content -->
+{% endblock main_content %}

@@ -40,7 +40,7 @@
                             <td>Completed</td>
                           {% endif %}
                           {% if not drive.is_completed %}
-                            <td><a href="" class="btn btn-warning">Invite Companies</a></td>
+                            <td><a href="{% url 'pms_invite' drive.id %}" class="btn btn-warning">Invite Companies</a></td>
                             <td><a href="#" class="btn btn-danger">Close Drive</a></td>
                           {% elif drive.is_completed %}
                             <td><a href="#" class="btn btn-success">View Reports</a></td>
