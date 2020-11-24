@@ -144,11 +144,24 @@ def manage_internship(request):
     return render(request, "college_template/manageInternship.html", {"placement_drives": placement_drives})
 
 
+def manage_internship_published(request):
+    return render(request, "college_template/managePublished.html")
+
+
+def manage_internship_publish(request):
+    return render(request, "college_template/managePublish.html")
+
+
+def close_internship(request):
+    return render(request, "college_template/closed_internship.html")
+
+
 # company pages
 def add_company(request,newContext={}):
     context = {}
     context.update(newContext)
     return render(request, "college_template/add_company.html",context=context)
+
 
 def add_company_save(request):
      name = request.POST.get("name")
