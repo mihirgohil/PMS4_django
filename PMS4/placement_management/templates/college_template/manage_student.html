@@ -1,27 +1,46 @@
 {% extends 'college_template/base_template.html' %}
 {% block page_title %}
-Manage Student
+Select Placement Drive to Manage Registered Student
 {% endblock page_title  %}
 {% block main_content %}
+{% load tz %}
 
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
 
-                          <form name="from_Drive" id="from_Drive" method="post">
-                             <select class="form-control" name="drive" id="drive" onchange="submitForm(this.value)">
-                                   <option value="default_drive">Select Placement Drive</option>
-                               {% for dr in drive %}
-                                    {% if dr.is_completed %}
-                                            <option value="{{ dr.id }}" >{{ dr.drive_name }} - Drive Status : Closed {{ dr.id }}</option>
-                                    {% endif %}
-                                    {% if not dr.is_completed %}
-                                            <option value="{{ dr.id }}" >{{ dr.drive_name }} - Drive Status : Active</option>
-                                    {% endif %}
-                               {% endfor %}
-                          </select>
-                               {% csrf_token %}
-                          </form>
+                         <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Drive Name</th>
+                      <th scope="col">Created At</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Action</th>
+<!--                      <th></th>-->
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  {% for drive in placement_drives %}
+                    <tr>
+                        {% if not drive.id == 2147483647 %}
+                          <th scope="row">{{ forloop.counter }} </th>
+                          <td>{{ drive.drive_name }}</td>
+                        <td>{{ drive.created_at|timezone:"Asia/Calcutta" }}</td>
+                         {% if not drive.is_completed %}
+                            <td>Active</td>
+                          {% elif drive.is_completed %}
+                            <td>Completed</td>
+                          {% endif %}
+
+                            <td><a href="#" class="btn btn-primary">View And Manage Students</a></td>
+
+                        {% endif %}
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
 
 
       </div>

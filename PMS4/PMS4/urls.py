@@ -41,7 +41,9 @@ urlpatterns = [
     # pms links
     path('pms/', include('placement_management.urls', namespace="pms")),
     # College Paths
-    path('college', Collegeviews.college_home, name="college"),
+    path('college', Collegeviews.placement_drive, name="college"),
+    # ## Add new Placement Coordinator
+    path('college/add_new_placement_coordinator', Collegeviews.add_new_placement_coordinator, name="add_new_placement_coordinator"),
     # ##       placement drive related pages
     path('college/placement_drive', Collegeviews.placement_drive, name="clg_pmc_drive"),
     path('college/add_new_placement_drive', Collegeviews.add_new_placement_drive, name="add_new_pms_drive"),

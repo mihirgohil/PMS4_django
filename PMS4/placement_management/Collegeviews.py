@@ -10,6 +10,8 @@ from django.core.files.storage import FileSystemStorage
 
 from placement_management.models import CustomUser, Students, PlacementDrives
 
+from placement_management.CollegeForms import PlacementcoordinatorForm
+
 import random
 import string
 
@@ -24,6 +26,30 @@ def get_random_alphanumeric_string(length):
 def college_home(request):
     return render(request, "college_template/home_content.html")
 
+def add_new_placement_coordinator(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = PlacementcoordinatorForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            # print('f='+first_name)
+            # print('l=' + last_name)
+            # print('mail='+email)
+            password = str(get_random_alphanumeric_string(8))
+            username = first_name+'-'+str(get_random_alphanumeric_string(3))
+            CustomUser.objects.create_user(username=username, first_name=first_name, last_name=last_name,
+                                           email=email, password=password, user_type=1)
+
+            messages.success(request,"Added New Placement Coordinator "+first_name)
+            return HttpResponseRedirect(reverse('add_new_placement_coordinator'))
+
+    else:
+        form = CreatePlacementcoordinator()
+        context = { 'form': form }
+    return render(request, "college_template/add_new_placement_coordinator.html",context=context)
 
 # placement drive related views
 def add_new_placement_drive(request):
@@ -184,18 +210,16 @@ def add_student_save(request):
 
 
 def manage_student(request):
-    drive = PlacementDrives.objects.exclude(id=2147483647).order_by('-id')
-    drive_get_id = request.POST.get('drive')
-    print("id : "+str(drive_get_id))
-    students_list = ""
-    if not drive_get_id == None or not drive_get_id == "default_drive":
-        students_list = Students.objects.filter(placementDrive_id = drive_get_id)
-    context = {
-        "drive": drive,
-        "student": students_list,
-        "drive_get_id" : drive_get_id,
-    }
-    return render(request, "college_template/manage_student.html", context)
+    placement_drives_list = PlacementDrives.objects.all().order_by('-created_at')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(placement_drives_list, 8)
+    try:
+        placement_drives = paginator.page(page)
+    except PageNotAnInteger:
+        placement_drives = paginator.page(1)
+    except EmptyPage:
+        placement_drives = paginator.page(paginator.num_pages)
+    return render(request, "college_template/manage_student.html",  {"placement_drives": placement_drives})
 
 
 def student_feedback(request):

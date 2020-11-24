@@ -14,7 +14,7 @@
           <img src="{% static "dist/img/user2-160x160.png" class="img-circle elevation-2" alt="User Image" %}">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ user.username }}</a>
+          <a href="#" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
         </div>
       </div>
 
@@ -32,11 +32,11 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'clg_pmc_drive' %}" class="nav-link">
-              <i class="nav-icon fas fa-layer-group"></i>
+            <a href="{% url 'add_new_placement_coordinator'%}" class="nav-link">
+            <i class="nav-icon fas fa-plus-square"></i>
               <p>
-                Placement Drive
-               </p>
+                Add New Coordinator
+              </p>
             </a>
           </li>
           <li class="nav-item has-treeview">
@@ -51,20 +51,39 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{% url 'clg_add_company' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-plus-square nav-icon"></i>
                   <p>Add Company</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'clg_manage_company' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-address-card nav-icon"></i>
                   <p>Manage Company</p>
                 </a>
               </li>
+
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-briefcase"></i>
+              <p>
+                Internship
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'clg_company_feedback' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Company Feedack</p>
+                <a href="#" class="nav-link">
+                  <i class="far fa-plus-square nav-icon"></i>
+                  <p>Create Internship</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Manage and Publish</p>
                 </a>
               </li>
             </ul>
@@ -81,20 +100,14 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{% url 'clg_add_student' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-plus-square nav-icon"></i>
                   <p>Add Student</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'clg_manage_student' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-address-card nav-icon"></i>
                   <p>Manage Student</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'clg_student_feedback' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Student Feedack</p>
                 </a>
               </li>
             </ul>
