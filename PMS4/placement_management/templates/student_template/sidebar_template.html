@@ -24,7 +24,15 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-
+            <li class="nav-item">
+            <a href="{% url 'student' %}" class="nav-link">
+              <i class="nav-icon fas fa-comment-alt"></i>
+              <p>
+                Home
+<!--                <span class="right badge badge-danger">New</span>-->
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="{% url 'stu_profile' %}" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
@@ -34,15 +42,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{% url 'stu_feeds' %}" class="nav-link">
-              <i class="nav-icon fas fa-comment-alt"></i>
-              <p>
-                Feeds
-<!--                <span class="right badge badge-danger">New</span>-->
-              </p>
-            </a>
-          </li>
+
           <li class="nav-item">
             <a href="{% url 'stu_apply_internship' %}" class="nav-link">
               <i class="nav-icon fas fa-pen-square"></i>

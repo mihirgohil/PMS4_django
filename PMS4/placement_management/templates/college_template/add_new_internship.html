@@ -3,7 +3,8 @@
 Add Internship
 {% endblock page_title  %}
 {% block main_content %}
-{% load crispy_forms_tags %}
+<!--{% load crispy_forms_tags %}-->
+{% load static %}
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -32,7 +33,7 @@ Add Internship
 <!--              </div>-->
               <div class="card-body">
 
-                    <form method="POST" action="{% url 'clg_internship_create_save'%}">
+                    <form method="POST" action="{% url 'clg_internship_create_save'%}" id="frm" name="frm">
                         {% csrf_token %}
 
                         <div class="form-group row">
@@ -97,7 +98,7 @@ Add Internship
                               <label for="company_brief_overview" class="col-md-4 col-form-label text-md-right">Company Overview</label>
 
                             <div class="col-md-6">
-                                <textarea cols="5" rows="5" id="company_brief_overview" type="text" class="form-control" name="company_brief_overview"required></textarea>
+                                <textarea cols="5" rows="5" id="company_brief_overview" type="text" class="form-control" name="company_brief_overview" required></textarea>
                             </div>
                         </div>
 
@@ -182,5 +183,24 @@ Add Internship
 
       </div>
     </section>
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+<script>
+ $("#frm").submit(function(event){
+ // var valDDL = $(this).val();
+        //event.preventDefault();
+         var valDDL = $("#company_id").val();
+         if(valDDL=="select_company")
+         {
+             event.preventDefault();
+             alert("select Company in dropdown option");
+         }
+         var drive = $("#placementDrive_id").val();
+         if(drive=="select_drive")
+         {
+              event.preventDefault();
+              alert("select Placement Drive");
+         }
+ });
+ </script>
     <!-- /.content -->
 {% endblock main_content %}

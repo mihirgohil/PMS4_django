@@ -145,7 +145,40 @@ def create_internship(request,newContext={}):
 
 def create_internship_save(request):
     if request.method == "POST":
-        pass
+        company_id = request.POST.get("company_id")
+        placementDrive_id = request.POST.get("placementDrive_id")
+        contact_person_names = request.POST.get("contact_person_names")
+        designation = request.POST.get("designation")
+        contact_person_numbers = request.POST.get("contact_person_numbers")
+        contact_person_emails = request.POST.get("contact_person_emails")
+        company_brief_overview =request.POST.get("company_brief_overview")
+        number_of_positions = request.POST.get("number_of_positions")
+        internship_duration = request.POST.get("internship_duration")
+        recruitment_process = request.POST.get("recruitment_process")
+        mode_of_interview = request.POST.get("mode_of_interview")
+        working_hours = request.POST.get("working_hours")
+        stipend_per_month = request.POST.get("stipend_per_month")
+        ctc = request.POST.get("ctc")
+        bond_details =request.POST.get("bond_details")
+        intern_obj = InternshipDetails()
+        intern_obj.company = Companys.objects.get(id=company_id)
+        intern_obj.placementDrive = PlacementDrives.objects.get(id=placementDrive_id)
+        intern_obj.contact_person_names = contact_person_names
+        intern_obj.designation = designation
+        intern_obj.contact_person_numbers = contact_person_numbers
+        intern_obj.contact_person_emails = contact_person_emails
+        intern_obj.company_breaf_overview = company_brief_overview
+        intern_obj.number_of_positions = number_of_positions
+        intern_obj.internship_duration = internship_duration
+        intern_obj.recruitment_process = recruitment_process
+        intern_obj.mode_of_interview = mode_of_interview
+        intern_obj.working_hours = working_hours
+        intern_obj.stipend_per_month = stipend_per_month
+        intern_obj.ctc = ctc
+        intern_obj.bond_details = bond_details
+        intern_obj.save()
+        messages.success(request, "Internship Job Created")
+        return HttpResponseRedirect(reverse("clg_internship_create"))
     else:
         context = {}
         messages.error(request, "Method Not Allowed")
@@ -172,8 +205,9 @@ def manage_internship_published(request,drive_id):
     drive_info = PlacementDrives.objects.get(id=drive_id)
     return render(request, "college_template/managePublished.html",{'drive_id':drive_id,'drive_info':drive_info,'internships':internships})
 
-def internship_reg_deactive(request,post_id,drive_id):
+def internship_reg_deactive(request,post_id):
     messages.success(request, "Company Account Created")
+    drive_id = InternshipDetails.objects.get(id=post_id)
     return HttpResponseRedirect(reverse("clg_add_company",kwargs={'drive_id':drive_id}))
 
 

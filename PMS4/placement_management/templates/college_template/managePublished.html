@@ -36,7 +36,7 @@
           {{ internship.company.user_type.first_name }}
           <div class="col-md-4 float-right">
               {% if internship.is_active_registration %}
-              <a href="" class="btn btn-outline-danger">Disable Registration</a>
+              <a href="{{  }}" class="btn btn-outline-danger">Disable Registration</a>
               {% else %}
               <a href="" class="btn btn-warning">Active Registration</a>
               {% endif %}
@@ -51,6 +51,8 @@
            <br> {{ internship.contact_person_numbers }}
           <br> {{ internship.contact_person_emails }}
         </h5>
+         <p class="card-text"><br><strong>Company Address :</strong><br> {{ internship.company.address }}</p>
+          <p class="card-text"><br><strong>Company Website :</strong><br> <a href="{{internship.company.website }}" target="_blank"> {{ internship.company.website }}</a></p>
           <p class="card-text"><br><strong>Company Overview :</strong><br> {{ internship.company_breaf_overview }}</p>
           <p class="card-text"><br><strong>Internship Duration :</strong><br> {{ internship.internship_duration }}</p>
           <p class="card-text"><br><strong>Recruitment Process :</strong><br>  {{ internship.recruitment_process }}</p>
