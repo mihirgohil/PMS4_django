@@ -1,8 +1,9 @@
-{% extends 'company_template/base_template.html' %}
+{% extends 'college_template/base_template.html' %}
 {% block page_title %}
-Create New Internship Post
+Edit Internship
 {% endblock page_title  %}
 {% block main_content %}
+<!--{% load crispy_forms_tags %}-->
 {% load static %}
 <!-- Main content -->
     <section class="content">
@@ -32,35 +33,24 @@ Create New Internship Post
 <!--              </div>-->
               <div class="card-body">
 
-                    <form method="POST" action="{% url 'company_post_job_save'%}" id="frm" name="frm">
+                    <form method="POST" action="{% url 'clg_edit_internship_save' %}" id="frm" name="frm">
                         {% csrf_token %}
 
-                         <div class="form-group row">
-                            <label for="placementDrive_id" class="col-md-4 col-form-label text-md-right">Select Placement Drive</label>
-                            <div class="col-md-6">
-                                <select id="placementDrive_id" class="form-control" name="placementDrive_id">
-                                    <option value="select_drive">Select Placement Drive</option>
-                                    {% for drive in placement_drive_list %}
-                                        <option value="{{ drive.id }}">{{ drive.drive_name }}</option>
-                                    {% endfor %}
-                                </select>
-                           </div>
-                        </div>
-
+                         <input name="internship_id" type="hidden" value="{{ edit_internship.id }}">
 
                         <div class="form-group row">
-                              <label for="contact_person_names" class="col-md-4 col-form-label text-md-right">Contact Person Name</label>
+                                <label for="contact_person_names" class="col-md-4 col-form-label text-md-right">Contact Person Name</label>
 
-                            <div class="col-md-6">
-                                <input id="contact_person_names" type="text" class="form-control" name="contact_person_names"required>
+                                <div class="col-md-6">
+                                    <input id="contact_person_names" type="text" class="form-control" name="contact_person_names" value="{{ edit_internship.contact_person_names}}">
+                                </div>
                             </div>
-                        </div>
 
                         <div class="form-group row">
                               <label for="designation" class="col-md-4 col-form-label text-md-right">Designation</label>
 
                             <div class="col-md-6">
-                                <input id="designation" type="text" class="form-control" name="designation"required>
+                                <input id="designation" type="text" class="form-control" name="designation" value="{{ edit_internship.designation}}">
                             </div>
                         </div>
 
@@ -68,7 +58,7 @@ Create New Internship Post
                               <label for="contact_person_numbers" class="col-md-4 col-form-label text-md-right">Contact Person Number</label>
 
                             <div class="col-md-6">
-                                <input id="contact_person_numbers" type="text" class="form-control" name="contact_person_numbers"required>
+                                <input id="contact_person_numbers" type="text" class="form-control" name="contact_person_numbers" value="{{ edit_internship.contact_person_numbers}}">
                             </div>
                         </div>
 
@@ -77,15 +67,15 @@ Create New Internship Post
                               <label for="contact_person_emails" class="col-md-4 col-form-label text-md-right">Contact Person Email</label>
 
                             <div class="col-md-6">
-                                <input id="contact_person_emails" type="text" class="form-control" name="contact_person_emails"required>
+                                <input id="contact_person_emails" type="text" class="form-control" name="contact_person_emails" value="{{ edit_internship.contact_person_emails}}">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                              <label for="company_brief_overview" class="col-md-4 col-form-label text-md-right">Company Overview</label>
+                              <label for="company_breaf_overview" class="col-md-4 col-form-label text-md-right">Company Overview</label>
 
                             <div class="col-md-6">
-                                <textarea cols="5" rows="5" id="company_brief_overview" type="text" class="form-control" name="company_brief_overview" required></textarea>
+                                <input id="company_breaf_overview" type="text" class="form-control" name="company_breaf_overview" value="{{ edit_internship.company_breaf_overview}}">
                             </div>
                         </div>
 
@@ -93,7 +83,7 @@ Create New Internship Post
                               <label for="number_of_positions" class="col-md-4 col-form-label text-md-right">Number Of Positions</label>
 
                             <div class="col-md-6">
-                                <textarea cols="5" rows="5" id="number_of_positions" type="text" class="form-control" name="number_of_positions"required></textarea>
+                                <input id="number_of_positions" type="text" class="form-control" name="number_of_positions" value="{{ edit_internship.number_of_positions}}">
                             </div>
                         </div>
 
@@ -101,7 +91,7 @@ Create New Internship Post
                               <label for="internship_duration" class="col-md-4 col-form-label text-md-right">Internship Duration</label>
 
                             <div class="col-md-6">
-                                <input id="internship_duration" type="text" class="form-control" name="internship_duration"required>
+                                <input id="internship_duration" type="text" class="form-control" name="internship_duration" value="{{ edit_internship.internship_duration}}">
                             </div>
                         </div>
 
@@ -109,7 +99,7 @@ Create New Internship Post
                               <label for="recruitment_process" class="col-md-4 col-form-label text-md-right">Recruitment Process</label>
 
                             <div class="col-md-6">
-                                <textarea cols="5" rows="5" id="recruitment_process" type="text" class="form-control" name="recruitment_process"required></textarea>
+                                <input id="recruitment_process" type="text" class="form-control" name="recruitment_process" value="{{ edit_internship.recruitment_process}}">
                             </div>
                         </div>
 
@@ -118,7 +108,7 @@ Create New Internship Post
                               <label for="mode_of_interview" class="col-md-4 col-form-label text-md-right">Mode Of Interview</label>
 
                             <div class="col-md-6">
-                                <input id="mode_of_interview" type="text" class="form-control" name="mode_of_interview"required>
+                                <input id="mode_of_interview" type="text" class="form-control" name="mode_of_interview" value="{{ edit_internship.mode_of_interview}}">
                             </div>
                         </div>
 
@@ -126,7 +116,7 @@ Create New Internship Post
                               <label for="working_hours" class="col-md-4 col-form-label text-md-right">Working Hours</label>
 
                             <div class="col-md-6">
-                                <input id="working_hours" type="text" class="form-control" name="working_hours"required>
+                                <input id="working_hours" type="text" class="form-control" name="working_hours" value="{{ edit_internship.working_hours}}">
                             </div>
                         </div>
 
@@ -134,7 +124,7 @@ Create New Internship Post
                               <label for="stipend_per_month" class="col-md-4 col-form-label text-md-right">Stipend</label>
 
                             <div class="col-md-6">
-                                <input id="stipend_per_month" type="text" class="form-control" name="stipend_per_month"required>
+                                <input id="stipend_per_month" type="text" class="form-control" name="stipend_per_month" value="{{ edit_internship.stipend_per_month}}">
                             </div>
                         </div>
 
@@ -142,7 +132,7 @@ Create New Internship Post
                               <label for="ctc" class="col-md-4 col-form-label text-md-right">CTC Details</label>
 
                             <div class="col-md-6">
-                                <input id="ctc" type="text" class="form-control" name="ctc"required>
+                                <input id="ctc" type="text" class="form-control" name="ctc" value="{{ edit_internship.ctc}}">
                             </div>
                         </div>
 
@@ -150,17 +140,17 @@ Create New Internship Post
                               <label for="bond_details" class="col-md-4 col-form-label text-md-right">Bond Details</label>
 
                             <div class="col-md-6">
-                                <textarea cols="5" rows="5" id="bond_details" type="text" class="form-control" name="bond_details"required></textarea>
+                                <input id="bond_details" type="text" class="form-control" name="bond_details" value="{{ edit_internship.bond_details}}">
                             </div>
                         </div>
-
 
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Save
+                                    Update
                                 </button>
+                                <a href="{% url 'clg_manage_internship_publish' edit_internship.placementDrive_id %}" class="btn btn-danger">Back</a>
                             </div>
                         </div>
                     </form>

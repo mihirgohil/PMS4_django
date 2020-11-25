@@ -77,7 +77,7 @@ def post_internship(request,newContext={}):
     return render(request, "company_template/post_internship.html",context=context)
 
 
-def create_internship_save(request):
+def post_internship_save(request):
     if request.method == "POST":
         company_id = request.POST.get("company_id")
         placementDrive_id = request.POST.get("placementDrive_id")
@@ -95,7 +95,7 @@ def create_internship_save(request):
         ctc = request.POST.get("ctc")
         bond_details =request.POST.get("bond_details")
         intern_obj = InternshipDetails()
-        intern_obj.company = Companys.objects.get(id=company_id)
+        intern_obj.company = Companys.objects.get(id=company_obj.company_id)
         intern_obj.placementDrive = PlacementDrives.objects.get(id=placementDrive_id)
         intern_obj.contact_person_names = contact_person_names
         intern_obj.designation = designation
@@ -112,12 +112,19 @@ def create_internship_save(request):
         intern_obj.bond_details = bond_details
         intern_obj.save()
         messages.success(request, "Internship Job Created")
-        return HttpResponseRedirect(reverse("clg_internship_create"))
+        return HttpResponseRedirect(reverse("company_post_job"))
     else:
         context = {}
         messages.error(request, "Method Not Allowed")
         response = post_internship(request, context)
         return response
+
+# def edit_internship(request):
+#     edit_internship = InternshipDetails.objects.get(id=id)
+#     context = {
+#         'edit_internship': edit_internship,
+#     }
+#     return render(request, "college_template/edit_internship.html", context=context)
 
 
 def working_internship(request):

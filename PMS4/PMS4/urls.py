@@ -65,6 +65,8 @@ urlpatterns = [
     path('college/manage_internship_publish/<drive_id>', Collegeviews.manage_internship_publish,name="clg_manage_internship_publish"),
     path('college/close_internship/<drive_id>', Collegeviews.close_internship,name="clg_close_internship"),
     path('college/deactive_reg/<post_id>',Collegeviews.internship_reg_deactive,name="clg_close_internship_deactive"),
+    path('college/edit_internship/<id>', Collegeviews.edit_internship, name="clg_edit_internship"),
+    path('college/edit_internship_save', Collegeviews.edit_internship_save, name="clg_edit_internship_save"),
 
     # ## Manage Student
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
@@ -102,7 +104,10 @@ urlpatterns = [
     path('company/company_profile/edit/<id>', Companyviews.company_profile_edit, name="company_profile_edit"),
     path('company/company_profile_editSave', Companyviews.company_profile_editSave, name="company_profile_edit_save"),
 
+    # Manage Internship Companyside
     path('company/post_internship', Companyviews.post_internship, name="company_post_job"),
+    path('company/post_internship_save', Companyviews.post_internship_save, name="company_post_job_save"),
+
     path('company/working_internship', Companyviews.working_internship, name="company_working_job"),
     path('company/history', Companyviews.history, name="company_history"),
     path('company/company_logout', Companyviews.company_logout, name="company_logout"),

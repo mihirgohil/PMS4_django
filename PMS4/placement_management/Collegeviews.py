@@ -222,6 +222,68 @@ def close_internship(request,drive_id):
     drive_info = PlacementDrives.objects.get(id=drive_id)
     return render(request, "college_template/closed_internship.html",{'drive_id':drive_id,'drive_info':drive_info,'internships':internships})
 
+def edit_internship(request,id):
+    edit_internship = InternshipDetails.objects.get(id=id)
+    context = {
+        'edit_internship': edit_internship,
+    }
+    return render(request, "college_template/edit_internship.html", context=context)
+
+def edit_internship_save(request):
+    id = request.POST.get("internship_id")
+    print(id)
+    contact_person_names = request.POST.get("contact_person_names")
+    designation = request.POST.get("designation")
+    contact_person_numbers = request.POST.get("contact_person_numbers")
+    contact_person_emails = request.POST.get("contact_person_emails")
+    company_breaf_overview = request.POST.get("company_breaf_overview")
+    number_of_positions = request.POST.get("number_of_positions")
+    internship_duration = request.POST.get("internship_duration")
+    recruitment_process = request.POST.get("recruitment_process")
+    mode_of_interview = request.POST.get("mode_of_interview")
+    working_hours = request.POST.get("working_hours")
+    stipend_per_month = request.POST.get("stipend_per_month")
+    ctc = request.POST.get("ctc")
+    bond_details = request.POST.get("bond_details")
+    context = {
+        'contact_person_names': contact_person_names,
+        'designation': designation,
+        'contact_person_numbers': contact_person_numbers,
+        'contact_person_emails': contact_person_emails,
+        'company_breaf_overview': company_breaf_overview,
+        'number_of_positions': number_of_positions,
+        'internship_duration': internship_duration,
+        'recruitment_process': recruitment_process,
+        'mode_of_interview': mode_of_interview,
+        'working_hours': working_hours,
+        'stipend_per_month': stipend_per_month,
+        'ctc': ctc,
+        'bond_details': bond_details
+        }
+    if contact_person_names == "" or designation == "" or contact_person_numbers == "" or contact_person_emails == "" or company_breaf_overview == "" or number_of_positions == "" or  internship_duration == "" or \
+            recruitment_process == "" or mode_of_interview == "" or working_hours =="" or stipend_per_month == "" or ctc == "" or bond_details == "":
+        messages.error(request, "fill all the details")
+        response = edit_internship(request, id)
+        return response
+
+    user = InternshipDetails.objects.get(id=id)
+    user.contact_person_names = contact_person_names
+    user.designation = designation
+    user.contact_person_numbers =  contact_person_numbers
+    user.contact_person_emails = contact_person_emails
+    user.company_breaf_overview = company_breaf_overview
+    user.number_of_positions = number_of_positions
+    user.internship_duration = internship_duration
+    user.recruitment_process = recruitment_process
+    user.mode_of_interview = mode_of_interview
+    user.working_hours = working_hours
+    user.stipend_per_month = stipend_per_month
+    user.ctc = ctc
+    user.bond_details = bond_details
+    user.save()
+    messages.success(request, "Internship Updated")
+    return HttpResponseRedirect(reverse("clg_edit_internship", kwargs={'id': id}))
+
 
 # company pages
 def add_company(request,newContext={}):
