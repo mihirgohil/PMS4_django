@@ -21,7 +21,7 @@ class CompanyForm(ModelForm):
 class InternshipForm(ModelForm):
     class Meta:
         model = InternshipDetails
-        fields = ['company_id','placementDrive','contact_person_names','designation','contact_person_numbers','contact_person_emails','company_breaf_overview','number_of_positions','internship_duration','recruitment_process','mode_of_interview','working_hours','stipend_per_month','ctc','bond_details']
+        fields = ['company','placementDrive','contact_person_names','designation','contact_person_numbers','contact_person_emails','company_breaf_overview','number_of_positions','internship_duration','recruitment_process','mode_of_interview','working_hours','stipend_per_month','ctc','bond_details']
         labels = {
             'placementDrive': "Select Placement Drive",
             'company_id':"Select Company",

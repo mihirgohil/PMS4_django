@@ -165,19 +165,23 @@ def manage_internship(request):
 
 
 def manage_internship_published(request,drive_id):
-    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=0,is_posted=1).select_related("company_id")
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=0,is_posted=1).select_related("company")
     drive_info = PlacementDrives.objects.get(id=drive_id)
     return render(request, "college_template/managePublished.html",{'drive_id':drive_id,'drive_info':drive_info,'internships':internships})
 
+def internship_reg_deactive(request,post_id,drive_id):
+    messages.success(request, "Company Account Created")
+    return HttpResponseRedirect(reverse("clg_add_company",kwargs={'drive_id':drive_id}))
+
 
 def manage_internship_publish(request,drive_id):
-    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_completed=0,is_posted=0).select_related("company_id")
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_completed=0,is_posted=0).select_related("company")
     drive_info = PlacementDrives.objects.get(id=drive_id)
     return render(request, "college_template/managePublish.html",{'drive_id':drive_id,'internships':internships,'drive_info':drive_info})
 
 
 def close_internship(request,drive_id):
-    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=1).select_related("company_id")
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=1).select_related("company")
     drive_info = PlacementDrives.objects.get(id=drive_id)
     return render(request, "college_template/closed_internship.html",{'drive_id':drive_id,'drive_info':drive_info,'internships':internships})
 

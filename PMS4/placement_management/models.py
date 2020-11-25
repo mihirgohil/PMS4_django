@@ -85,7 +85,7 @@ class Students(models.Model):
 # job post
 class InternshipDetails(models.Model):
     id = models.AutoField(primary_key=True)
-    company_id = models.ForeignKey(Companys, on_delete=models.DO_NOTHING)
+    company = models.ForeignKey(Companys, on_delete=models.DO_NOTHING)
     placementDrive = models.ForeignKey(PlacementDrives, on_delete=models.DO_NOTHING)
     contact_person_names = models.CharField(blank=True, max_length=255)
     designation = models.CharField(blank=True, max_length=255)
@@ -112,14 +112,18 @@ class InternshipDetails(models.Model):
 # student Applied for internship
 class StudentAppliedForInternships(models.Model):
     id = models.AutoField(primary_key=True)
-    internship_id = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
-    student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
+    internship = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
+    student = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
     applied_datetime = models.DateTimeField()
     selected_date = models.DateTimeField()
     is_selected = models.BooleanField()
     objects = models.Manager()
 
-
+class StudentOptOut(models.Model):
+    id = models.AutoField(primary_key=True)
+    student = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
+    title = models.CharField(blank=True, max_length=255)
+    reason = models.TextField()
 
 # create user profile
 

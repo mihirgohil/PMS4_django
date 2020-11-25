@@ -31,8 +31,8 @@
         {% for internship in internships %}
             <div class="card">
         <div class="card-header">
-          <img src="{{ internship.company_id.company_logo }}" class="img-circle elevation-2" style="width:50px; height:50px;position:relative; border-radius:50%" alt="">
-          {{ internship.company_id.user_type.first_name }}
+          <img src="{{ internship.company.company_logo }}" class="img-circle elevation-2" style="width:50px; height:50px;position:relative; border-radius:50%" alt="">
+          {{ internship.company.user_type.first_name }}
           <div class="col-md-2 float-right">
             <a href="" class="btn btn-primary">Edit</a>
             <a href="" class="btn btn-outline-success">Publish</a>
