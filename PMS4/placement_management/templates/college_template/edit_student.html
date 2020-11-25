@@ -31,7 +31,9 @@ Edit Student
           </div>
           {% endif %}
         </div>
+         <a href="{% url 'clg_show_student' edit_student.placementDrive_id %}" class="btn btn-danger"><i class="fa fa-step-backward" aria-hidden="true"> Back </i></a>
       <p class="login-box-msg">Edit Student</p>
+
       <form method="POST" enctype="multipart/form-data" action="{% url 'clg_edit_student_save' %}"  id="frm">
           {% csrf_token %}
 
@@ -112,7 +114,7 @@ Edit Student
           <!-- /.col -->
           <div class="col-12">
             <button type="submit" value="submit" class="btn btn-primary btn-block">Update Student</button>
-            <a href="{% url 'clg_manage_student' %}" class="btn btn-danger btn-block"> Back </a>
+            <a href="{% url 'clg_show_student' edit_student.placementDrive_id %}" class="btn btn-danger btn-block"> Back </a>
           </div><!-- /.col -->
         </div>
       </form>

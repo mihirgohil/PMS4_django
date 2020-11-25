@@ -4,11 +4,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Closed Internship Posts</h1>
+            <h1 class="m-0 text-dark">Closed Internship Posts of Placement Drive : {{ drive_info.drive_name }}</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
-            <a href="{% url 'clg_manage_internship_published' %}" class="btn btn-success">Published posts</a>
-            <a href="{% url 'clg_manage_internship_publish' %}" class="btn btn-info">New And Unpublished posts</a>
+             <a href="{% url 'clg_manage_internship_publish' drive_id %}" class="btn btn-info">New And Unpublished posts</a>
+            <a href="{% url 'clg_manage_internship_published' drive_id %}" class="btn btn-success">Published posts</a>
+
 
           </div>
         </div><!-- /.row -->
@@ -18,9 +19,48 @@
 {% block main_content %}
 
 <!-- Main content -->
-    <section class="content">
+   <section class="content">
       <div class="container-fluid">
-        Closed Internship Psots
+
+          <section class="content">
+      <div class="container-fluid">
+         <div class="row mb-2">
+          <div class="col">
+            <div class="alert alert-danger" role="alert">
+            <h4 class="m-0 text-light">Closed Internship</h4>
+            </div>
+          </div>
+        </div>
+        {% for internship in internships %}
+          <div class="card">
+        <div class="card-header">
+          <img src="{{ internship.company_id.company_logo }}" class="img-circle elevation-2" style="width:50px; height:50px;position:relative; border-radius:50%" alt="">
+          {{ internship.company_id.user_type.first_name }}
+          <div class="col-md-2 float-right">
+              <a href="" class="btn btn-info">Show Applied Students List</a>
+          </div>
+
+        </div>
+        <div class="card-body">
+        <h5 class="card-title"><strong>Contact Person : </strong>
+          <br> {{ internship.contact_person_names }}
+          <br> {{ internship.designation }}
+           <br> {{ internship.contact_person_numbers }}
+          <br> {{ internship.contact_person_emails }}
+        </h5>
+          <p class="card-text"><br><strong>Company Overview :</strong><br> {{ internship.company_breaf_overview }}</p>
+          <p class="card-text"><br><strong>Internship Duration :</strong><br> {{ internship.internship_duration }}</p>
+          <p class="card-text"><br><strong>Recruitment Process :</strong><br>  {{ internship.recruitment_process }}</p>
+          <p class="card-text"><br><strong>No. of Position(Technologies wise) :</strong><br> {{ internship.number_of_positions }}</p>
+          <p class="card-text"><br><strong>Mode Of Interview :</strong><br> {{ internship.mode_of_interview }}</p>
+          <p class="card-text"><br><strong>Working Hours :</strong><br>{{ internship.working_hours }} </p>
+          <p class="card-text"><br><strong>Stipend :</strong><br> {{ internship.stipend_per_month }}</p>
+          <p class="card-text"><br><strong>CTC :</strong><br> {{ internship.ctc }}</p>
+          <p class="card-text"><br><strong>Bond Details :</strong><br> {{ internship.bond_details }}</p>
+
+        </div>
+      </div>
+        {% endfor %}
       </div>
     </section>
     <!-- /.content -->

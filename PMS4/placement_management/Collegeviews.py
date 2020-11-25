@@ -14,7 +14,7 @@ from placement_management.models import CustomUser, Students, PlacementDrives, C
 
 from placement_management.CollegeForms import PlacementcoordinatorForm
 from placement_management.forms import StudentForm
-from placement_management.forms import CompanyForm
+from placement_management.forms import InternshipForm
 from placement_management.utilty.utility_function import *
 
 
@@ -24,7 +24,7 @@ import json
 #mail send
 from django.core.mail import send_mail
 
-
+from placement_management.models import InternshipDetails
 
 
 def get_random_alphanumeric_string(length):
@@ -130,6 +130,26 @@ def do_placement_invite_companies(request):
     messages.success(request, "Invite Send")
     return HttpResponseRedirect(reverse("pms_invite",kwargs={'drive_id':drive_id}))
 
+## internship
+def create_internship(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = InternshipForm(request.POST)
+        context = {'form': form}
+        # check whether it's valid:
+        if form.is_valid():
+           # form.save()
+           # print(form.cleaned_data['contact_person_name'])
+           messages.success(request, "Internship Created ")
+           return HttpResponseRedirect(reverse('clg_internship_create'))
+        else:
+            messages.success(request, "Internship Not Created ")
+            render(request, "college_template/add_new_internship.html", {'form': form})
+    else:
+        form = InternshipForm()
+        context = {'form': form}
+        return render(request, "college_template/add_new_internship.html", context=context)
+
 def manage_internship(request):
     placement_drives_list = PlacementDrives.objects.all().order_by('-created_at')
     page = request.GET.get('page', 1)
@@ -144,16 +164,22 @@ def manage_internship(request):
     return render(request, "college_template/manageInternship.html", {"placement_drives": placement_drives})
 
 
-def manage_internship_published(request):
-    return render(request, "college_template/managePublished.html")
+def manage_internship_published(request,drive_id):
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=0,is_posted=1).select_related("company_id")
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    return render(request, "college_template/managePublished.html",{'drive_id':drive_id,'drive_info':drive_info,'internships':internships})
 
 
-def manage_internship_publish(request):
-    return render(request, "college_template/managePublish.html")
+def manage_internship_publish(request,drive_id):
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_completed=0,is_posted=0).select_related("company_id")
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    return render(request, "college_template/managePublish.html",{'drive_id':drive_id,'internships':internships,'drive_info':drive_info})
 
 
-def close_internship(request):
-    return render(request, "college_template/closed_internship.html")
+def close_internship(request,drive_id):
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=1).select_related("company_id")
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    return render(request, "college_template/closed_internship.html",{'drive_id':drive_id,'drive_info':drive_info,'internships':internships})
 
 
 # company pages

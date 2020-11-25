@@ -1,0 +1,38 @@
+{% extends 'college_template/base_template.html' %}
+{% block page_title %}
+Add Internship
+{% endblock page_title  %}
+{% block main_content %}
+{% load crispy_forms_tags %}
+<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+           <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+        </div>
+          <div class="card">
+              <div class="card-body">
+                  <form action="{% url 'clg_internship_create'%}" method="post">
+                      {% csrf_token %}
+                      {{ form|crispy  }}
+                      <input class="btn btn-success" type="submit" value="Submit">
+                  </form>
+              </div>
+          </div>
+
+      </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}

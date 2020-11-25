@@ -34,7 +34,7 @@ Select Placement Drive to Manage Internship
                             <td>Completed</td>
                           {% endif %}
 
-                            <td><a href="{% url 'clg_manage_internship_publish' %}" class="btn btn-primary">View And Manage Internship</a></td>
+                            <td><a href="{% url 'clg_manage_internship_publish' drive.id %}" class="btn btn-primary">View And Manage Internship</a></td>
 
                         {% endif %}
                     </tr>

@@ -58,10 +58,12 @@ urlpatterns = [
     path('college/add_student_save', Collegeviews.add_student_save, name="clg_add_student_save"),
 
     # ## Internship related page
+    path('college/magage_internship_create',Collegeviews.create_internship,name="clg_internship_create"),
     path('college/manage_internship', Collegeviews.manage_internship, name="clg_manage_internship"),
-    path('college/manage_internship_publised', Collegeviews.manage_internship_published, name="clg_manage_internship_published"),
-    path('college/manage_internship_publish', Collegeviews.manage_internship_publish,name="clg_manage_internship_publish"),
-    path('college/close_internship', Collegeviews.close_internship,name="clg_close_internship"),
+    path('college/manage_internship_publised/<drive_id>', Collegeviews.manage_internship_published, name="clg_manage_internship_published"),
+    path('college/manage_internship_publish/<drive_id>', Collegeviews.manage_internship_publish,name="clg_manage_internship_publish"),
+    path('college/close_internship/<drive_id>', Collegeviews.close_internship,name="clg_close_internship"),
+
 
     # ## Manage Student
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),

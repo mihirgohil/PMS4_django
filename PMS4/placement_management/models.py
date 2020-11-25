@@ -39,6 +39,9 @@ class Companys(models.Model):
     company_logo = models.ImageField()
     objects = models.Manager()
 
+    def __str__(self):
+        return self.user_type.first_name
+
 
 # placement drive
 class PlacementDrives(models.Model):
@@ -49,6 +52,8 @@ class PlacementDrives(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
+    def __str__(self):
+        return self.drive_name
 
 
 # student side
@@ -75,11 +80,6 @@ class Students(models.Model):
     objects = models.Manager()
 
 
-# # technologies
-class Technologies(models.Model):
-    id = models.AutoField(primary_key=True)
-    technologies_name = models.TextField()
-    objects = models.Manager()
 
 
 # job post
@@ -87,32 +87,26 @@ class InternshipDetails(models.Model):
     id = models.AutoField(primary_key=True)
     company_id = models.ForeignKey(Companys, on_delete=models.DO_NOTHING)
     placementDrive = models.ForeignKey(PlacementDrives, on_delete=models.DO_NOTHING)
-    contact_person_names = models.TextField()
-    designation = models.TextField()
-    contact_person_numbers = models.TextField()
-    contact_person_emails = models.TextField()
-    company_breaf_overview = models.TextField()
-    number_of_positions = models.IntegerField()
-    internship_duration = models.TextField()
-    recruitment_process = models.TextField()
-    mode_of_interview = models.TextField()
-    working_hours = models.TextField()
-    stipend_per_month = models.TextField()
-    ctc = models.TextField()
-    bond_details = models.TextField()
+    contact_person_names = models.CharField(blank=True, max_length=255)
+    designation = models.CharField(blank=True, max_length=255)
+    contact_person_numbers = models.CharField(blank=True, max_length=255)
+    contact_person_emails = models.CharField(blank=True, max_length=255)
+    company_breaf_overview = models.CharField(blank=True, max_length=255)
+    number_of_positions = models.CharField(blank=True, max_length=255)
+    internship_duration = models.CharField(blank=True, max_length=255)
+    recruitment_process = models.CharField(blank=True, max_length=255)
+    mode_of_interview = models.CharField(blank=True, max_length=255)
+    working_hours = models.CharField(blank=True, max_length=255)
+    stipend_per_month = models.CharField(blank=True, max_length=255)
+    ctc = models.CharField(blank=True, max_length=255)
+    bond_details = models.CharField(blank=True, max_length=255)
     is_active_registration = models.BooleanField(default=True)
     is_posted = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
     objects = models.Manager()
 
 
-#
-# # job wise technologies
-class IntershipWiseTechnologies(models.Model):
-    id = models.AutoField(primary_key=True)
-    internship_id = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
-    technology_id = models.ForeignKey(Technologies, on_delete=models.DO_NOTHING)
-    objects = models.Manager()
+
 
 
 # student Applied for internship
@@ -120,7 +114,6 @@ class StudentAppliedForInternships(models.Model):
     id = models.AutoField(primary_key=True)
     internship_id = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
     student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
-    technology_selected_id = models.TextField()
     applied_datetime = models.DateTimeField()
     selected_date = models.DateTimeField()
     is_selected = models.BooleanField()
