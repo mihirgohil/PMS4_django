@@ -140,7 +140,7 @@ def create_user_profile(sender, instance, created, **kwargs):
             Students.objects.create(user_type=instance, enrolment_no="not given", gender="not given",
                                     profile_pic="media/default_avtar/user.jpg", dob="1999-01-01", phone_no="not given",
                                     ssc_percentage=0, hsc_percentage=0, ug_stream="", ug_percentage=0, pg_cgpa=0,
-                                    placementDrive_id=2147483647)
+                                    placementDrive_id=1)
 
 
 # save user profile

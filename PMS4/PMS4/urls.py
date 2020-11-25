@@ -63,13 +63,14 @@ urlpatterns = [
     path('college/manage_internship_publised/<drive_id>', Collegeviews.manage_internship_published, name="clg_manage_internship_published"),
     path('college/manage_internship_publish/<drive_id>', Collegeviews.manage_internship_publish,name="clg_manage_internship_publish"),
     path('college/close_internship/<drive_id>', Collegeviews.close_internship,name="clg_close_internship"),
-
+    path('college/deactive_reg/<post_id>/<drive_id>',Collegeviews.internship_reg_deactive,name="clg_close_internship_deactive"),
 
     # ## Manage Student
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
     path('college/show_student_list/<drive_id>', Collegeviews.show_Studentlist, name="clg_show_student"),
     path('college/edit_student/<id>', Collegeviews.edit_student, name="clg_edit_student"),
     path('college/edit_student_save', Collegeviews.edit_student_save, name="clg_edit_student_save"),
+
 
     # ## Manage Company
     path('college/manage_company', Collegeviews.manage_company, name="clg_manage_company"),

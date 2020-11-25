@@ -24,7 +24,7 @@ Select Placement Drive to Manage Internship
 
                   {% for drive in placement_drives %}
                     <tr>
-                        {% if not drive.id == 2147483647 %}
+                        {% if not drive.id == 1 %}
                           <th scope="row">{{ forloop.counter }} </th>
                           <td>{{ drive.drive_name }}</td>
                         <td>{{ drive.created_at|timezone:"Asia/Calcutta" }}</td>
