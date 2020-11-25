@@ -125,6 +125,7 @@ class StudentOptOut(models.Model):
     title = models.CharField(blank=True, max_length=255)
     reason = models.TextField()
 
+
 # create user profile
 
 

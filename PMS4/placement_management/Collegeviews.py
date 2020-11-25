@@ -85,6 +85,8 @@ def add_new_placement_drive(request):
 def add_new_placement_drive_save(request):
     if request.method == "POST":
         drive_name = request.POST.get("drive")
+        # drive_model = PlacementDrives(drive_name=drive_name)
+        # drive_model.save()
         try:
             drive_model = PlacementDrives(drive_name=drive_name)
             drive_model.save()
@@ -133,9 +135,9 @@ def do_placement_invite_companies(request):
 ## internship
 def create_internship(request,newContext={}):
     placement_drive_list = PlacementDrives.objects.filter(is_completed=0)
-    company_list = Companys.get.all()
+    company_list = Companys.objects.all()
     context = {
-        'placement_drive_list':placement_drive_list,
+        'placement_drive_list': placement_drive_list,
         'company_list': company_list,
     }
     context.update(newContext)

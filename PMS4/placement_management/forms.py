@@ -35,5 +35,5 @@ class InternshipForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(InternshipForm, self).__init__(*args, **kwargs)
-        self.fields['company_id'].queryset = Companys.objects.all()
+        self.fields['company'].queryset = Companys.objects.all()
         self.fields['placementDrive'].queryset = PlacementDrives.objects.filter(is_completed= 0)
