@@ -17,11 +17,25 @@
 {% block main_content %}
 
 <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
+
 
           <section class="content">
       <div class="container-fluid">
+          <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+        </div>
          <div class="row mb-2">
           <div class="col">
             <div class="alert alert-warning" role="alert">
@@ -36,9 +50,9 @@
           {{ internship.company.user_type.first_name }}
           <div class="col-md-4 float-right">
               {% if internship.is_active_registration %}
-              <a href="{{  }}" class="btn btn-outline-danger">Disable Registration</a>
+              <a href="{% url 'clg_published_disable_reg_of_student' internship.id %}" class="btn btn-outline-danger">Disable Registration</a>
               {% else %}
-              <a href="" class="btn btn-warning">Active Registration</a>
+              <a href="{% url 'clg_published_enable_reg_of_student' internship.id %}" class="btn btn-warning">Active Registration</a>
               {% endif %}
               <a href="" class="btn btn-info">Show Applied Students List</a>
           </div>

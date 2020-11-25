@@ -68,6 +68,12 @@ urlpatterns = [
     path('college/edit_internship/<id>', Collegeviews.edit_internship, name="clg_edit_internship"),
     path('college/edit_internship_save', Collegeviews.edit_internship_save, name="clg_edit_internship_save"),
 
+    path('college/internship_publish_to_student/<post_id>', Collegeviews.clg_publish_internship_update, name="clg_publish_internship_update"),
+
+    path('college/internship_disable_reg_of_student/<post_id>', Collegeviews.clg_published_disable_reg_of_student, name="clg_published_disable_reg_of_student"),
+    path('college/internship_enable_reg_of_student/<post_id>', Collegeviews.clg_published_enable_reg_of_student, name="clg_published_enable_reg_of_student"),
+
+
     # ## Manage Student
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
     path('college/show_student_list/<drive_id>', Collegeviews.show_Studentlist, name="clg_show_student"),
@@ -94,6 +100,7 @@ urlpatterns = [
 
     path('student/apply_internship', Studentviews.apply_internship, name="stu_apply_internship"),
     path('student/opt_out', Studentviews.opt_out, name="stu_opt_out"),
+    path('student/opt_out/save', Studentviews.opt_out_save, name="stu_opt_out_save"),
     path('student/stu_logout', Studentviews.stu_logout, name="stu_logout"),
 
     # Company paths
@@ -107,9 +114,11 @@ urlpatterns = [
     # Manage Internship Companyside
     path('company/post_internship', Companyviews.post_internship, name="company_post_job"),
     path('company/post_internship_save', Companyviews.post_internship_save, name="company_post_job_save"),
-
+    path('company/post_internship_edit/<post_id>', Companyviews.post_internship_edit, name="company_post_job_edit"),
+    path('company/post_internship_edit_save', Companyviews.post_internship_edit_save, name="company_post_job_edit_save"),
     path('company/working_internship', Companyviews.working_internship, name="company_working_job"),
     path('company/history', Companyviews.history, name="company_history"),
+    path('company/company_internship_close/<post_id>', Companyviews.company_internship_close, name="company_internship_close"),
     path('company/company_logout', Companyviews.company_logout, name="company_logout"),
 ]
 

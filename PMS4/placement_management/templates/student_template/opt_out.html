@@ -25,47 +25,26 @@
               <!-- /.card-header -->
               <!-- form start -->
             <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
-                    <form method="POST" action="{{ route('student.optout.submit') }}" aria-label="{{ __('Register') }}">
-                        @csrf
 
-                        @if(isset($status))
-                        <div class="alert alert-success" role="alert">
-                            {{ 'boom' }}
-                        </div>
-                        @endisset
+                    <form method="POST" action="{% url 'stu_opt_out_save' %}">
+                        {% csrf_token %}
 
 
                         <div class="form-group row">
-                            <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
+                            <label for="title" class="col-md-4 col-form-label text-md-right">Title</label>
 
                             <div class="col-md-6">
-                                <input id="title" type="text" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}" required>
+                                <input id="title" type="text" class="form-control" name="title" value="" required>
 
-                                @if ($errors->has('title'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('title') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="optout" class="col-md-4 col-form-label text-md-right">{{ __('Reason for OptOut') }}</label>
+                            <label for="optout" class="col-md-4 col-form-label text-md-right">Reason for OptOut</label>
 
                             <div class="col-md-6">
-                                <textarea rows="7" cols="7" id="optout" type="text" class="form-control{{ $errors->has('optout') ? ' is-invalid' : '' }}" name="optout" value="{{ old('optout') }}" required></textarea>
-
-                                @if ($errors->has('optout'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('optout') }}</strong>
-                                    </span>
-                                @endif
+                                <textarea rows="7" cols="7" id="optout" type="text" class="form-control" name="optout" value="" required></textarea>
                             </div>
                         </div>
 
@@ -73,7 +52,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4 ">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Save') }}
+                                    Save
                                 </button>
                             </div>
                         </div>

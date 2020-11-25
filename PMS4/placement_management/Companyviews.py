@@ -78,8 +78,8 @@ def post_internship(request,newContext={}):
 
 
 def post_internship_save(request):
+    company_obj = Companys.objects.get(user_type=request.user.id)
     if request.method == "POST":
-        company_id = request.POST.get("company_id")
         placementDrive_id = request.POST.get("placementDrive_id")
         contact_person_names = request.POST.get("contact_person_names")
         designation = request.POST.get("designation")
@@ -95,7 +95,7 @@ def post_internship_save(request):
         ctc = request.POST.get("ctc")
         bond_details =request.POST.get("bond_details")
         intern_obj = InternshipDetails()
-        intern_obj.company = Companys.objects.get(id=company_obj.company_id)
+        intern_obj.company = company_obj
         intern_obj.placementDrive = PlacementDrives.objects.get(id=placementDrive_id)
         intern_obj.contact_person_names = contact_person_names
         intern_obj.designation = designation
@@ -119,26 +119,77 @@ def post_internship_save(request):
         response = post_internship(request, context)
         return response
 
-# def edit_internship(request):
-#     edit_internship = InternshipDetails.objects.get(id=id)
-#     context = {
-#         'edit_internship': edit_internship,
-#     }
-#     return render(request, "college_template/edit_internship.html", context=context)
+def post_internship_edit(request,post_id):
+    internship = InternshipDetails.objects.get(id=post_id)
+    company_obj = Companys.objects.get(user_type=request.user.id)
+    context = {
+        "company_obj": company_obj,
+        'edit_internship' : internship,
+        'post_id' : post_id,
+    }
+    return render(request, "company_template/company_edit_internship.html", context=context)
+
+def post_internship_edit_save(request):
+    if request.method == "POST":
+        post_id = request.POST.get("post_id")
+        contact_person_names = request.POST.get("contact_person_names")
+        designation = request.POST.get("designation")
+        contact_person_numbers = request.POST.get("contact_person_numbers")
+        contact_person_emails = request.POST.get("contact_person_emails")
+        company_breaf_overview =request.POST.get("company_breaf_overview")
+        number_of_positions = request.POST.get("number_of_positions")
+        internship_duration = request.POST.get("internship_duration")
+        recruitment_process = request.POST.get("recruitment_process")
+        mode_of_interview = request.POST.get("mode_of_interview")
+        working_hours = request.POST.get("working_hours")
+        stipend_per_month = request.POST.get("stipend_per_month")
+        ctc = request.POST.get("ctc")
+        bond_details =request.POST.get("bond_details")
+        intern_obj = InternshipDetails.objects.get(id=post_id)
+        intern_obj.contact_person_names = contact_person_names
+        intern_obj.designation = designation
+        intern_obj.contact_person_numbers = contact_person_numbers
+        intern_obj.contact_person_emails = contact_person_emails
+        intern_obj.company_breaf_overview = company_breaf_overview
+        intern_obj.number_of_positions = number_of_positions
+        intern_obj.internship_duration = internship_duration
+        intern_obj.recruitment_process = recruitment_process
+        intern_obj.mode_of_interview = mode_of_interview
+        intern_obj.working_hours = working_hours
+        intern_obj.stipend_per_month = stipend_per_month
+        intern_obj.ctc = ctc
+        intern_obj.bond_details = bond_details
+        intern_obj.save()
+        messages.success(request, "Internship Job Edited")
+        return HttpResponseRedirect(reverse("company_working_job"))
+    else:
+        messages.error(request, "Method Not Allowed")
+        return HttpResponseRedirect(reverse("company_working_job"))
+
 
 
 def working_internship(request):
     company_obj = Companys.objects.get(user_type=request.user.id)
+    internships = InternshipDetails.objects.all().filter(company_id=company_obj.id, is_completed=0).select_related("company").order_by('-id')
     context = {
-        "company_obj": company_obj
+        "company_obj": company_obj,
+        'internships': internships
     }
     return render(request, "company_template/working_internship.html",context=context)
 
+def company_internship_close(request,post_id):
+    company_obj = Companys.objects.get(user_type=request.user.id)
+    internship = InternshipDetails.objects.get(id=post_id)
+    internship.is_completed = 1
+    internship.save()
+    return HttpResponseRedirect(reverse("company_working_job"))
 
 def history(request):
     company_obj = Companys.objects.get(user_type=request.user.id)
+    internships = InternshipDetails.objects.all().filter(company_id=company_obj.id, is_completed=1).select_related("company").order_by('-id')
     context = {
-        "company_obj": company_obj
+        "company_obj": company_obj,
+        'internships': internships
     }
     return render(request, "company_template/history.html",context=context)
 

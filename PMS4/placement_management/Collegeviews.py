@@ -201,7 +201,7 @@ def manage_internship(request):
 
 
 def manage_internship_published(request,drive_id):
-    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=0,is_posted=1).select_related("company")
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=0,is_posted=1).select_related("company").order_by('-id')
     drive_info = PlacementDrives.objects.get(id=drive_id)
     return render(request, "college_template/managePublished.html",{'drive_id':drive_id,'drive_info':drive_info,'internships':internships})
 
@@ -212,7 +212,7 @@ def internship_reg_deactive(request,post_id):
 
 
 def manage_internship_publish(request,drive_id):
-    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_completed=0,is_posted=0).select_related("company")
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_completed=0,is_posted=0).select_related("company").order_by('-id')
     drive_info = PlacementDrives.objects.get(id=drive_id)
     return render(request, "college_template/managePublish.html",{'drive_id':drive_id,'internships':internships,'drive_info':drive_info})
 
@@ -283,6 +283,32 @@ def edit_internship_save(request):
     user.save()
     messages.success(request, "Internship Updated")
     return HttpResponseRedirect(reverse("clg_edit_internship", kwargs={'id': id}))
+
+# internship update funtions
+def clg_publish_internship_update(request,post_id):
+    post = InternshipDetails.objects.get(id=post_id)
+    post.is_posted = 1
+    post.save()
+    id = post.placementDrive.id
+    messages.success(request,"Internship Job Published")
+    return HttpResponseRedirect(reverse("clg_manage_internship_publish", kwargs={'drive_id': id}))
+
+def clg_published_disable_reg_of_student(request,post_id):
+    post = InternshipDetails.objects.get(id=post_id)
+    post.is_active_registration = 0
+    post.save()
+    id = post.placementDrive.id
+    messages.success(request, "Successfully Disabled Registration for Post")
+    return HttpResponseRedirect(reverse("clg_manage_internship_published", kwargs={'drive_id': id}))
+
+def clg_published_enable_reg_of_student(request,post_id):
+    post = InternshipDetails.objects.get(id=post_id)
+    post.is_active_registration = 1
+    post.save()
+    id = post.placementDrive.id
+    messages.success(request, "Successfully enabled Registration for Post")
+    return HttpResponseRedirect(reverse("clg_manage_internship_published", kwargs={'drive_id': id}))
+
 
 
 # company pages

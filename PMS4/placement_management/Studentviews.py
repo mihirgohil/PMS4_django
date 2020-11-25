@@ -4,17 +4,16 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from placement_management.models import Students
-
-from placement_management.models import CustomUser
+from placement_management.models import CustomUser, Students, PlacementDrives, Companys, InternshipDetails, StudentOptOut
 
 
 def student_home(request):
-    print("kko")
-    print(request.user.id)
     student_obj = Students.objects.get(user_type=request.user.id)
+    drive_id = student_obj.placementDrive_id
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_completed=0,is_posted=1).select_related("company").order_by('-id')
     context = {
-        "student_obj": student_obj
+        "student_obj": student_obj,
+        'internships': internships
     }
     return render(request, "student_template/home_content.html", context)
 
@@ -122,6 +121,19 @@ def opt_out(request):
     }
     return render(request, "student_template/opt_out.html", context)
 
+def opt_out_save(request):
+    student_obj = Students.objects.get(user_type=request.user.id)
+    student_obj.is_optout = 1
+    student_obj.save()
+    optout = StudentOptOut()
+    optout.student = student_obj
+    optout.title = request.POST.get('title')
+    optout.reason = request.POST.get('optout')
+    optout.save()
+    context = {
+        "student_obj": student_obj
+    }
+    return render(request, "student_template/optout_home.html", context)
 
 def stu_logout(request):
     return render(request, "student_template/stu_logout.html")

@@ -21,6 +21,21 @@
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+        </div>
          <div class="row mb-2">
           <div class="col">
             <div class="alert alert-primary" role="alert">
@@ -35,7 +50,7 @@
           {{ internship.company.user_type.first_name }}
           <div class="col-md-2 float-right">
             <a href="{% url 'clg_edit_internship' internship.id %}" class="btn btn-primary">Edit</a>
-            <a href="" class="btn btn-outline-success">Publish</a>
+            <a href="{% url 'clg_publish_internship_update' internship.id %}" class="btn btn-outline-success">Publish</a>
           </div>
 
         </div>

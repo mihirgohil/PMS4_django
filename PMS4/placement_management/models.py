@@ -32,7 +32,7 @@ class Companys(models.Model):
     id = models.AutoField(primary_key=True)
     user_type = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     address = models.TextField()
-    phone_no = models.TextField(unique=True)
+    phone_no = models.TextField()
     website = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -124,6 +124,7 @@ class StudentOptOut(models.Model):
     student = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
     title = models.CharField(blank=True, max_length=255)
     reason = models.TextField()
+    objects = models.Manager()
 
 
 # create user profile

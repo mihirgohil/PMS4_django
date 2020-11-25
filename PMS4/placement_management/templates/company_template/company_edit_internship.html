@@ -1,4 +1,4 @@
-{% extends 'college_template/base_template.html' %}
+{% extends 'company_template/base_template.html' %}
 {% block page_title %}
 Edit Internship
 {% endblock page_title  %}
@@ -8,21 +8,7 @@ Edit Internship
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-           <div class="row">
-          {% if messages %}
-         <div class="col-12">
-            {% for message in messages %}
-            {% if message.tags == 'error' %}
-            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
-            {% endif %}
-             {% if message.tags == 'success' %}
-            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
-            {% endif %}
-            {% endfor %}
 
-          </div>
-          {% endif %}
-        </div>
           <div class="card">
 <!--              <div class="card-body">-->
 <!--                  <form action="{% url 'clg_internship_create'%}" method="post">-->
@@ -33,10 +19,9 @@ Edit Internship
 <!--              </div>-->
               <div class="card-body">
 
-                    <form method="POST" action="#" id="frm" name="frm">
+                    <form method="POST" action="{% url 'company_post_job_edit_save' %}" id="frm" name="frm">
                         {% csrf_token %}
-
-                         <input name="internship_id" type="hidden" value="{{ edit_internship.id }}">
+                         <input name="post_id" type="hidden" value="{{ post_id }}">
 
                         <div class="form-group row">
                                 <label for="contact_person_names" class="col-md-4 col-form-label text-md-right">Contact Person Name</label>
@@ -150,7 +135,7 @@ Edit Internship
                                 <button type="submit" class="btn btn-primary">
                                     Update
                                 </button>
-                                <a href="{% url 'clg_manage_internship_publish' edit_internship.placementDrive_id %}" class="btn btn-danger">Back</a>
+                                <a href="{% url 'company_working_job' %}" class="btn btn-danger">close</a>
                             </div>
                         </div>
                     </form>

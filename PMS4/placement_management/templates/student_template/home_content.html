@@ -5,9 +5,91 @@ Student
 {% block main_content %}
 
 <!-- Main content -->
-    <section class="content">
+   <section class="content">
       <div class="container-fluid">
-         Student home
+   <div class="col-12">
+            <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+        </div>
+
+        {% for internship in internships %}
+            <div class="card">
+        <div class="card-header">
+          <img src="{{ internship.company.company_logo }}" class="img-circle elevation-2" style="width:50px; height:50px;position:relative; border-radius:50%" alt="">
+          {{ internship.company.user_type.first_name }}
+<!--          <div class="col-md-2 float-right">-->
+<!--            <a href="{% url 'company_post_job_edit' internship.id %}" class="btn btn-primary">Edit</a>-->
+
+<!--          </div>-->
+             <div class="float-right">
+                 {% if internship.is_completed %}
+              Internship Status :
+              <div class="alert alert-danger" role="alert">
+                Post Closed
+              </div>
+                 {% else %}
+                 {%if internship.is_active_registration %}
+                 Internship Status :
+              <div class="alert alert-success" role="alert">
+                Registration Active
+              </div>
+                 {% else %}
+                  Internship Status :
+              <div class="alert alert-warning" role="alert">
+                Registration Closed
+              </div>
+                 {% endif %}
+                  {% endif %}
+
+            </div>
+        </div>
+                <div class="card-header">
+            <div class="col-md-1 float-left">
+              Actions :
+            </div>
+             {% if internship.is_active_registration %}
+            <div class="col-md-2 float-left">
+              <a href="" class="btn btn-primary">Apply</a>
+            </div>
+                    {% endif %}
+
+
+
+          </div>
+        <div class="card-body">
+        <h5 class="card-title"><strong>Contact Person : </strong>
+          <br> {{ internship.contact_person_names }}
+          <br> {{ internship.designation }}
+           <br> {{ internship.contact_person_numbers }}
+          <br> {{ internship.contact_person_emails }}
+        </h5>
+          <p class="card-text"><br><strong>Company Address :</strong><br> {{ internship.company.address }}</p>
+          <p class="card-text"><br><strong>Company Website :</strong><br> <a href="{{internship.company.website }}" target="_blank"> {{ internship.company.website }}</a></p>
+          <p class="card-text"><br><strong>Company Overview :</strong><br> {{ internship.company_breaf_overview }}</p>
+          <p class="card-text"><br><strong>Internship Duration :</strong><br> {{ internship.internship_duration }}</p>
+          <p class="card-text"><br><strong>Recruitment Process :</strong><br>  {{ internship.recruitment_process }}</p>
+          <p class="card-text"><br><strong>No. of Position(Technologies wise) :</strong><br> {{ internship.number_of_positions }}</p>
+          <p class="card-text"><br><strong>Mode Of Interview :</strong><br> {{ internship.mode_of_interview }}</p>
+          <p class="card-text"><br><strong>Working Hours :</strong><br>{{ internship.working_hours }} </p>
+          <p class="card-text"><br><strong>Stipend :</strong><br> {{ internship.stipend_per_month }}</p>
+          <p class="card-text"><br><strong>CTC :</strong><br> {{ internship.ctc }}</p>
+          <p class="card-text"><br><strong>Bond Details :</strong><br> {{ internship.bond_details }}</p>
+
+        </div>
+      </div>
+        {% endfor %}
       </div>
     </section>
     <!-- /.content -->

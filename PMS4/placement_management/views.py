@@ -53,7 +53,12 @@ def doLogin(request):
             elif int(user.user_type) == 2:
                 return HttpResponseRedirect('company')
             elif int(user.user_type) == 3:
-                return HttpResponseRedirect('student')
+                if user.students.is_optout:
+                    logout(request)
+                    messages.error(request, "You have OptOut From Placement Program. Contact Placement Coordinator!")
+                    return HttpResponseRedirect('login')
+                else:
+                    return HttpResponseRedirect('student')
             else:
                 logout(request)
                 messages.error(request, "Invalid User ")
