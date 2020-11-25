@@ -59,6 +59,7 @@ urlpatterns = [
 
     # ## Internship related page
     path('college/magage_internship_create',Collegeviews.create_internship,name="clg_internship_create"),
+    path('college/magage_internship_create_save',Collegeviews.create_internship_save,name="clg_internship_create_save"),
     path('college/manage_internship', Collegeviews.manage_internship, name="clg_manage_internship"),
     path('college/manage_internship_publised/<drive_id>', Collegeviews.manage_internship_published, name="clg_manage_internship_published"),
     path('college/manage_internship_publish/<drive_id>', Collegeviews.manage_internship_publish,name="clg_manage_internship_publish"),

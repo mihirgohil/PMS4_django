@@ -131,24 +131,25 @@ def do_placement_invite_companies(request):
     return HttpResponseRedirect(reverse("pms_invite",kwargs={'drive_id':drive_id}))
 
 ## internship
-def create_internship(request):
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = InternshipForm(request.POST)
-        context = {'form': form}
-        # check whether it's valid:
-        if form.is_valid():
-           # form.save()
-           # print(form.cleaned_data['contact_person_name'])
-           messages.success(request, "Internship Created ")
-           return HttpResponseRedirect(reverse('clg_internship_create'))
-        else:
-            messages.success(request, "Internship Not Created ")
-            render(request, "college_template/add_new_internship.html", {'form': form})
+def create_internship(request,newContext={}):
+    placement_drive_list = PlacementDrives.objects.filter(is_completed=0)
+    company_list = Companys.get.all()
+    context = {
+        'placement_drive_list':placement_drive_list,
+        'company_list': company_list,
+    }
+    context.update(newContext)
+    return render(request, "college_template/add_new_internship.html", context=context)
+
+def create_internship_save(request):
+    if request.method == "POST":
+        pass
     else:
-        form = InternshipForm()
-        context = {'form': form}
-        return render(request, "college_template/add_new_internship.html", context=context)
+        context = {}
+        messages.error(request, "Method Not Allowed")
+        response = add_company(request, context)
+        return response
+
 
 def manage_internship(request):
     placement_drives_list = PlacementDrives.objects.all().order_by('-created_at')
