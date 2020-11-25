@@ -77,6 +77,9 @@ urlpatterns = [
     # ## Manage Student
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
     path('college/show_student_list/<drive_id>', Collegeviews.show_Studentlist, name="clg_show_student"),
+    path('college/placed_student_list/<drive_id>', Collegeviews.placed_Studentlist, name="clg_placed_student"),
+    path('college/unplaced_student_list/<drive_id>', Collegeviews.unplaced_Studentlist, name="clg_unplaced_student"),
+
     path('college/edit_student/<id>', Collegeviews.edit_student, name="clg_edit_student"),
     path('college/edit_student_save', Collegeviews.edit_student_save, name="clg_edit_student_save"),
 

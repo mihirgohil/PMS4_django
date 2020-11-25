@@ -568,7 +568,38 @@ def show_Studentlist(request,drive_id):
         students = paginator.page(1)
     except EmptyPage:
         students = paginator.page(paginator.num_pages)
-    return render(request, "college_template/show_Studentlist.html",  {"students": students,"drive_info":drive_info})
+    return render(request, "college_template/show_Studentlist.html",  {"students": students,"drive_info":drive_info,'drive_id':drive_id})
+
+
+def placed_Studentlist(request,drive_id):
+    placed_student_list = Students.objects.filter(placementDrive_id = drive_id, is_placed = 1).order_by('-created_at')
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    print(drive_info)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(placed_student_list, 8)
+    try:
+        students = paginator.page(page)
+    except PageNotAnInteger:
+        students = paginator.page(1)
+    except EmptyPage:
+        students = paginator.page(paginator.num_pages)
+    return render(request, "college_template/placed_Studentlist.html",  {"students": students,"drive_info":drive_info,'drive_id':drive_id})
+
+
+def unplaced_Studentlist(request,drive_id):
+    unplaced_student_list = Students.objects.filter(placementDrive_id = drive_id, is_placed = 0).order_by('-created_at')
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    print(drive_info)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(unplaced_student_list, 8)
+    try:
+        students = paginator.page(page)
+    except PageNotAnInteger:
+        students = paginator.page(1)
+    except EmptyPage:
+        students = paginator.page(paginator.num_pages)
+    return render(request, "college_template/unplaced_Studentlist.html",  {"students": students,"drive_info":drive_info,'drive_id':drive_id})
+
 
 def edit_student(request,id):
     edit_student = Students.objects.get(id=id)

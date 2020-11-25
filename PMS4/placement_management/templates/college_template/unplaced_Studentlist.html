@@ -1,10 +1,10 @@
 {% extends 'college_template/base_template.html' %}
 {% block page_title %}
 
-All Student of Placement Drive : {{ drive_info.drive_name }}
+Unplaced Student of Placement Drive : {{ drive_info.drive_name }}
 
-            <a href="{% url 'clg_placed_student' drive_id %}" class="btn btn-success">Student Placed</a>
-            <a href="{% url 'clg_unplaced_student' drive_id %}" class="btn btn-warning">Student Unplaced</a>
+            <a href="{% url 'clg_show_student' drive_id %}" class="btn btn-success">All Students</a>
+            <a href="{% url 'clg_placed_student' drive_id %}" class="btn btn-warning">Student Placed</a>
             <a href="" class="btn btn-primary">Student OptOut</a>
 {% endblock page_title  %}
 {% block main_content %}
