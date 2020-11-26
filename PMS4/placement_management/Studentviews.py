@@ -147,11 +147,16 @@ def apply_internship(request):
     }
     return render(request, "student_template/apply_internship.html", context)
 
+# def appliedinternship(request):
+#     student_obj = Students.objects.get(user_type=request.user.id)
+#
+#     messages.success(request, "You have applied for this Internship")
+#     return HttpResponseRedirect(reverse("stu_apply_internship"))
 
 def opt_out(request):
     student_obj = Students.objects.get(user_type=request.user.id)
     context = {
-        "student_obj": student_obj
+        "student_obj": student_obj,
     }
     return render(request, "student_template/opt_out.html", context)
 

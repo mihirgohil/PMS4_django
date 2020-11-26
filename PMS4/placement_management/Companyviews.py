@@ -204,6 +204,17 @@ def history(request):
     }
     return render(request, "company_template/history.html",context=context)
 
+def company_student_applied_for_internship_closed(request,post_id):
+    company_obj = Companys.objects.get(user_type=request.user.id)
+    selected_internship = StudentAppliedForInternships.objects.filter(internship_id = post_id)
+    internship = InternshipDetails.objects.get(id=post_id)
+    context = {
+        "company_obj": company_obj,
+        "internship" : internship,
+        "selected_internship": selected_internship
+    }
+    return render(request, "company_template/company_student_applied_for_closed_internship.html",context=context)
+
 
 def company_logout(request):
     company_obj = Companys.objects.get(user_type=request.user.id)

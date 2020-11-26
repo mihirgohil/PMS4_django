@@ -106,6 +106,7 @@ urlpatterns = [
     path('student/stu_profile_editsave', Studentviews.stu_profile_edit_save, name="stu_profile_edit_save"),
 
     path('student/apply_internship', Studentviews.apply_internship, name="stu_apply_internship"),
+    # path('student/applied_internship', Studentviews.appliedinternship, name="stu_applied_internship"),
     path('student/opt_out', Studentviews.opt_out, name="stu_opt_out"),
     path('student/opt_out/save', Studentviews.opt_out_save, name="stu_opt_out_save"),
     path('student/stu_logout', Studentviews.stu_logout, name="stu_logout"),
@@ -130,6 +131,8 @@ urlpatterns = [
     path('company/student_applied_for_internship_working_internship/<post_id>', Companyviews.company_student_applied_for_internship_working, name="company_student_applied_for_internship_working"),
 
     path('company/history', Companyviews.history, name="company_history"),
+    path('company/student_applied_for_internship_closed_internship/<post_id>', Companyviews.company_student_applied_for_internship_closed, name="company_student_applied_for_internship_closed"),
+
     path('company/company_internship_close/<post_id>', Companyviews.company_internship_close, name="company_internship_close"),
     path('company/company_logout', Companyviews.company_logout, name="company_logout"),
 ]
