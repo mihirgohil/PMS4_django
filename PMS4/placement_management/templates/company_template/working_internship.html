@@ -54,7 +54,7 @@ Working Process
             </div>
              {% if internship.is_posted %}
             <div class="col-md-2 float-left">
-              <a href="" class="btn btn-primary">Student Applied</a>
+              <a href="{% url 'company_student_applied_for_internship_working' internship.id %}" class="btn btn-primary">Student Applied</a>
             </div>
             <div class="col-md-2 float-right">
             <a href="{% url 'company_internship_close' internship.id %}" class="btn btn-danger">Close Internship Post</a>

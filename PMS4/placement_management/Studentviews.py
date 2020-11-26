@@ -1,19 +1,30 @@
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from placement_management.models import CustomUser, Students, PlacementDrives, Companys, InternshipDetails, StudentOptOut
+from placement_management.models import CustomUser, Students, PlacementDrives, Companys, InternshipDetails, StudentOptOut, StudentAppliedForInternships
 
 
 def student_home(request):
     student_obj = Students.objects.get(user_type=request.user.id)
     drive_id = student_obj.placementDrive_id
     internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_completed=0,is_posted=1).select_related("company").order_by('-id')
+    applied_internships = StudentAppliedForInternships.objects.filter(student_id=student_obj.id)
+    applied_list = []
+    for applied_internship in applied_internships:
+        applied_list.append(applied_internship.internship_id)
+    selected_internship = None
+    if student_obj.is_placed:
+        selected_internship = StudentAppliedForInternships.objects.get(student_id=student_obj.id, is_selected = True)
+
     context = {
         "student_obj": student_obj,
-        'internships': internships
+        'internships': internships,
+        'selected_internship' : selected_internship,
+        'applied_list' : applied_list,
     }
     return render(request, "student_template/home_content.html", context)
 
@@ -105,11 +116,34 @@ def stu_profile_edit_save(request):
     messages.success(request, "Student Account Updated")
     return HttpResponseRedirect(reverse("stu_profile_edit", kwargs={'id': id}))
 
+## apply for internship
+def stu_apply_internship_for_internship(request,id):
+    student_obj = Students.objects.get(user_type=request.user.id)
+    post_object = InternshipDetails.objects.get(id= id)
+    apply_obj = StudentAppliedForInternships()
+    apply_obj.student = student_obj
+    apply_obj.internship = post_object
+    apply_obj.save()
+    messages.success(request, "Applied Successfully for Company : "+ post_object.company.user_type.first_name +" Internship Post.")
+    return HttpResponseRedirect(reverse("student"))
 
 def apply_internship(request):
     student_obj = Students.objects.get(user_type=request.user.id)
+    drive_id = student_obj.placementDrive_id
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id, is_completed=0,
+                                                         is_posted=1).select_related("company").order_by('-id')
+    applied_internships = StudentAppliedForInternships.objects.filter(student_id=student_obj.id)
+    applied_list = []
+    for applied_internship in applied_internships:
+        applied_list.append(applied_internship.internship_id)
+    selected_internship = None
+    if student_obj.is_placed:
+        selected_internship = StudentAppliedForInternships.objects.get(student_id=student_obj.id, is_selected=True)
     context = {
-        "student_obj": student_obj
+        "student_obj": student_obj,
+        'internships': internships,
+        'selected_internship': selected_internship,
+        'applied_list': applied_list,
     }
     return render(request, "student_template/apply_internship.html", context)
 
@@ -133,7 +167,9 @@ def opt_out_save(request):
     context = {
         "student_obj": student_obj
     }
-    return render(request, "student_template/optout_home.html", context)
+    logout(request)
+    messages.error(request, "You have OptOut From Placement Program. Contact Placement Coordinator!")
+    return HttpResponseRedirect(reverse("login"))
 
 def stu_logout(request):
     return render(request, "student_template/stu_logout.html")

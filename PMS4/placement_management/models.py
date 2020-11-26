@@ -114,9 +114,7 @@ class StudentAppliedForInternships(models.Model):
     id = models.AutoField(primary_key=True)
     internship = models.ForeignKey(InternshipDetails, on_delete=models.DO_NOTHING)
     student = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
-    applied_datetime = models.DateTimeField()
-    selected_date = models.DateTimeField()
-    is_selected = models.BooleanField()
+    is_selected = models.BooleanField(default=False)
     objects = models.Manager()
 
 class StudentOptOut(models.Model):

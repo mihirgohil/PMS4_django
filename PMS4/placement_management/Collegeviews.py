@@ -10,7 +10,7 @@ from placement_management.utilty.choices import GENDER_CHOICES, UG_DEPARTMENTS_T
 
 from django.core.files.storage import FileSystemStorage
 
-from placement_management.models import CustomUser, Students, PlacementDrives, Companys
+from placement_management.models import CustomUser, Students, PlacementDrives, Companys, StudentOptOut
 
 from placement_management.CollegeForms import PlacementcoordinatorForm
 from placement_management.forms import StudentForm
@@ -113,6 +113,14 @@ def placement_drive(request):
         placement_drives = paginator.page(paginator.num_pages)
     
     return render(request, "college_template/placement_drive.html", {"placement_drives": placement_drives})
+
+def do_placement_drive_close(request,drive_id):
+    drive_obj = PlacementDrives.objects.get(id=drive_id)
+    InternshipDetails.objects.filter(placementDrive_id = drive_id).update(is_completed = 1)
+    drive_obj.is_completed = 1
+    drive_obj.save()
+    messages.success(request, "Placment Drive "+drive_obj.drive_name+" Closed.")
+    return  HttpResponseRedirect(reverse("clg_pmc_drive"))
 
 def placement_invite_companies(request,drive_id):
     manage_company_list = Companys.objects.all().order_by('-created_at')
@@ -600,6 +608,19 @@ def unplaced_Studentlist(request,drive_id):
         students = paginator.page(paginator.num_pages)
     return render(request, "college_template/unplaced_Studentlist.html",  {"students": students,"drive_info":drive_info,'drive_id':drive_id})
 
+def show_optout_Studentlist(request,drive_id):
+    students = StudentOptOut.objects.all().select_related("student").filter(student__placementDrive = drive_id)
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    return render(request, "college_template/show_StudentlistOptOut.html",{"students": students,"drive_info":drive_info, 'drive_id': drive_id})
+
+def do_remove_optout(request,student_id,drive_id):
+    obj = StudentOptOut.objects.get(id=student_id)
+    student_obj = Students.objects.get(id=obj.student_id)
+    student_obj.is_optout = 0
+    student_obj.save()
+    obj.delete()
+    messages.success(request, "Successfully Optout Removed")
+    return HttpResponseRedirect(reverse("clg_show_optout_student", kwargs={'drive_id': drive_id}))
 
 def edit_student(request,id):
     edit_student = Students.objects.get(id=id)

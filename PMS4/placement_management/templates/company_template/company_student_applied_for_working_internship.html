@@ -1,0 +1,107 @@
+{% extends 'company_template/base_template.html' %}
+{% block page_title %}
+Student Applied For Internship
+{% endblock page_title  %}
+{% block main_content %}
+{% load crispy_forms_tags %}
+{% load static %}
+ <link rel="stylesheet" href="{% static "dist/css/profile.css" %}">
+<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="container-fluid">
+           <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+           </div>
+
+
+            <div class="card">
+        <div class="card-header">
+          <img src="{{ internship.company.company_logo }}" class="img-circle elevation-2" style="width:50px; height:50px;position:relative; border-radius:50%" alt="">
+          {{ internship.company.user_type.first_name }}
+<!--          <div class="col-md-2 float-right">-->
+<!--            <a href="{% url 'company_post_job_edit' internship.id %}" class="btn btn-primary">Edit</a>-->
+
+<!--          </div>-->
+             <div class="float-right">
+                 {% if internship.is_posted %}
+              Internship Status :
+              <div class="alert alert-success" role="alert">
+                Published
+              </div>
+                 {% else %}
+              Internship Status :
+              <div class="alert alert-warning" role="alert">
+               UnPublished
+              </div>
+                  {% endif %}
+
+            </div>
+        </div>
+                   <div class="card-header">
+            <div class="col-md-12 float-left">
+              Actions : Select Student Which Are Placed For This Internship.
+            </div>
+
+          </div>
+        <div class="card-body">
+                            <table class="table">
+                  <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"></th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Enrollment No</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">S.S.C(%)</th>
+                    <th scope="col">H.S.C(%)</th>
+                    <th scope="col">Ug Stream</th>
+                    <th scope="col">U.G(%)</th>
+                    <th scope="col">CPI</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                  <tbody>
+
+                  {% for student in selected_internship %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }} </th>
+                        <td><img src="{{ student.student.profile_pic }}" class="img-circle elevation-2" width="82" height="82"></td>
+                        <td>{{ student.student.user_type.first_name }}</td>
+                        <td>{{ student.student.user_type.last_name }}</td>
+                        <td>{{ student.student.enrolment_no }}</td>
+                        <td>{{ student.student.phone_no }}</td>
+                        <td>{{ student.student.user_type.email }}</td>
+                        <td>{{ student.student.ssc_percentage }}</td>
+                        <td>{{ student.student.hsc_percentage }}</td>
+                        <td>{{ student.student.ug_stream }}</td>
+                        <td>{{ student.student.ug_percentage }}</td>
+                        <td>{{ student.student.pg_cgpa }}</td>
+                        <td><a href="" class="btn btn-success">Place</a></td>
+
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- /.content -->
+{% endblock main_content %}

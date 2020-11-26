@@ -33,8 +33,12 @@ Select Placement Drive to Manage Internship
                           {% elif drive.is_completed %}
                             <td>Completed</td>
                           {% endif %}
+                         {% if not drive.is_completed %}
+                            <td><a href="{% url 'clg_manage_internship_publish' drive.id %}" class="btn btn-primary">View And Manage Internships</a></td>
+                          {% elif drive.is_completed %}
+                            <<td><a href="{% url 'clg_close_internship' drive.id %}" class="btn btn-primary">View Closed Internships</a></td>
+                          {% endif %}
 
-                            <td><a href="{% url 'clg_manage_internship_publish' drive.id %}" class="btn btn-primary">View And Manage Internship</a></td>
 
                         {% endif %}
                     </tr>

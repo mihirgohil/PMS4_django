@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from placement_management.models import CustomUser, Students, PlacementDrives, Companys, InternshipDetails
+from placement_management.models import CustomUser, Students, PlacementDrives, Companys, InternshipDetails, StudentAppliedForInternships
 
 
 def company_home(request):
@@ -176,6 +176,17 @@ def working_internship(request):
         'internships': internships
     }
     return render(request, "company_template/working_internship.html",context=context)
+
+def company_student_applied_for_internship_working(request,post_id):
+    company_obj = Companys.objects.get(user_type=request.user.id)
+    selected_internship = StudentAppliedForInternships.objects.filter(internship_id = post_id)
+    internship = InternshipDetails.objects.get(id=post_id)
+    context = {
+        "company_obj": company_obj,
+        "internship" : internship,
+        "selected_internship": selected_internship
+    }
+    return render(request, "company_template/company_student_applied_for_working_internship.html",context=context)
 
 def company_internship_close(request,post_id):
     company_obj = Companys.objects.get(user_type=request.user.id)

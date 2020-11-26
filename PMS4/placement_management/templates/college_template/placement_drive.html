@@ -7,6 +7,21 @@
 <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+          <div class="row">
+          {% if messages %}
+         <div class="col-12">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+             {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+          {% endif %}
+        </div>
 <!--          <div class="container-fluid">-->
 <!--          </div>-->
 <!--          <div class="container-fluid">-->
@@ -41,7 +56,7 @@
                           {% endif %}
                           {% if not drive.is_completed %}
                             <td><a href="{% url 'pms_invite' drive.id %}" class="btn btn-warning">Invite Companies</a></td>
-                            <td><a href="#" class="btn btn-danger">Close Drive</a></td>
+                            <td><a href="{% url 'clg_pmc_drive_close' drive.id %}" class="btn btn-danger">Close Drive</a></td>
                           {% elif drive.is_completed %}
                             <td><a href="#" class="btn btn-success">View Reports</a></td>
                           {% endif %}

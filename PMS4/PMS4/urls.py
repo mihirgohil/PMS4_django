@@ -50,6 +50,8 @@ urlpatterns = [
     path('college/add_new_placement_drive_save', Collegeviews.add_new_placement_drive_save, name="add_new_pms_save"),
     path('college/add_new_placement_drive_invite_companies/<drive_id>',Collegeviews.placement_invite_companies, name="pms_invite"),
     path('college/do_add_new_placement_drive_invite_companies',Collegeviews.do_placement_invite_companies, name="do_pms_invite"),
+
+    path('college/placement_drive/close/<drive_id>', Collegeviews.do_placement_drive_close, name="clg_pmc_drive_close"),
     # ##
     path('college/add_company', Collegeviews.add_company, name="clg_add_company"),
     path('college/add_company/save', Collegeviews.add_company_save, name="clg_add_company_save"),
@@ -80,8 +82,10 @@ urlpatterns = [
     path('college/placed_student_list/<drive_id>', Collegeviews.placed_Studentlist, name="clg_placed_student"),
     path('college/unplaced_student_list/<drive_id>', Collegeviews.unplaced_Studentlist, name="clg_unplaced_student"),
 
+    path('college/show_student_optout_list/<drive_id>', Collegeviews.show_optout_Studentlist, name="clg_show_optout_student"),
     path('college/edit_student/<id>', Collegeviews.edit_student, name="clg_edit_student"),
     path('college/edit_student_save', Collegeviews.edit_student_save, name="clg_edit_student_save"),
+    path('college/remove_student_optout/<student_id>/<drive_id>',Collegeviews.do_remove_optout,name="clg_remove_student_optout"),
 
 
     # ## Manage Company
@@ -106,6 +110,8 @@ urlpatterns = [
     path('student/opt_out/save', Studentviews.opt_out_save, name="stu_opt_out_save"),
     path('student/stu_logout', Studentviews.stu_logout, name="stu_logout"),
 
+    path('student/stu_apply_internship_for_internship/<id>', Studentviews.stu_apply_internship_for_internship, name="stu_apply_internship_for_internship"),
+
     # Company paths
     path('company/', Companyviews.company_home, name="company"),
 
@@ -119,7 +125,10 @@ urlpatterns = [
     path('company/post_internship_save', Companyviews.post_internship_save, name="company_post_job_save"),
     path('company/post_internship_edit/<post_id>', Companyviews.post_internship_edit, name="company_post_job_edit"),
     path('company/post_internship_edit_save', Companyviews.post_internship_edit_save, name="company_post_job_edit_save"),
+
     path('company/working_internship', Companyviews.working_internship, name="company_working_job"),
+    path('company/student_applied_for_internship_working_internship/<post_id>', Companyviews.company_student_applied_for_internship_working, name="company_student_applied_for_internship_working"),
+
     path('company/history', Companyviews.history, name="company_history"),
     path('company/company_internship_close/<post_id>', Companyviews.company_internship_close, name="company_internship_close"),
     path('company/company_logout', Companyviews.company_logout, name="company_logout"),

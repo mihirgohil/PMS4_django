@@ -5,7 +5,7 @@ Placed Student of Placement Drive : {{ drive_info.drive_name }}
 
             <a href="{% url 'clg_show_student' drive_id %}" class="btn btn-success">All Students</a>
             <a href="{% url 'clg_unplaced_student' drive_id %}" class="btn btn-warning">Student Unplaced</a>
-            <a href="" class="btn btn-primary">Student OptOut</a>
+            <a href="{% url 'clg_show_optout_student' drive_id %}" class="btn btn-primary">Student OptOut</a>
 {% endblock page_title  %}
 {% block main_content %}
 {% load tz %}
