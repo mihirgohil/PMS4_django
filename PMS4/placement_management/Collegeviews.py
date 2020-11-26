@@ -604,7 +604,8 @@ def show_Studentlist(request,drive_id):
 
 
 def placed_Studentlist(request,drive_id):
-    placed_student_list = Students.objects.filter(placementDrive_id = drive_id, is_placed = 1).order_by('-created_at')
+    # placed_student_list = Students.objects.filter(placementDrive_id = drive_id, is_placed = 1).order_by('-created_at')
+    placed_student_list = StudentAppliedForInternships.objects.filter(is_selected = 1,student__placementDrive = drive_id)
     drive_info = PlacementDrives.objects.get(id=drive_id)
     print(drive_info)
     page = request.GET.get('page', 1)

@@ -49,6 +49,7 @@ Edit Student
           <div class="input-group-append">
           </div>
         </div>
+          <label>Enrollment No</label>
         <input name="student_id" type="hidden" value="{{ edit_student.id }}">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Enrollment no." name="enrolment_no" onkeypress="return onlyNumberKey(event)" maxlength="12" minlength="12" value="{{ edit_student.enrolment_no }}">
@@ -57,6 +58,7 @@ Edit Student
             </div>
           </div>
         </div>
+          <label>First Name</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="First Name" name="stu_first_name" value="{{ edit_student.user_type.first_name }}">
           <div class="input-group-append">
@@ -64,6 +66,7 @@ Edit Student
             </div>
           </div>
         </div>
+          <label>Last Name</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Last Name" name="stu_last_name" value="{{ edit_student.user_type.last_name }}">
           <div class="input-group-append">
@@ -71,7 +74,7 @@ Edit Student
             </div>
           </div>
         </div>
-
+          <label>Phone no</label>
         <div class="input-group mb-3">
          <input type="text" name="phone_no" class="form-control" placeholder="Phone number" onkeypress="return onlyNumberKey(event)" maxlength="10" minlength="10" value="{{ edit_student.phone_no }}">
           <div class="input-group-append">
@@ -79,7 +82,7 @@ Edit Student
             </div>
           </div>
         </div>
-
+          <label>S.S.C(%)</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="S.S.C (%)"  onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="ssc_percentage" value="{{ edit_student.ssc_percentage }}">
           <div class="input-group-append">
@@ -87,7 +90,7 @@ Edit Student
             </div>
           </div>
         </div>
-
+          <label>H.S.C (%)</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="H.S.C (%)" onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="hsc_percentage" value="{{ edit_student.hsc_percentage }}">
           <div class="input-group-append">
@@ -95,7 +98,7 @@ Edit Student
             </div>
           </div>
         </div>
-
+          <label>U.G (%)</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="U.G (%)" onkeypress="return isNumberDeimalKey(event)" maxlength="3" name="ug_percentage" value="{{ edit_student.ug_percentage }}">
           <div class="input-group-append">
@@ -103,6 +106,7 @@ Edit Student
             </div>
           </div>
         </div>
+          <label>P.G (CGPA or CPI)</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="P.G (CGPA or CPI)" onkeypress="return isNumberDeimalKey(event)" maxlength="4" name="pg_cgpa" value="{{ edit_student.pg_cgpa }}">
           <div class="input-group-append">
