@@ -74,8 +74,10 @@ urlpatterns = [
 
     path('college/internship_disable_reg_of_student/<post_id>', Collegeviews.clg_published_disable_reg_of_student, name="clg_published_disable_reg_of_student"),
     path('college/internship_enable_reg_of_student/<post_id>', Collegeviews.clg_published_enable_reg_of_student, name="clg_published_enable_reg_of_student"),
-
-
+    path('college/student_applied_for_internship_working_internship/<post_id>/<drive_id>',
+         Collegeviews.collage_student_applied_for_internship_working,
+         name="collage_student_applied_for_internship_working"),
+    path('college/student_select_for_internship/<post_id>/<student_id>/<drive_id>',Collegeviews.college_student_select_for_internship, name="clg_student_select_for_internship"),
     # ## Manage Student
     path('college/manage_student', Collegeviews.manage_student, name="clg_manage_student"),
     path('college/show_student_list/<drive_id>', Collegeviews.show_Studentlist, name="clg_show_student"),
@@ -129,6 +131,7 @@ urlpatterns = [
 
     path('company/working_internship', Companyviews.working_internship, name="company_working_job"),
     path('company/student_applied_for_internship_working_internship/<post_id>', Companyviews.company_student_applied_for_internship_working, name="company_student_applied_for_internship_working"),
+    path('company/student_select_for_internship/<post_id>/<student_id>',Companyviews.student_select_for_internship, name="student_select_for_internship"),
 
     path('company/history', Companyviews.history, name="company_history"),
     path('company/student_applied_for_internship_closed_internship/<post_id>', Companyviews.company_student_applied_for_internship_closed, name="company_student_applied_for_internship_closed"),

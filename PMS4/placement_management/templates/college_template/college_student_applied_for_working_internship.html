@@ -1,6 +1,6 @@
-{% extends 'company_template/base_template.html' %}
+{% extends 'college_template/base_template.html' %}
 {% block page_title %}
-Student Applied For Internship
+<a class="btn btn-primary" href="{% url 'clg_manage_internship_published' drive_id %}">Go to Manage published</a> Student Applied For Internship
 {% endblock page_title  %}
 {% block main_content %}
 {% load crispy_forms_tags %}
@@ -109,7 +109,7 @@ Student Applied For Internship
                         <td>{{ student.student.ug_stream }}</td>
                         <td>{{ student.student.ug_percentage }}</td>
                         <td>{{ student.student.pg_cgpa }}</td>
-                        <td><div class="alert alert-primary" role="alert">Not Selected</div></td>
+                        <td><a href="{% url 'clg_student_select_for_internship' post_id student.student.id drive_id %}" class="btn btn-primary">Place</a></td>
                         {% endif %}
                     </tr>
                   {% endfor %}

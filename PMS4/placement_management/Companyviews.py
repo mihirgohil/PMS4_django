@@ -184,9 +184,20 @@ def company_student_applied_for_internship_working(request,post_id):
     context = {
         "company_obj": company_obj,
         "internship" : internship,
-        "selected_internship": selected_internship
+        "selected_internship": selected_internship,
+        "post_id":post_id,
     }
     return render(request, "company_template/company_student_applied_for_working_internship.html",context=context)
+
+def student_select_for_internship(request,post_id,student_id):
+    student_obj = Students.objects.get(id=student_id)
+    messages.success(request, student_obj.user_type.first_name+" "+student_obj.user_type.last_name+" Selected for internship")
+    student_obj.is_placed = 1
+    student_obj.save()
+    internship_obj = StudentAppliedForInternships.objects.get(internship_id=post_id,student_id=student_obj.id)
+    internship_obj.is_selected = 1
+    internship_obj.save()
+    return HttpResponseRedirect(reverse("company_student_applied_for_internship_working", kwargs={'post_id': post_id}))
 
 def company_internship_close(request,post_id):
     company_obj = Companys.objects.get(user_type=request.user.id)

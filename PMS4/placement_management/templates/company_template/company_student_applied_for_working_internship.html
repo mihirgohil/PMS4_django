@@ -109,7 +109,7 @@ Student Applied For Internship
                         <td>{{ student.student.ug_stream }}</td>
                         <td>{{ student.student.ug_percentage }}</td>
                         <td>{{ student.student.pg_cgpa }}</td>
-                        <td><a href="" class="btn btn-primary">Place</a></td>
+                        <td><a href="{% url 'student_select_for_internship' post_id student.student.id %}" class="btn btn-primary">Place</a></td>
                         {% endif %}
                     </tr>
                   {% endfor %}

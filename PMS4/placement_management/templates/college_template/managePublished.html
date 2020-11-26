@@ -54,7 +54,7 @@
               {% else %}
               <a href="{% url 'clg_published_enable_reg_of_student' internship.id %}" class="btn btn-warning">Active Registration</a>
               {% endif %}
-              <a href="" class="btn btn-info">Show Applied Students List</a>
+              <a href="{% url 'collage_student_applied_for_internship_working' internship.id drive_id%}" class="btn btn-info">Show Applied Students List</a>
           </div>
 
         </div>

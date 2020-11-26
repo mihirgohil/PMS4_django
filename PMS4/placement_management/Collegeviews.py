@@ -26,6 +26,8 @@ from django.core.mail import send_mail
 
 from placement_management.models import InternshipDetails
 
+from placement_management.models import StudentAppliedForInternships
+
 
 def get_random_alphanumeric_string(length):
     letters_and_digits = string.ascii_letters + string.digits
@@ -223,6 +225,28 @@ def manage_internship_publish(request,drive_id):
     internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_completed=0,is_posted=0).select_related("company").order_by('-id')
     drive_info = PlacementDrives.objects.get(id=drive_id)
     return render(request, "college_template/managePublish.html",{'drive_id':drive_id,'internships':internships,'drive_info':drive_info})
+
+
+def collage_student_applied_for_internship_working(request,post_id,drive_id):
+    selected_internship = StudentAppliedForInternships.objects.filter(internship_id = post_id)
+    internship = InternshipDetails.objects.get(id=post_id)
+    context = {
+        "internship" : internship,
+        "selected_internship": selected_internship,
+        "post_id":post_id,
+        "drive_id":drive_id,
+    }
+    return render(request, "college_template/college_student_applied_for_working_internship.html",context=context)
+
+def college_student_select_for_internship(request,post_id,student_id,drive_id):
+    student_obj = Students.objects.get(id=student_id)
+    messages.success(request, student_obj.user_type.first_name+" "+student_obj.user_type.last_name+" Selected for internship")
+    student_obj.is_placed = 1
+    student_obj.save()
+    internship_obj = StudentAppliedForInternships.objects.get(internship_id=post_id,student_id=student_obj.id)
+    internship_obj.is_selected = 1
+    internship_obj.save()
+    return HttpResponseRedirect(reverse("collage_student_applied_for_internship_working", kwargs={'post_id': post_id,'drive_id': drive_id}))
 
 
 def close_internship(request,drive_id):
