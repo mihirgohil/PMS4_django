@@ -79,6 +79,8 @@ Student Applied For Internship
 
                   {% for student in selected_internship %}
                     <tr>
+                        {% if student.student.is_placed %}
+                        {% if student.is_selected %}
                         <th scope="row">{{ forloop.counter }} </th>
                         <td><img src="{{ student.student.profile_pic }}" class="img-circle elevation-2" width="82" height="82"></td>
                         <td>{{ student.student.user_type.first_name }}</td>
@@ -91,8 +93,24 @@ Student Applied For Internship
                         <td>{{ student.student.ug_stream }}</td>
                         <td>{{ student.student.ug_percentage }}</td>
                         <td>{{ student.student.pg_cgpa }}</td>
-                        <td><a href="" class="btn btn-success">Place</a></td>
+                        <td><div class="alert alert-success" role="alert">Selected</div></td>
+                        {% endif %}
+                        {% else %}
 
+                        <th scope="row">{{ forloop.counter }} </th>
+                        <td><img src="{{ student.student.profile_pic }}" class="img-circle elevation-2" width="82" height="82"></td>
+                        <td>{{ student.student.user_type.first_name }}</td>
+                        <td>{{ student.student.user_type.last_name }}</td>
+                        <td>{{ student.student.enrolment_no }}</td>
+                        <td>{{ student.student.phone_no }}</td>
+                        <td>{{ student.student.user_type.email }}</td>
+                        <td>{{ student.student.ssc_percentage }}</td>
+                        <td>{{ student.student.hsc_percentage }}</td>
+                        <td>{{ student.student.ug_stream }}</td>
+                        <td>{{ student.student.ug_percentage }}</td>
+                        <td>{{ student.student.pg_cgpa }}</td>
+                        <td><a href="" class="btn btn-primary">Place</a></td>
+                        {% endif %}
                     </tr>
                   {% endfor %}
                   </tbody>
