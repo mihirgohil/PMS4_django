@@ -9,7 +9,7 @@ Select Placement Drive to Manage Internship
     <section class="content">
       <div class="container-fluid">
 
-                <table class="table">
+                         <table class="table">
                   <thead class="thead-dark">
                     <tr>
                       <th scope="col">#</th>
@@ -36,7 +36,7 @@ Select Placement Drive to Manage Internship
                          {% if not drive.is_completed %}
                             <td><a href="{% url 'clg_manage_internship_publish' drive.id %}" class="btn btn-primary">View And Manage Internships</a></td>
                           {% elif drive.is_completed %}
-                            <<td><a href="{% url 'clg_close_internship' drive.id %}" class="btn btn-primary">View Closed Internships</a></td>
+                            <td><a href="{% url 'clg_close_internship' drive.id %}" class="btn btn-primary">View Closed Internships</a></td>
                           {% endif %}
 
 
