@@ -832,3 +832,21 @@ def placement_reports_student_optout_print(request,drive_id):
         return HttpResponse("Error Generating PDF")
 
 
+
+def report_internship_all(request,drive_id):
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id).select_related("company").order_by('-id')
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    return render(request, "college_template/show_report_internship_alld.html",{'drive_id':drive_id,'internships':internships,'drive_info':drive_info})
+
+
+def report_internship_published(request,drive_id):
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_posted=1).select_related("company").order_by('-id')
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    return render(request, "college_template/show_report_internship_published.html",{'drive_id':drive_id,'internships':internships,'drive_info':drive_info})
+
+def report_internship_publish(request,drive_id):
+    internships = InternshipDetails.objects.all().filter(placementDrive_id=drive_id,is_posted=0).select_related("company").order_by('-id')
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    return render(request, "college_template/show_report_internship_unpublished.html",{'drive_id':drive_id,'internships':internships,'drive_info':drive_info})
+
+

@@ -152,6 +152,12 @@ urlpatterns = [
     path('college/placement_drive/reports/student_optout/print/<drive_id>',
          Collegeviews.placement_reports_student_optout_print, name="college_drive_report_student_optout_print"),
 
+    path('college/report_internship_all/<drive_id>', Collegeviews.report_internship_all,
+         name="clg_report_internship_all"),
+    path('college/report_internship_publised/<drive_id>', Collegeviews.report_internship_published,
+         name="clg_report_internship_published"),
+    path('college/report_internship_publish/<drive_id>', Collegeviews.report_internship_publish,
+         name="clg_report_internship_publish"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

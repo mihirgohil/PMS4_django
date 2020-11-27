@@ -89,7 +89,7 @@ Reports of Drive : {{ drive.drive_name }}
                 <div class="icon">
                     <i class="fa fa-th-list" aria-hidden="true"></i>
                 </div>
-                <a href="#" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{% url 'clg_report_internship_all' drive_id %}" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -103,7 +103,7 @@ Reports of Drive : {{ drive.drive_name }}
                 <div class="icon">
                     <i class="fa fa-share-alt-square" aria-hidden="true"></i>
                 </div>
-                <a href="#" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{% url 'clg_report_internship_published' drive_id %}" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -116,7 +116,7 @@ Reports of Drive : {{ drive.drive_name }}
                 <div class="icon">
                     <i class="fa fa-lock"></i>
                 </div>
-                <a href="#" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{% url 'clg_report_internship_publish' drive_id %}" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
