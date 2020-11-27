@@ -163,6 +163,45 @@ Student Portal : {{ student_obj.placementDrive.drive_name }}
             </h5>
         </div>
       </div>
+
+        {% if student_obj.is_placed %}
+         <div class="card">
+        <div class="card-header ">
+            <div class="row">
+
+          <img src="{{ selected_internship.internship.company.company_logo }}" class="img-circle elevation-2" style="width:50px; height:50px;position:relative; border-radius:50%" alt="">
+          <h3>{{ selected_internship.internship.company.user_type.first_name }}</h3>
+            </div>
+        </div>
+                <div class="card-header">
+              <div class="alert alert-success" role="alert">
+                You have Been Selected For this Internship
+              </div>
+
+
+          </div>
+        <div class="card-body">
+        <h5 class="card-title"><strong>Contact Person : </strong>
+          <br> {{ selected_internship.internship.contact_person_names }}
+          <br> {{ selected_internshipinternship.designation }}
+           <br> {{ internship.contact_person_numbers }}
+          <br> {{ internship.contact_person_emails }}
+        </h5>
+          <p class="card-text"><br><strong>Company Address :</strong><br> {{ selected_internship.internship.company.address }}</p>
+          <p class="card-text"><br><strong>Company Website :</strong><br> <a href="{{selected_internship.internship.company.website }}" target="_blank"> {{ selected_internship.internship.company.website }}</a></p>
+          <p class="card-text"><br><strong>Company Overview :</strong><br> {{ selected_internship.internship.company_breaf_overview }}</p>
+          <p class="card-text"><br><strong>Internship Duration :</strong><br> {{ selected_internshipinternship.internship_duration }}</p>
+          <p class="card-text"><br><strong>Recruitment Process :</strong><br>  {{ selected_internship.internship.recruitment_process }}</p>
+          <p class="card-text"><br><strong>No. of Position(Technologies wise) :</strong><br> {{ selected_internship.internship.number_of_positions }}</p>
+          <p class="card-text"><br><strong>Mode Of Interview :</strong><br> {{ selected_internship.internship.mode_of_interview }}</p>
+          <p class="card-text"><br><strong>Working Hours :</strong><br>{{ selected_internship.internship.working_hours }} </p>
+          <p class="card-text"><br><strong>Stipend :</strong><br> {{ selected_internship.internship.stipend_per_month }}</p>
+          <p class="card-text"><br><strong>CTC :</strong><br> {{ selected_internship.internship.ctc }}</p>
+          <p class="card-text"><br><strong>Bond Details :</strong><br> {{ selected_internship.internship.bond_details }}</p>
+
+        </div>
+      </div>
+       {% endif %}
        {% endif %}
       </div>
     </section>
