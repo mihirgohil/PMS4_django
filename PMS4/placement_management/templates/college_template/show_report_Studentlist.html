@@ -1,11 +1,18 @@
 {% extends 'college_template/base_template.html' %}
 {% block page_title %}
+<div class="row">
+    <div class="col-md-8" >
+       Report All Student of Placement Drive : {{ drive_info.drive_name }}
 
-Unplaced Student of Placement Drive : {{ drive_info.drive_name }}
 
-            <a href="{% url 'clg_show_student' drive_id %}" class="btn btn-success">All Students</a>
-            <a href="{% url 'clg_placed_student' drive_id %}" class="btn btn-warning">Student Placed</a>
-            <a href="{% url 'clg_show_optout_student' drive_id %}" class="btn btn-primary">Student OptOut</a>
+    </div>
+    <div class="col-md-2" >
+        <a href="{% url 'college_drive_report_student_registered_print' drive_info.id %}" class="btn btn-primary">print to pdf</a>
+    </div>
+
+
+    <a href="{% url 'college_drive_report' drive_info.id %}" class="btn btn-success">Go Back</a>
+</div>
 {% endblock page_title  %}
 {% block main_content %}
 {% load tz %}
@@ -29,14 +36,13 @@ Unplaced Student of Placement Drive : {{ drive_info.drive_name }}
                     <th scope="col">Ug Stream</th>
                     <th scope="col">U.G(%)</th>
                     <th scope="col">CPI</th>
-                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                   <tbody>
 
                   {% for student in students %}
                     <tr>
-                        {% if not student.is_optout  %}
+                        {% if not student.id == 2147483647 %}
                           <th scope="row">{{ forloop.counter }} </th>
                         <td><img src="{{ student.profile_pic }}" class="img-circle elevation-2" width="82" height="82"></td>
                         <td>{{ student.user_type.first_name }}</td>
@@ -49,14 +55,13 @@ Unplaced Student of Placement Drive : {{ drive_info.drive_name }}
                         <td>{{ student.ug_stream }}</td>
                         <td>{{ student.ug_percentage }}</td>
                         <td>{{ student.pg_cgpa }}</td>
-                        <td><a href="{% url 'clg_edit_student' student.id %}" class="btn btn-primary">Edit</a></td>
+
 
                         {% endif %}
                     </tr>
                   {% endfor %}
                   </tbody>
                 </table>
-
 
       </div>
     </section>

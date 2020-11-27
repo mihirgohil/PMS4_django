@@ -138,6 +138,20 @@ urlpatterns = [
 
     path('company/company_internship_close/<post_id>', Companyviews.company_internship_close, name="company_internship_close"),
     path('company/company_logout', Companyviews.company_logout, name="company_logout"),
+
+    # Reports
+    path('college/placement_drive/reports/<drive_id>',Collegeviews.placement_reports,name="college_drive_report"),
+    path('college/placement_drive/reports/student_registerd/<drive_id>',Collegeviews.placement_reports_student_registerd,name="college_drive_report_student_registered"),
+    path('college/placement_drive/reports/student_unplaced/<drive_id>',Collegeviews.placement_reports_student_unplaced, name="college_drive_report_student_unplaced"),
+    path('college/placement_drive/reports/student_placed/<drive_id>',Collegeviews.placement_reports_student_placed, name="college_drive_report_student_placed"),
+    path('college/placement_drive/reports/student_optout/<drive_id>',Collegeviews.placement_reports_student_optout, name="college_drive_report_student_optout"),
+
+    path('college/placement_drive/reports/student_registerd/print/<drive_id>',Collegeviews.placement_reports_student_registerd_print,name="college_drive_report_student_registered_print"),
+    path('college/placement_drive/reports/student_unplaced/print/<drive_id>',Collegeviews.placement_reports_student_unplaced_print,name="college_drive_report_student_unplaced_print"),
+    path('college/placement_drive/reports/student_placed/print/<drive_id>',Collegeviews.placement_reports_student_placed_print,name="college_drive_report_student_placed_print"),
+    path('college/placement_drive/reports/student_optout/print/<drive_id>',
+         Collegeviews.placement_reports_student_optout_print, name="college_drive_report_student_optout_print"),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

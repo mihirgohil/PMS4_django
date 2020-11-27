@@ -37,8 +37,10 @@
                       <th scope="col">Drive Name</th>
                       <th scope="col">Created At</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+
                       <th></th>
+                        <th scope="col">Action</th>
+                        <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -56,9 +58,11 @@
                           {% endif %}
                           {% if not drive.is_completed %}
                             <td><a href="{% url 'pms_invite' drive.id %}" class="btn btn-warning">Invite Companies</a></td>
+                            <td><a href="{% url 'college_drive_report' drive.id %}" class="btn btn-success">View Reports</a></td>
                             <td><a href="{% url 'clg_pmc_drive_close' drive.id %}" class="btn btn-danger">Close Drive</a></td>
                           {% elif drive.is_completed %}
-                            <td><a href="#" class="btn btn-success">View Reports</a></td>
+                            <td></td>
+                            <td><a href="{% url 'college_drive_report' drive.id %}" class="btn btn-success">View Reports</a></td>
                           {% endif %}
                         {% endif %}
                     </tr>

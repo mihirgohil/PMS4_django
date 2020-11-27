@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse, response
+from django.http import HttpResponseRedirect, HttpResponse, response, FileResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # login required
+from django.template.loader import get_template
 from django.urls import reverse
+import io
 
 from placement_management.utilty.choices import GENDER_CHOICES, UG_DEPARTMENTS_TYPE_SIGNUP,INVITE_MAIL_BODY
 
@@ -12,11 +14,20 @@ from django.core.files.storage import FileSystemStorage
 
 from placement_management.models import CustomUser, Students, PlacementDrives, Companys, StudentOptOut
 
+from django.contrib.staticfiles.storage import staticfiles_storage
+
+from io import StringIO, BytesIO
+
 from placement_management.CollegeForms import PlacementcoordinatorForm
 from placement_management.forms import StudentForm
 from placement_management.forms import InternshipForm
 from placement_management.utilty.utility_function import *
+from django.conf import settings
 
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+
+from xhtml2pdf import pisa
 
 import random
 import string
@@ -589,48 +600,23 @@ def manage_student(request):
     return render(request, "college_template/manage_student.html",  {"placement_drives": placement_drives})
 
 def show_Studentlist(request,drive_id):
-    show_student_list = Students.objects.filter(placementDrive_id = drive_id).order_by('-created_at')
+    students = Students.objects.filter(placementDrive_id = drive_id).order_by('-created_at')
     drive_info = PlacementDrives.objects.get(id=drive_id)
     print(drive_info)
-    page = request.GET.get('page', 1)
-    paginator = Paginator(show_student_list, 8)
-    try:
-        students = paginator.page(page)
-    except PageNotAnInteger:
-        students = paginator.page(1)
-    except EmptyPage:
-        students = paginator.page(paginator.num_pages)
     return render(request, "college_template/show_Studentlist.html",  {"students": students,"drive_info":drive_info,'drive_id':drive_id})
 
 
 def placed_Studentlist(request,drive_id):
     # placed_student_list = Students.objects.filter(placementDrive_id = drive_id, is_placed = 1).order_by('-created_at')
-    placed_student_list = StudentAppliedForInternships.objects.filter(is_selected = 1,student__placementDrive = drive_id)
+    students = StudentAppliedForInternships.objects.filter(is_selected = 1,student__placementDrive = drive_id)
     drive_info = PlacementDrives.objects.get(id=drive_id)
-    print(drive_info)
-    page = request.GET.get('page', 1)
-    paginator = Paginator(placed_student_list, 8)
-    try:
-        students = paginator.page(page)
-    except PageNotAnInteger:
-        students = paginator.page(1)
-    except EmptyPage:
-        students = paginator.page(paginator.num_pages)
+
     return render(request, "college_template/placed_Studentlist.html",  {"students": students,"drive_info":drive_info,'drive_id':drive_id})
 
 
 def unplaced_Studentlist(request,drive_id):
-    unplaced_student_list = Students.objects.filter(placementDrive_id = drive_id, is_placed = 0).order_by('-created_at')
+    students = Students.objects.filter(placementDrive_id = drive_id, is_placed = 0).order_by('enrolment_no')
     drive_info = PlacementDrives.objects.get(id=drive_id)
-    print(drive_info)
-    page = request.GET.get('page', 1)
-    paginator = Paginator(unplaced_student_list, 8)
-    try:
-        students = paginator.page(page)
-    except PageNotAnInteger:
-        students = paginator.page(1)
-    except EmptyPage:
-        students = paginator.page(paginator.num_pages)
     return render(request, "college_template/unplaced_Studentlist.html",  {"students": students,"drive_info":drive_info,'drive_id':drive_id})
 
 def show_optout_Studentlist(request,drive_id):
@@ -730,4 +716,119 @@ def company_feedback(request):
 
 def college_logout(request):
     return render(request, "college_template/clg_logout.html")
+
+def placement_reports(request,drive_id):
+    drive = PlacementDrives.objects.get(id=drive_id)
+    students = Students.objects.filter(placementDrive_id = drive_id).count
+    students_optout = Students.objects.filter(placementDrive_id = drive_id,is_optout = 1).count
+    students_placed = Students.objects.filter(placementDrive_id = drive_id,is_placed = 1).count
+    students_unplaced = Students.objects.filter(placementDrive_id = drive_id,is_placed = 0).exclude(is_optout = 1).count
+    internship = InternshipDetails.objects.filter(placementDrive_id = drive_id).count
+    internship_posted = InternshipDetails.objects.filter(placementDrive_id = drive_id,is_posted = 1).count
+    internship_unposted = InternshipDetails.objects.filter(placementDrive_id=drive_id, is_posted=0).count
+    context = {
+        "drive_id":drive_id,
+        "students":students,
+        "student_optout":students_optout,
+        "drive": drive,
+        "student_placed": students_placed,
+        "student_unplaced": students_unplaced,
+        "internship":internship,
+        "internship_posted":internship_posted,
+        "internship_unposted": internship_unposted
+    }
+    return render(request,"college_template/reports_menu.html",context=context)
+
+def placement_reports_student_registerd(request,drive_id):
+    drive = PlacementDrives.objects.get(id=drive_id)
+    show_student_list = Students.objects.filter(placementDrive_id=drive_id).order_by('enrolment_no')
+    context = {
+        "students":show_student_list,
+        "drive_info":drive
+    }
+    return render(request, "college_template/show_report_Studentlist.html", context=context)
+
+
+def placement_reports_student_placed(request,drive_id):
+    drive = PlacementDrives.objects.get(id=drive_id)
+    show_student_list = StudentAppliedForInternships.objects.filter(is_selected = 1,student__placementDrive = drive_id)
+    context = {
+        "students":show_student_list,
+        "drive_info":drive
+    }
+    return render(request, "college_template/show_report_placed.html", context=context)
+
+
+def placement_reports_student_unplaced(request,drive_id):
+    drive = PlacementDrives.objects.get(id=drive_id)
+    show_student_list = Students.objects.filter(placementDrive_id = drive_id, is_placed = 0, is_optout = 0).order_by('enrolment_no')
+    context = {
+        "students":show_student_list,
+        "drive_info":drive
+    }
+    return render(request, "college_template/show_report_unplaced.html", context=context)
+
+
+def placement_reports_student_optout(request,drive_id):
+    students = StudentOptOut.objects.all().select_related("student").filter(student__placementDrive = drive_id)
+    drive_info = PlacementDrives.objects.get(id=drive_id)
+    return render(request, "college_template/show_report_OptOut.html",{"students": students,"drive_info":drive_info, 'drive_id': drive_id})
+
+
+def placement_reports_student_registerd_print(request,drive_id):
+    show_student_list = Students.objects.filter(placementDrive_id=drive_id).order_by('enrolment_no')
+    drive = PlacementDrives.objects.get(id=drive_id)
+    data = {'students': show_student_list,"drive_info":drive}
+    template = get_template("print/print_Student_list.html")
+    data_p = template.render(data)
+    response = BytesIO()
+    pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")), response)
+    if not pdfPage.err:
+        return HttpResponse(response.getvalue(), content_type="application/pdf")
+    else:
+        return HttpResponse("Error Generating PDF")
+
+
+
+def placement_reports_student_placed_print(request,drive_id):
+    students = StudentAppliedForInternships.objects.filter(is_selected = 1,student__placementDrive = drive_id)
+    drive = PlacementDrives.objects.get(id=drive_id)
+    data = {'students': students,"drive_info":drive}
+    template = get_template("print/print_Student_list_placed.html")
+    data_p = template.render(data)
+    response = BytesIO()
+    pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")), response)
+    if not pdfPage.err:
+        return HttpResponse(response.getvalue(), content_type="application/pdf")
+    else:
+        return HttpResponse("Error Generating PDF")
+
+
+def placement_reports_student_unplaced_print(request,drive_id):
+    show_student_list = Students.objects.filter(placementDrive_id=drive_id,is_placed=0,is_optout=0).order_by('enrolment_no')
+    drive = PlacementDrives.objects.get(id=drive_id)
+    data = {'students': show_student_list,"drive_info":drive}
+    template = get_template("print/print_Student_list_unplaced.html")
+    data_p = template.render(data)
+    response = BytesIO()
+    pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")), response)
+    if not pdfPage.err:
+        return HttpResponse(response.getvalue(), content_type="application/pdf")
+    else:
+        return HttpResponse("Error Generating PDF")
+
+
+def placement_reports_student_optout_print(request,drive_id):
+    students = StudentOptOut.objects.all().select_related("student").filter(student__placementDrive = drive_id)
+    drive = PlacementDrives.objects.get(id=drive_id)
+    data = {'students': students,"drive_info":drive}
+    template = get_template("print/print_Student_list_optout.html")
+    data_p = template.render(data)
+    response = BytesIO()
+    pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")), response)
+    if not pdfPage.err:
+        return HttpResponse(response.getvalue(), content_type="application/pdf")
+    else:
+        return HttpResponse("Error Generating PDF")
+
 
